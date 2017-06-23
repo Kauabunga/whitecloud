@@ -14,6 +14,7 @@ import {
   RouterModule,
   PreloadAllModules
 } from '@angular/router';
+import { AgmCoreModule } from '@agm/core';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -63,7 +64,10 @@ type StoreType = {
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyB_mwjIVMU_1GjjyiI4dsRU83JvDZyqAUY'
+    })
   ],
   /**
    * Expose our Services and Providers into Angular's dependency injection.
