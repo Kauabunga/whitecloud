@@ -42,3 +42,9 @@ before_script:
 
 script:
   - npm run ci:travis
+
+deploy:
+  provider: firebase
+  token:
+    secure: "YOUR ENCRYPTED token"
+
