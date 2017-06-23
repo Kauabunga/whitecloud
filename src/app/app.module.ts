@@ -25,13 +25,14 @@ import { ROUTES } from './app.routes';
 import { AppComponent } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
-import { HomeComponent } from './containers/home';
-import { AboutComponent } from './containers/about';
-import { NoContentComponent } from './containers/no-content';
-import { XLargeDirective } from './containers/home/x-large';
+import { HomeComponent } from './home';
+import { AboutComponent } from './about';
+import { NoContentComponent } from './no-content';
+import { XLargeDirective } from './home/x-large';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
+import {MdCardModule} from '@angular/material';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -64,6 +65,7 @@ type StoreType = {
     BrowserModule,
     FormsModule,
     HttpModule,
+    MdCardModule,
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB_mwjIVMU_1GjjyiI4dsRU83JvDZyqAUY'
