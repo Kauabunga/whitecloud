@@ -26,6 +26,7 @@
   "exclude": [
     "node_modules",
     "dist",
+    "functions",
     "src/**/*.spec.ts",
     "src/**/*.e2e.ts"
   ],
