@@ -21,6 +21,9 @@ coverage
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
 
+# Function modules
+functions/node_modules/*
+
 # Users Environment Variables
 .lock-wscript
 

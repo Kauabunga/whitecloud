@@ -1,6 +1,6 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import {BrowserModule} from '@angular/platform-browser';
+import {FormsModule} from '@angular/forms';
+import {HttpModule} from '@angular/http';
 import {
   NgModule,
   ApplicationRef
@@ -14,25 +14,35 @@ import {
   RouterModule,
   PreloadAllModules
 } from '@angular/router';
-import { AgmCoreModule } from '@agm/core';
+import {AgmCoreModule} from '@agm/core';
+
+import {StoreModule} from '@ngrx/store';
+import {EffectsModule} from '@ngrx/effects';
+import {DBModule} from '@ngrx/db';
+import {RouterStoreModule} from '@ngrx/router-store';
+import {StoreDevtoolsModule} from '@ngrx/store-devtools';
+import {reducer} from './app.reducers';
+
 
 /*
  * Platform and Environment providers/directives/pipes
  */
-import { ENV_PROVIDERS } from './environment';
-import { ROUTES } from './app.routes';
+import {ENV_PROVIDERS} from './environment';
+import {ROUTES} from './app.routes';
 // App is our top level component
-import { AppComponent } from './app.component';
-import { APP_RESOLVER_PROVIDERS } from './app.resolver';
-import { AppState, InternalStateType } from './app.service';
-import { HomeComponent } from './home';
-import { AboutComponent } from './about';
-import { NoContentComponent } from './no-content';
-import { XLargeDirective } from './home/x-large';
+import {AppComponent} from './app.component';
+import {APP_RESOLVER_PROVIDERS} from './app.resolver';
+import {AppState, InternalStateType} from './app.service';
+import {HomeComponent} from './home';
+import {AboutComponent} from './about';
+import {NoContentComponent} from './no-content';
+import {XLargeDirective} from './home/x-large';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
 import {MdCardModule} from '@angular/material';
+import {MdListModule} from '@angular/material';
+import {EventsEffects} from "./services/events/events.effects";
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -50,7 +60,7 @@ type StoreType = {
  * `AppModule` is the main entry point into Angular2's bootstraping process
  */
 @NgModule({
-  bootstrap: [ AppComponent ],
+  bootstrap: [AppComponent],
   declarations: [
     AppComponent,
     AboutComponent,
@@ -66,11 +76,22 @@ type StoreType = {
     FormsModule,
     HttpModule,
     MdCardModule,
-    RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules }),
+    MdListModule,
+    RouterModule.forRoot(ROUTES, {useHash: true, preloadingStrategy: PreloadAllModules}),
+
+    StoreModule.provideStore(reducer),
+    RouterStoreModule.connectRouter(),
+
+    EffectsModule.run(EventsEffects),
+
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB_mwjIVMU_1GjjyiI4dsRU83JvDZyqAUY'
     })
-  ],
+  ].concat(
+    ENV === 'production'
+      ? null
+      : StoreDevtoolsModule.instrumentOnlyWithExtension()
+  ),
   /**
    * Expose our Services and Providers into Angular's dependency injection.
    */
@@ -81,10 +102,9 @@ type StoreType = {
 })
 export class AppModule {
 
-  constructor(
-    public appRef: ApplicationRef,
-    public appState: AppState
-  ) {}
+  constructor(public appRef: ApplicationRef,
+              public appState: AppState) {
+  }
 
   public hmrOnInit(store: StoreType) {
     if (!store || !store.state) {
@@ -122,7 +142,7 @@ export class AppModule {
     /**
      * Save input values
      */
-    store.restoreInputValues  = createInputTransfer();
+    store.restoreInputValues = createInputTransfer();
     /**
      * Remove styles
      */

@@ -10,7 +10,7 @@ md-card {
   right: 0;
   margin: 120px 100px;
   width: 45%;
-  max-width: 500px;
+  max-width: 400px;
   background: #fefefe;
   height: calc(100% - 240px);
 }

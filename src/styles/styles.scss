@@ -2,6 +2,9 @@
 /* This file is for setting global styles  */
 @import 'variables';
 
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+
 nav {
   margin-top: 16px;
 }
