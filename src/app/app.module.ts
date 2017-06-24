@@ -66,7 +66,6 @@ type StoreType = {
     AboutComponent,
     HomeComponent,
     NoContentComponent,
-    XLargeDirective
   ],
   /**
    * Import Angular's modules.
@@ -87,6 +86,7 @@ type StoreType = {
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB_mwjIVMU_1GjjyiI4dsRU83JvDZyqAUY'
     })
+
   ].concat(
     ENV === 'production'
       ? null

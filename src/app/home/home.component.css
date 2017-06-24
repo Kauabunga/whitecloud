@@ -7,6 +7,7 @@ agm-map {
 
 md-card {
   position: absolute;
+  overflow-y: scroll;
   right: 0;
   margin: 120px 100px;
   width: 45%;

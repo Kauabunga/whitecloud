@@ -8,5 +8,6 @@ export interface Event {
   lng: number;
 
   description: string | null;
+  imageUrl: string | null;
 
 }

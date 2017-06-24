@@ -73,3 +73,5 @@ export function reducer(state: any, action: any) {
     return developmentReducer(state, action);
   }
 }
+
+export const getEventsState = (state: State) => state.events;

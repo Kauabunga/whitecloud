@@ -1,15 +1,17 @@
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/takeUntil';
-import { Injectable } from '@angular/core';
-import { Effect, Actions, toPayload } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { empty } from 'rxjs/observable/empty';
-import { of } from 'rxjs/observable/of';
+import {Injectable, NgZone} from '@angular/core';
+import {Effect, Actions, toPayload} from '@ngrx/effects';
+import {Action} from '@ngrx/store';
+import {Observable} from 'rxjs/Observable';
+import {from} from 'rxjs/observable/from';
+import {empty} from 'rxjs/observable/empty';
+import {of} from 'rxjs/observable/of';
 import * as firebase from 'firebase';
 import * as eventActions from './events.actions';
 import {Event} from './events.model';
@@ -21,14 +23,27 @@ const database = firebase.database();
 const eventsRef = database.ref('events');
 
 
+var randomCat = require('random-cat');
+var imageUrl = randomCat.get({
+  width: 24,
+  height: 24,
+  category: 'animals'
+});
+
+
 var newEventKey = eventsRef.push().key;
 var updates = {};
 updates['/events/' + newEventKey] = {
-  lng: 40,
-  lat: 180
+  lat: getRandom(-36, -44),
+  lng: getRandom(170, 182),
 };
 
 firebase.database().ref().update(updates);
+
+
+function getRandom(min, max) {
+  return Math.random() * (max - min) + min;
+}
 
 
 /**
@@ -53,21 +68,24 @@ export class EventsEffects {
   @Effect()
   load$: Observable<Action> = this.actions$
     .ofType(eventActions.INIT)
-    .debounceTime(300)
     .map(toPayload)
-    .switchMap(query => {
-
-
+    .startWith(null)
+    .first()
+    .switchMap(() => {
       let replay = new ReplaySubject();
 
-      eventsRef.on('value', function(snapshot) {
-        replay.next(snapshot.val() as Event);
-        console.log(snapshot.val(), 'penis')
+      eventsRef.on('value', snapshot => {
+        const val = snapshot.val() || {};
+        const events = Object.keys(val)
+          .map(key => Object.assign(val[key], {id: key}));
+        this.zone.run(() => replay.next(events as Event[]));
       });
 
       return replay;
     })
+    .mergeMap((events: Event[]) => from(events))
     .map((event: Event) => new eventActions.LoadAction(event));
 
-  constructor(private actions$: Actions) { }
+  constructor(private actions$: Actions, private zone: NgZone) {
+  }
 }
