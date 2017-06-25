@@ -100,7 +100,8 @@ type StoreType = {
     EffectsModule.run(MapEffects),
 
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyB_mwjIVMU_1GjjyiI4dsRU83JvDZyqAUY'
+      apiKey: 'AIzaSyB_mwjIVMU_1GjjyiI4dsRU83JvDZyqAUY',
+      libraries: ['places']
     })
 
   ].concat(

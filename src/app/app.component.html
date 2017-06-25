@@ -1,10 +1,24 @@
 <md-sidenav-container>
   <md-sidenav mode="side"
-              opened="true">
+              [opened]="opened">
 
     <main>
       <md-toolbar>
+        <button md-icon-button
+                class="menu-button"
+                (click)="opened = !opened">
+          <md-icon>menu</md-icon>
+        </button>
+
         <h1>{{title$ | async}}</h1>
+
+        <span class="fill"></span>
+
+        <a [routerLink]="['']">
+          <button md-icon-button>
+            <md-icon>home</md-icon>
+          </button>
+        </a>
       </md-toolbar>
 
       <div class="container">
@@ -32,8 +46,8 @@
 
     <agm-marker *ngFor="let event of events$ | async"
                 (markerClick)="handleMarker(event)"
-                [latitude]="event.lat"
-                [longitude]="event.lng"></agm-marker>
+                [latitude]="event && event.lat"
+                [longitude]="event && event.lng"></agm-marker>
   </agm-map>
 
   <a [routerLink]="['create']">
@@ -44,6 +58,12 @@
     </button>
   </a>
 
+  <button md-icon-button
+          *ngIf="!opened"
+          class="menu-button static"
+          (click)="opened = !opened">
+    <md-icon>menu</md-icon>
+  </button>
 
 </md-sidenav-container>
 

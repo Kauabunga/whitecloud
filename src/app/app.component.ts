@@ -37,6 +37,8 @@ export class AppComponent implements OnInit {
 
   title$: Observable<string>;
 
+  opened: boolean = true;
+
   latitude: number = -41;
   longitude: number = 172;
 
@@ -76,7 +78,7 @@ export class AppComponent implements OnInit {
       (path, createEvent, events) =>
         path === '/create'
           ? [createEvent]
-          : events
+          : events.filter(event => !!event)
     )
       .debounceTime(0)
       .distinctUntilChanged();

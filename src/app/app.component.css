@@ -25,3 +25,15 @@ button.create-button {
 a.active {
   background-color: gray;
 }
+
+
+button.menu-button.static {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 16px;
+}
+
+.fill {
+  flex-grow: 1;
+}
