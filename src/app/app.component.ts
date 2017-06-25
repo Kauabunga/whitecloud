@@ -9,7 +9,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import {AppState} from './app.service';
-import {getCreateState, getEventsState, getRouterState, State} from './app.reducers';
+import {getCreateState, getEventsState, getMapState, getRouterState, State} from './app.reducers';
 import {Store} from "@ngrx/store";
 import {getAll} from './services/events/events.reducer';
 import {Event} from './services/events/events.model';
@@ -19,6 +19,8 @@ import * as mapActions from './services/map/map.actions';
 import {go} from '@ngrx/router-store';
 import {getCreateEvent} from './services/create/create.reducer';
 import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
+import {getMap} from './services/map/map.reducer';
+import {Map} from './services/map/map.model';
 
 /**
  * App Component
@@ -32,6 +34,7 @@ import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
 })
 export class AppComponent implements OnInit {
 
+  map$: Observable<Map>;
   events$: Observable<Event[]>;
   height: number = 0;
 
@@ -39,15 +42,14 @@ export class AppComponent implements OnInit {
 
   opened: boolean = true;
 
-  latitude: number = -41;
-  longitude: number = 172;
-
   constructor(public store: Store<State>, public router: Router) {
   }
 
   public ngOnInit() {
 
     this.height = window.innerHeight;
+
+    this.map$ = this.getMap();
 
     this.title$ = this.getTitle();
 
@@ -66,6 +68,12 @@ export class AppComponent implements OnInit {
       title = this.getDeepestTitle(routeSnapshot.firstChild) || title;
     }
     return title || 'Title';
+  }
+
+  getMap(){
+    return this.store.select(getMapState)
+      .map(getMap)
+      .distinctUntilChanged();
   }
 
   getEvents(){

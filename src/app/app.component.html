@@ -33,7 +33,7 @@
 
   <agm-map *ngIf="height"
            [zoom]="6"
-           [minZoom]="4"
+           [minZoom]="5"
            [disableDefaultUI]="true"
            [streetViewControl]="false"
            [style.height.px]="height"
@@ -41,8 +41,9 @@
            (boundsChange)="handleBoundsChange($event)"
            (centerChange)="handleCenterChange($event)"
            (zoomChange)="handleZoomChange($event)"
-           [latitude]="latitude"
-           [longitude]="longitude">
+           [fitBounds]="(map$ | async).bounds"
+           [latitude]="(map$ | async).lat"
+           [longitude]="(map$ | async).lng">
 
     <agm-marker *ngFor="let event of events$ | async"
                 (markerClick)="handleMarker(event)"

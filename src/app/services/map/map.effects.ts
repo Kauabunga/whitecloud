@@ -15,17 +15,17 @@ import {of} from 'rxjs/observable/of';
 import * as firebase from 'firebase';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
 import * as mapActions from './map.actions';
-import {SearchSuccessAction} from './map.actions';
 
 
 let autocompleteService;
+let placesService;
 
 const nzBounds = {
   south: -47.31964113109319,
   west: 164.210693359375,
   north: -34.01099680852081,
   east: -179.287841796875
-}
+};
 
 /**
  * Effects offer a way to isolate and easily test side-effects within your
@@ -46,6 +46,15 @@ const nzBounds = {
 @Injectable()
 export class MapEffects {
 
+  @Effect()
+  lookup$: Observable<Action> = this.actions$
+    .ofType(mapActions.LOOKUP)
+    .map(toPayload)
+    .debounceTime(200)
+    .switchMap(query =>
+      this.getPlace(query)
+        .map((results: any) => new mapActions.LookupSuccessAction({query, results}))
+    );
 
   @Effect()
   search$: Observable<Action> = this.actions$
@@ -54,12 +63,21 @@ export class MapEffects {
     .debounceTime(200)
     .switchMap(query =>
       this.searchString(query)
-        .map((results: any) => new SearchSuccessAction({query, results}))
+        .map((results: any) => new mapActions.SearchSuccessAction({query, results}))
     );
+
+  getPlace(placeId: string){
+    return Observable.from(new Promise((resolve, reject) =>
+      this.getPlacesService().getDetails(
+        {placeId},
+        (results) => resolve(results)
+      )
+    ))
+  }
 
   searchString(query: string) {
     return Observable.from(new Promise((resolve, reject) =>
-      this.getPlacesService().getQueryPredictions(
+      this.getAutocompleteService().getQueryPredictions(
         {
           input: query,
           bounds: nzBounds
@@ -70,6 +88,11 @@ export class MapEffects {
   }
 
   getPlacesService() {
+    return placesService =
+      placesService || new (window as any).google.maps.places.PlacesService(document.createElement('div'));
+  }
+
+  getAutocompleteService() {
     return autocompleteService =
       autocompleteService || new (window as any).google.maps.places.AutocompleteService();
   }

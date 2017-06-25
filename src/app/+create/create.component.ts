@@ -14,7 +14,7 @@ import * as createActions from '../services/create/create.actions';
 import * as mapActions from '../services/map/map.actions';
 import {FormBuilder, FormGroup, Validator, Validators} from '@angular/forms';
 import {google} from '@agm/core/services/google-maps-types';
-import {getPlaces} from '../services/map/map.reducer';
+import {getPlaces, getSearches} from '../services/map/map.reducer';
 
 
 /**
@@ -56,25 +56,62 @@ export class CreateComponent implements OnInit, OnDestroy {
       .takeUntil(this.onDestroy$)
       .subscribe(createEvent => this.createEvent = createEvent);
 
-    this.createGroup.get('location')
-      .valueChanges
-      .filter(location => !!location)
+    this.getLocationValue()
+      .distinctUntilChanged()
+      .subscribe(location => {
+        if (location.place_id) {
+          this.store.dispatch(new mapActions.LookupAction(location.place_id))
+        }
+        else {
+          this.store.dispatch(new mapActions.SearchAction(location))
+        }
+      });
+
+    this.getLocationValue()
       .takeUntil(this.onDestroy$)
-      .subscribe(location => this.store.dispatch(new mapActions.SearchAction(location)))
-
-
-    this.results$ = this.createGroup.get('location')
-      .valueChanges
-      .filter(location => !!location)
+      .distinctUntilChanged()
       .combineLatest(
         this.store.select(getMapState)
-          .map(getPlaces),
-        (location, places) => places[location.trim()]
+          .map(getPlaces)
+          .do(console.error),
+        (location, places) => places[location.place_id]
       )
       .do(console.warn)
-      .filter(results => !!results)
-      .map((results)=> (results as any).map(result => result.description))
+      .filter(location => !!location)
+      .distinctUntilChanged()
+      .subscribe((place) => {
 
+        let bounds = place.geometry.viewport;
+        let location = place.geometry.location;
+
+        this.store.dispatch(new createActions.UpdateAction({
+          lat: location.lat(),
+          lng: location.lng(),
+        } as Event))
+        this.store.dispatch(new mapActions.SetCenterAction({
+          coords: location.toJSON(),
+          bounds: bounds.toJSON()
+        }));
+      });
+
+    this.results$ = this.getResults();
+
+  }
+
+  getResults() {
+    return this.getLocationValue()
+      .combineLatest(
+        this.store.select(getMapState)
+          .map(getSearches),
+        (location, searches) => searches[this.displayLocation(location).trim()]
+      )
+      .filter(results => !!results)
+  }
+
+  getLocationValue() {
+    return this.createGroup.get('location')
+      .valueChanges
+      .filter(location => !!location)
   }
 
   public ngOnDestroy() {
@@ -82,8 +119,12 @@ export class CreateComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
+  displayLocation(result) {
+    return result && result.description || result.toString();
+  }
+
   handleSubmit() {
-    if(this.createGroup.valid){
+    if (this.createGroup.valid) {
       this.store.dispatch(new createActions.SaveAction());
     }
   }

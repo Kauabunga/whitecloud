@@ -2,24 +2,27 @@
       [formGroup]="createGroup"
       novalidate>
 
-  <h5>Click the map to select a location</h5>
-
-  <h5>Or search for a location here</h5>
-
+  <h3>Click the map to select a location</h3>
 
   <md-input-container>
+    <md-hint><strong>Or search for a location here</strong></md-hint>
     <input mdInput
            [mdAutocomplete]="auto"
            placeholder="Location"
            formControlName="location">
   </md-input-container>
 
-  <md-autocomplete #auto="mdAutocomplete">
+  <md-autocomplete #auto="mdAutocomplete"
+                   [displayWith]="displayLocation">
     <md-option *ngFor="let result of results$ | async"
                [value]="result">
-      {{ result }}
+      {{ result.description }}
     </md-option>
   </md-autocomplete>
+
+  <hr>
+
+  <h3>Add some details</h3>
 
   <md-input-container>
     <input mdInput

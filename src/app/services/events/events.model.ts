@@ -7,9 +7,14 @@ export interface Event {
   lat: number;
   lng: number;
 
-  location: string | null;
+  location: EventLocation;
 
   description: string | null;
   imageUrl: string | null;
 
+}
+
+export interface EventLocation {
+  description: string;
+  place_id: string;
 }

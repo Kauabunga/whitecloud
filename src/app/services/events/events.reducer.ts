@@ -42,7 +42,7 @@ export function reducer(state = initialState, action: event.Actions): State {
     case event.REMOVE:
       const removeId: string = action.payload;
       return {
-        ids: state.ids.filter(id => id === removeId),
+        ids: state.ids.filter(id => id !== removeId),
         entities: Object.assign({}, state.entities, {[removeId]: null}),
         selectedEventId: state.selectedEventId === removeId
           ? null
@@ -75,5 +75,8 @@ export const getSelected = createSelector(getEntities, getSelectedId, (entities,
 });
 
 export const getAll = createSelector(getEntities, getIds, (entities, ids): Event[] => {
-  return ids.map(id => entities[id]);
+  return ids
+    .map(id => entities[id])
+    //TODO shouldn't need this filter?
+    .filter(entity => !!entity);
 });
