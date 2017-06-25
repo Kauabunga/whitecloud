@@ -10,6 +10,7 @@ import {Observable} from "rxjs/Observable";
 import {ReplaySubject} from 'rxjs/ReplaySubject';
 import {Subject} from 'rxjs/Subject';
 import * as createActions from '../services/create/create.actions';
+import {FormBuilder, FormGroup, Validator, Validators} from '@angular/forms';
 
 
 /**
@@ -26,12 +27,20 @@ export class CreateComponent implements OnInit, OnDestroy {
 
   createEvent: Event;
 
+  createGroup: FormGroup;
+
   onDestroy$: Subject<null> = new ReplaySubject();
 
-  constructor(public store: Store<State>) {
+  constructor(public formBuilder: FormBuilder,
+              public store: Store<State>) {
   }
 
   public ngOnInit() {
+
+    this.createGroup = this.formBuilder.group({
+      title: ['', Validators.required],
+      description: ['']
+    });
 
     this.store.dispatch(new createActions.ResetAction());
 
@@ -42,13 +51,15 @@ export class CreateComponent implements OnInit, OnDestroy {
 
   }
 
-  public ngOnDestroy(){
+  public ngOnDestroy() {
     this.onDestroy$.next(null);
     this.onDestroy$.complete();
   }
 
-  handleSubmit(){
-    this.store.dispatch(new createActions.SaveAction());
+  handleSubmit() {
+    if(this.createGroup.valid){
+      this.store.dispatch(new createActions.SaveAction());
+    }
   }
 
 }

@@ -47,6 +47,13 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
         event: state.event
       };
 
+    case create.UPDATE:
+      const event = action.payload;
+      return {
+        saving: state.saving,
+        event: Object.assign({}, state.event, event)
+      };
+
     default: {
       return state;
     }

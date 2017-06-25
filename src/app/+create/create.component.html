@@ -1,4 +1,6 @@
-<form (submit)="handleSubmit($event)">
+<form (submit)="handleSubmit($event)"
+      [formGroup]="createGroup"
+      novalidate>
 
   <h5>Click the map to select a location</h5>
 
@@ -6,13 +8,17 @@
 
 
   <md-input-container>
-    <input mdInput placeholder="Title" value="Sushi">
+    <input mdInput
+           formControlName="title"
+           placeholder="Title">
   </md-input-container>
 
   <br>
 
   <md-input-container>
-    <textarea mdInput placeholder="Description" value=""></textarea>
+    <textarea mdInput
+              formControlName="description"
+              placeholder="Description"></textarea>
   </md-input-container>
 
 
