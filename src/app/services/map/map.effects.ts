@@ -15,10 +15,12 @@ import {of} from 'rxjs/observable/of';
 import * as firebase from 'firebase';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
 import * as mapActions from './map.actions';
+import {Coords} from './map.model';
 
 
 let autocompleteService;
 let placesService;
+let geocoderService;
 
 const nzBounds = {
   south: -47.31964113109319,
@@ -62,11 +64,15 @@ export class MapEffects {
     .map(toPayload)
     .debounceTime(200)
     .switchMap(query =>
-      this.searchString(query)
+      typeof query === 'string'
+        ? this.searchString(query)
         .map((results: any) => new mapActions.SearchSuccessAction({query, results}))
-    );
+        : this.searchCoordinates(query)
+        .map((results: any) => new mapActions.SearchSuccessAction({query: `${query.lat}${query.lng}`, results}))
+    )
+    .do(console.warn);
 
-  getPlace(placeId: string){
+  getPlace(placeId: string) {
     return Observable.from(new Promise((resolve, reject) =>
       this.getPlacesService().getDetails(
         {placeId},
@@ -87,6 +93,17 @@ export class MapEffects {
     ))
   }
 
+  searchCoordinates(location: Coords) {
+    return Observable.from(new Promise((resolve, reject) =>
+      this.getGeocoderService().geocode(
+        {
+          location
+        },
+        (results) => resolve(results)
+      )
+    ))
+  }
+
   getPlacesService() {
     return placesService =
       placesService || new (window as any).google.maps.places.PlacesService(document.createElement('div'));
@@ -95,6 +112,11 @@ export class MapEffects {
   getAutocompleteService() {
     return autocompleteService =
       autocompleteService || new (window as any).google.maps.places.AutocompleteService();
+  }
+
+  getGeocoderService() {
+    return geocoderService =
+      geocoderService || new (window as any).google.maps.Geocoder();
   }
 
   constructor(private actions$: Actions, private zone: NgZone) {

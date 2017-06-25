@@ -47,8 +47,8 @@
 
     <agm-marker *ngFor="let event of events$ | async"
                 (markerClick)="handleMarker(event)"
-                [latitude]="event && event.lat"
-                [longitude]="event && event.lng"></agm-marker>
+                [latitude]="event?.location?.coords?.lat"
+                [longitude]="event?.location?.coords?.lng"></agm-marker>
   </agm-map>
 
   <a [routerLink]="['create']">

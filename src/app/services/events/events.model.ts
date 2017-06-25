@@ -1,14 +1,13 @@
 
 
+import {Bounds, Coords} from '../map/map.model';
 export interface Event {
 
   id: string;
 
-  lat: number;
-  lng: number;
-
   location: EventLocation;
 
+  title: string;
   description: string | null;
   imageUrl: string | null;
 
@@ -17,4 +16,6 @@ export interface Event {
 export interface EventLocation {
   description: string;
   place_id: string;
+  coords: Coords;
+  bounds: Bounds;
 }

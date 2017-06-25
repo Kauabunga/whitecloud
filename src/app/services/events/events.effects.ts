@@ -23,27 +23,40 @@ const database = firebase.database();
 const eventsRef = database.ref('events');
 
 
-var clearUpdates = {};
-clearUpdates['/events'] = {}
-firebase.database().ref().update(clearUpdates)
-  .then(() => {
-    var updates = {};
+clearAndRandomiseEvents();
 
-    for (var i = 0; i < 20; i++) {
-      var newEventKey = eventsRef.push().key;
-      updates['/events/' + newEventKey] = <Event>{
-        lat: getRandom(-36, -44),
-        lng: getRandom(170, 182),
-        imageUrl: 'https://unsplash.it/400/300/?random&asdf=' + Math.random(),
-        description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`
-      };
-    }
-    firebase.database().ref().update(updates)
-  });
+function clearAndRandomiseEvents(){
+  var clearUpdates = {};
+  clearUpdates['/events'] = {}
+  firebase.database().ref().update(clearUpdates)
+    .then(() => {
+      var updates = {};
+
+      for (var i = 0; i < 20; i++) {
+        var newEventKey = eventsRef.push().key;
+        updates['/events/' + newEventKey] = <Event> {
+          id: null,
+          title: newEventKey,
+          location: {
+            description: null,
+            coords: {
+              lat: getRandom(-36, -44),
+              lng: getRandom(170, 182),
+            },
+            bounds: null,
+            place_id: null,
+          },
+          imageUrl: 'https://unsplash.it/400/300/?random&asdf=' + Math.random(),
+          description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`
+        };
+      }
+      firebase.database().ref().update(updates)
+    });
 
 
-function getRandom(min, max) {
-  return Math.random() * (max - min) + min;
+  function getRandom(min, max) {
+    return Math.random() * (max - min) + min;
+  }
 }
 
 

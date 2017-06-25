@@ -2,24 +2,32 @@ import {createSelector} from 'reselect';
 import * as create from './create.actions'
 import * as map from '../map/map.actions'
 import {Event} from '../events/events.model';
+import {Coords} from '../map/map.model';
 
 
 export interface State {
 
   saving: boolean;
 
+  searchQuery: string;
+  searchCoords: Coords;
+
   event: Event;
 
-};
+}
+;
 
 export const initialState: State = {
   saving: false,
+
+  searchQuery: null,
+  searchCoords: null,
+
   event: {
     id: null,
+    title: null,
     imageUrl: null,
     description: null,
-    lat: null,
-    lng: null,
     location: null,
   }
 };
@@ -32,9 +40,12 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
       const coords = action.payload;
       return {
         saving: state.saving,
+        searchQuery: state.searchQuery,
+        searchCoords: coords,
         event: Object.assign({}, state.event, {
-          lat: coords.lat,
-          lng: coords.lng,
+          location: Object.assign({}, state.event.location, {
+            coords: coords,
+          })
         })
       };
 
@@ -45,6 +56,8 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
     case create.SAVE:
       return {
         saving: true,
+        searchQuery: state.searchQuery,
+        searchCoords: state.searchCoords,
         event: state.event
       };
 
@@ -52,6 +65,8 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
       const event = action.payload;
       return {
         saving: state.saving,
+        searchQuery: state.searchQuery,
+        searchCoords: state.searchCoords,
         event: Object.assign({}, state.event, event)
       };
 

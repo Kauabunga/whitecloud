@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { routes } from './detail.routes';
 import { DetailComponent } from './detail.component';
 import {DetailGuard} from './detail.guard';
+import {MdButtonModule, MdIconModule, MdToolbarModule} from '@angular/material';
 
 console.log('`Detail` bundle loaded asynchronously');
 
@@ -22,6 +23,11 @@ console.log('`Detail` bundle loaded asynchronously');
   imports: [
     CommonModule,
     FormsModule,
+
+    MdButtonModule,
+    MdToolbarModule,
+    MdIconModule,
+
     RouterModule.forChild(routes),
   ],
 })

@@ -13,7 +13,6 @@ import {Subject} from 'rxjs/Subject';
 import * as createActions from '../services/create/create.actions';
 import * as mapActions from '../services/map/map.actions';
 import {FormBuilder, FormGroup, Validator, Validators} from '@angular/forms';
-import {google} from '@agm/core/services/google-maps-types';
 import {getPlaces, getSearches} from '../services/map/map.reducer';
 
 
@@ -29,7 +28,7 @@ import {getPlaces, getSearches} from '../services/map/map.reducer';
 })
 export class CreateComponent implements OnInit, OnDestroy {
 
-  results$: Observable<any>
+  results$: Observable<any>;
 
   createEvent: Event;
 
@@ -45,7 +44,7 @@ export class CreateComponent implements OnInit, OnDestroy {
 
     this.createGroup = this.formBuilder.group({
       title: ['', Validators.required],
-      location: ['', Validators.required],
+      location: [''],
       description: ['']
     });
 
@@ -55,6 +54,31 @@ export class CreateComponent implements OnInit, OnDestroy {
       .map(getCreateEvent)
       .takeUntil(this.onDestroy$)
       .subscribe(createEvent => this.createEvent = createEvent);
+
+    this.createGroup.get('title')
+      .valueChanges
+      .takeUntil(this.onDestroy$)
+      .subscribe(title => this.store.dispatch(new createActions.UpdateAction({title} as Event)))
+
+    this.createGroup.get('description')
+      .valueChanges
+      .takeUntil(this.onDestroy$)
+      .subscribe(description => this.store.dispatch(new createActions.UpdateAction({description} as Event)))
+
+    this.store.select(getCreateState)
+      .map(getCreateEvent)
+      .filter(createEvent => createEvent && createEvent.location && !!createEvent.location.coords)
+      .map(createEvent => createEvent.location.coords)
+      .distinctUntilChanged((a, b) => a.lat === b.lat && a.lng === b.lng)
+      .takeUntil(this.onDestroy$)
+      .subscribe(createEvent => {
+        if(createEvent.lat){
+          this.store.dispatch(new mapActions.SearchAction({
+            lat: createEvent.lat,
+            lng: createEvent.lng
+          }));
+        }
+      });
 
     this.getLocationValue()
       .distinctUntilChanged()
@@ -67,7 +91,30 @@ export class CreateComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.getLocationValue()
+    this.getPlace()
+      .takeUntil(this.onDestroy$)
+      .subscribe(this.handleNewPlace.bind(this));
+
+    this.results$ = this.getResults();
+
+  }
+
+  handleNewPlace(place) {
+    let bounds = place.geometry.viewport;
+    let location = place.geometry.location;
+    this.store.dispatch(new createActions.UpdateAction({
+      lat: location.lat(),
+      lng: location.lng(),
+    } as Event));
+    this.store.dispatch(new mapActions.SetCenterAction({
+      coords: location.toJSON(),
+      bounds: bounds.toJSON()
+    }));
+
+  }
+
+  getPlace() {
+    return this.getLocationValue()
       .takeUntil(this.onDestroy$)
       .distinctUntilChanged()
       .combineLatest(
@@ -78,24 +125,7 @@ export class CreateComponent implements OnInit, OnDestroy {
       )
       .do(console.warn)
       .filter(location => !!location)
-      .distinctUntilChanged()
-      .subscribe((place) => {
-
-        let bounds = place.geometry.viewport;
-        let location = place.geometry.location;
-
-        this.store.dispatch(new createActions.UpdateAction({
-          lat: location.lat(),
-          lng: location.lng(),
-        } as Event))
-        this.store.dispatch(new mapActions.SetCenterAction({
-          coords: location.toJSON(),
-          bounds: bounds.toJSON()
-        }));
-      });
-
-    this.results$ = this.getResults();
-
+      .distinctUntilChanged();
   }
 
   getResults() {

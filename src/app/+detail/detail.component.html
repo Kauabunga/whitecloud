@@ -1,18 +1,26 @@
-<article>
-  <!--<h1>Hello from Detail</h1>-->
-  <!--<p>{{(event$ | async)?.id}}</p>-->
-</article>
+  <md-toolbar>
+    <a>
+      <button md-icon-button>
+        <md-icon>arrow_back</md-icon>
+      </button>
+    </a>
 
-<img [src]="(event$ | async)?.imageUrl"/>
+    <span class="fill"></span>
+    <h1>{{(event$ | async)?.title}}</h1>
+    <span class="fill"></span>
+
+    <a>
+      <button md-icon-button>
+        <md-icon>arrow_forward</md-icon>
+      </button>
+    </a>
+  </md-toolbar>
+
+<img *ngIf="(event$ | async)?.imageUrl"
+     [src]="(event$ | async)?.imageUrl"/>
 
 <article>
   <p>{{(event$ | async)?.description}}</p>
-  <span>
-  <a [routerLink]=" ['./child-detail'] ">
-    Child Detail
-  </a>
-</span>
-
 </article>
 
 <router-outlet></router-outlet>
