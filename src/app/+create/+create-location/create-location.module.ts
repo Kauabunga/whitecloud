@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { routes } from './create-location.routes';
 import { CreateLocationComponent } from './create-location.component';
-import {MdAutocompleteModule, MdButtonModule, MdInputModule, MdRadioModule} from '@angular/material';
+import {MdAutocompleteModule, MdButtonModule, MdInputModule, MdListModule, MdRadioModule} from '@angular/material';
 
 
 @NgModule({
@@ -23,6 +23,7 @@ import {MdAutocompleteModule, MdButtonModule, MdInputModule, MdRadioModule} from
     MdButtonModule,
     MdAutocompleteModule,
     MdRadioModule,
+    MdListModule,
 
     RouterModule.forChild(routes),
   ],

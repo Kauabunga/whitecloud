@@ -3,42 +3,51 @@
       novalidate>
 
 
-  <h3>Click the map to select a location</h3>
+  <md-list>
 
-  <h3 *ngIf="(placeSuggestions$ | async)?.length !== 0">
-    Select a location
-  </h3>
+    <h3 md-subheader>
+      Click the map to select a location
+      <span *ngIf="(placeSuggestions$ | async)?.length !== 0"><br>Choose a location</span>
+    </h3>
 
-  <md-radio-group formControlName="location">
-    <md-radio-button *ngFor="let place of placeSuggestions$ | async"
-                     [value]="place">
-      {{place.description || place.formatted_address}}
-    </md-radio-button>
-  </md-radio-group>
+    <md-radio-group formControlName="location">
+      <md-radio-button *ngFor="let place of placeSuggestions$ | async"
+                       [value]="place">
+        <div class="radio-content">
+          {{place.description || place.formatted_address}}
+        </div>
+      </md-radio-button>
+    </md-radio-group>
 
-  <h3>Or search for a location</h3>
+    <md-divider></md-divider>
 
-  <md-input-container>
-    <input mdInput
-           [mdAutocomplete]="auto"
-           placeholder="Location"
-           formControlName="location">
-  </md-input-container>
+    <h3 md-subheader>Or search for a location</h3>
 
+    <md-list-item>
+      <md-input-container>
+        <input mdInput
+               [mdAutocomplete]="auto"
+               placeholder="Location"
+               formControlName="location">
+      </md-input-container>
+      <md-autocomplete #auto="mdAutocomplete"
+                       [displayWith]="displayLocation">
+        <md-option *ngFor="let result of results$ | async"
+                   [value]="result">
+          {{ result.description }}
+        </md-option>
+      </md-autocomplete>
+    </md-list-item>
 
-  <md-autocomplete #auto="mdAutocomplete"
-                   [displayWith]="displayLocation">
-    <md-option *ngFor="let result of results$ | async"
-               [value]="result">
-      {{ result.description }}
-    </md-option>
-  </md-autocomplete>
+    <md-list-item>
+      <span class="fill"></span>
+      <button type="submit"
+              md-button
+              md-raised-button
+      >Next
+      </button>
+    </md-list-item>
 
-
-
-  <button type="submit"
-          md-button
-          md-raised-button
-  >Next</button>
+  </md-list>
 
 </form>

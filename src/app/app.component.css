@@ -16,12 +16,15 @@ main {
 }
 
 .fab-buttons {
-  margin: 30px;
+  margin: 12px;
   position: absolute;
   top: 0;
   right: 0;
+  /*right: 0;*/
+}
 
-
+.fab-buttons button {
+  margin-right: 10px;
 }
 
 a {

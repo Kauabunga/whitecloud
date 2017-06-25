@@ -57,7 +57,7 @@ export class AppComponent implements OnInit {
     this.events$ = this.getEvents();
   }
 
-  getTitle(){
+  getTitle() {
     return this.router.events
       .filter((event) => event instanceof NavigationEnd)
       .map(() => this.getDeepestTitle(this.router.routerState.snapshot.root));
@@ -71,13 +71,13 @@ export class AppComponent implements OnInit {
     return title || 'Title';
   }
 
-  getMap(){
+  getMap() {
     return this.store.select(getMapState)
       .map(getMap)
       .distinctUntilChanged();
   }
 
-  getEvents(){
+  getEvents() {
     return Observable.combineLatest(
       this.store.select(getRouterState),
       this.store.select(getCreateState)
@@ -91,6 +91,10 @@ export class AppComponent implements OnInit {
     )
       .debounceTime(0)
       .distinctUntilChanged();
+  }
+
+  public handleHome() {
+    this.handleResetMap();
   }
 
   public handleMapClick({coords}) {
@@ -109,7 +113,7 @@ export class AppComponent implements OnInit {
     // console.log(event);
   }
 
-  public handleResetMap(){
+  public handleResetMap() {
     this.store.dispatch(new mapActions.SetCenterAction({
       coords: {
         lat: mapReducer.initialState.map.lat,

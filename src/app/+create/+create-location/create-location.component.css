@@ -1,16 +1,32 @@
 
 form {
   padding: 20px;
+}
 
+md-list {
   display: flex;
   flex-direction: column;
 }
 
+md-input-container {
+  width: 100%;
+}
+
 md-radio-group {
+  padding: 16px;
+  max-width: 360px;
   display: inline-flex;
   flex-direction: column;
 }
 
 md-radio-button {
-  margin: 5px;
+  margin: 8px 5px;
+}
+
+.radio-content {
+  white-space: normal;
+}
+
+.fill {
+  flex-grow: 1;
 }

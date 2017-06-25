@@ -14,7 +14,8 @@
 
         <span class="fill"></span>
 
-        <a [routerLink]="['']">
+        <a [routerLink]="['']"
+           (click)="handleHome($event)">
           <button md-icon-button>
             <md-icon>home</md-icon>
           </button>
@@ -54,15 +55,13 @@
   <div class="fab-buttons">
     <a [routerLink]="['create']">
       <button class="create-button"
-              md-button
-              md-mini-fab>
+              md-icon-button>
         <md-icon>add</md-icon>
       </button>
     </a>
     <button (click)="handleResetMap()"
             class="zoom-button"
-            md-button
-            md-mini-fab>
+            md-icon-button>
       <md-icon>zoom_out_map</md-icon>
     </button>
   </div>
