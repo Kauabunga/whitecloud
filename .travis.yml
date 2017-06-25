@@ -26,6 +26,7 @@ before_install:
   - npm cache verify
   - npm prune
   - npm update
+  - npm install fs.realpath@1.X
 
 install:
   - npm install
