@@ -1,0 +1,49 @@
+<md-sidenav-container>
+  <md-sidenav mode="side"
+              opened="true">
+
+    <main>
+      <md-toolbar>
+        <h1>{{title$ | async}}</h1>
+      </md-toolbar>
+
+      <div class="container">
+        <router-outlet></router-outlet>
+      </div>
+
+    </main>
+
+  </md-sidenav>
+
+  <!-- primary content -->
+
+  <agm-map *ngIf="height"
+           [zoom]="6"
+           [minZoom]="4"
+           [disableDefaultUI]="true"
+           [streetViewControl]="false"
+           [style.height.px]="height"
+           (mapClick)="handleMapClick($event)"
+           (boundsChange)="handleBoundsChange($event)"
+           (centerChange)="handleCenterChange($event)"
+           (zoomChange)="handleZoomChange($event)"
+           [latitude]="latitude"
+           [longitude]="longitude">
+
+    <agm-marker *ngFor="let event of events$ | async"
+                (markerClick)="handleMarker(event)"
+                [latitude]="event.lat"
+                [longitude]="event.lng"></agm-marker>
+  </agm-map>
+
+  <a [routerLink]="['create']">
+    <button class="create-button"
+            md-button
+            md-fab>
+      <md-icon>add</md-icon>
+    </button>
+  </a>
+
+
+</md-sidenav-container>
+

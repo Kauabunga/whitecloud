@@ -39,6 +39,16 @@ export function reducer(state = initialState, action: event.Actions): State {
         selectedEventId: action.payload,
       };
 
+    case event.REMOVE:
+      const removeId: string = action.payload;
+      return {
+        ids: state.ids.filter(id => id === removeId),
+        entities: Object.assign({}, state.entities, {[removeId]: null}),
+        selectedEventId: state.selectedEventId === removeId
+          ? null
+          : state.selectedEventId,
+      };
+
     default: {
       return state;
     }

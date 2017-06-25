@@ -40,9 +40,15 @@ import {XLargeDirective} from './home/x-large';
 
 import '../styles/styles.scss';
 import '../styles/headings.css';
-import {MdCardModule} from '@angular/material';
+import {
+  MdButtonModule, MdCardModule, MdIconModule, MdSidenavModule, MdSnackBarModule,
+  MdToolbarModule
+} from '@angular/material';
 import {MdListModule} from '@angular/material';
 import {EventsEffects} from "./services/events/events.effects";
+import {CreateEffects} from './services/create/create.effects';
+import {MapEffects} from './services/map/map.effects';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -74,14 +80,24 @@ type StoreType = {
     BrowserModule,
     FormsModule,
     HttpModule,
+    BrowserAnimationsModule,
+
     MdCardModule,
     MdListModule,
+    MdButtonModule,
+    MdIconModule,
+    MdToolbarModule,
+    MdSidenavModule,
+    MdSnackBarModule,
+
     RouterModule.forRoot(ROUTES, {useHash: true, preloadingStrategy: PreloadAllModules}),
 
     StoreModule.provideStore(reducer),
     RouterStoreModule.connectRouter(),
 
     EffectsModule.run(EventsEffects),
+    EffectsModule.run(CreateEffects),
+    EffectsModule.run(MapEffects),
 
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB_mwjIVMU_1GjjyiI4dsRU83JvDZyqAUY'

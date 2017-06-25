@@ -2,30 +2,30 @@ import {
   Component,
   OnInit,
 } from '@angular/core';
-/**
- * We're loading this component asynchronously
- * We are using some magic with es6-promise-loader that will wrap the module with a Promise
- * see https://github.com/gdi2290/es6-promise-loader for more info
- */
+import {getEventsState, State} from '../app.reducers';
+import {Store} from '@ngrx/store';
+import {getSelected} from '../services/events/events.reducer';
+import {Observable} from 'rxjs/Observable';
+import {Event} from '../services/events/events.model';
 
-console.log('`Detail` component loaded asynchronously');
 
 @Component({
   selector: 'detail',
-  template: `
-    <h1>Hello from Detail</h1>
-    <span>
-      <a [routerLink]=" ['./child-detail'] ">
-        Child Detail
-      </a>
-    </span>
-    <router-outlet></router-outlet>
-  `,
+  templateUrl: './detail.component.html',
+  styleUrls: ['./detail.component.css'],
 })
 export class DetailComponent implements OnInit {
 
+  event$: Observable<Event>;
+
+  constructor(public store: Store<State>){}
+
   public ngOnInit() {
-    console.log('hello `Detail` component');
+
+    this.event$ = this.store.select(getEventsState)
+      .map(getSelected)
+      .distinctUntilChanged();
+
   }
 
 }

@@ -1,28 +1,9 @@
-<agm-map *ngIf="height && events"
-         [zoom]="6"
-         [minZoom]="4"
-         [disableDefaultUI]="true"
-         [streetViewControl]="false"
-         [style.height.px]="height"
-         [latitude]="-41"
-         [longitude]="179.9960">
 
-  <agm-marker *ngFor="let event of events"
-              (markerClick)="markerClick(event)"
-              [latitude]="event.lat"
-              [longitude]="event.lng"></agm-marker>
-
-</agm-map>
-
-<md-card *ngIf="events">
-  <h1>Eco hotspots</h1>
-
-  <pre>{{events.length}}</pre>
-
-  <md-list>
-    <md-list-item *ngFor="let event of events">
+<md-list>
+  <md-list-item *ngFor="let event of events$ | async">
+    <a [routerLink]="['/detail', event.id]">
       <div>{{event.lng}}</div>
-    </md-list-item>
-  </md-list>
+    </a>
+  </md-list-item>
+</md-list>
 
-</md-card>

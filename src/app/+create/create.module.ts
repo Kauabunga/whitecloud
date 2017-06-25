@@ -3,8 +3,9 @@ import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { routes } from './barrel.routes';
-import { BarrelComponent } from './barrel.component';
+import { routes } from './create.routes';
+import { CreateComponent } from './create.component';
+import {MdButtonModule, MdInputModule} from '@angular/material';
 
 console.log('`Barrel` bundle loaded asynchronously');
 
@@ -13,14 +14,16 @@ console.log('`Barrel` bundle loaded asynchronously');
     /**
      * Components / Directives/ Pipes
      */
-    BarrelComponent,
+    CreateComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
+    MdInputModule,
+    MdButtonModule,
     RouterModule.forChild(routes),
   ],
 })
-export class BarrelModule {
+export class CreateModule {
   public static routes = routes;
 }

@@ -1,17 +1,2 @@
 /*styles for home content only*/
 
-agm-map {
-  position: absolute;
-  width: 100%;
-}
-
-md-card {
-  position: absolute;
-  overflow-y: scroll;
-  right: 0;
-  margin: 120px 100px;
-  width: 45%;
-  max-width: 400px;
-  background: #fefefe;
-  height: calc(100% - 240px);
-}

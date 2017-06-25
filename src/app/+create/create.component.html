@@ -1,0 +1,27 @@
+<form (submit)="handleSubmit($event)">
+
+  <h5>Click the map to select a location</h5>
+
+  <h5>Or search for a location here</h5>
+
+
+  <md-input-container>
+    <input mdInput placeholder="Title" value="Sushi">
+  </md-input-container>
+
+  <br>
+
+  <md-input-container>
+    <textarea mdInput placeholder="Description" value=""></textarea>
+  </md-input-container>
+
+
+  <button type="submit"
+          md-button
+          md-raised-button
+  >Create</button>
+
+</form>
+
+
+<router-outlet></router-outlet>

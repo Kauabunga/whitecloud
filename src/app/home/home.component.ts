@@ -14,7 +14,6 @@ import {Event} from '../services/events/events.model';
 import {Store} from "@ngrx/store";
 import {ReplaySubject} from 'rxjs/ReplaySubject';
 import {Observable} from 'rxjs/Observable';
-import * as eventActions from '../services/events/events.actions';
 
 @Component({
   selector: 'home',
@@ -22,38 +21,23 @@ import * as eventActions from '../services/events/events.actions';
   styleUrls: ['home.component.css'],
   templateUrl: 'home.component.html'
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
 
-  onDestroy: ReplaySubject<null> = new ReplaySubject();
-
-  events: Event[];
-
-  height: number = 0;
+  events$: Observable<Event[]>;
 
   constructor(public title: Title,
               public store: Store<State>) {
   }
 
   public ngOnInit() {
-    this.height = window.innerHeight;
 
-    this.store.select(getEventsState)
-      .takeUntil(this.onDestroy)
+    this.events$ = this.store.select(getEventsState)
       .map(getAll)
       .distinctUntilChanged()
       .debounceTime(0)
-      .filter(events => events.length !== 0)
-      .do(console.log.bind(console, 'asdf'))
-      .subscribe(events => this.events = events);
+      .filter(events => events.length !== 0);
+
   }
 
-  public ngOnDestroy() {
-    this.onDestroy.next(null);
-    this.onDestroy.complete();
-  }
-
-  public markerClick(event: Event){
-    this.store.dispatch(new eventActions.SelectAction(event.id))
-  }
 
 }

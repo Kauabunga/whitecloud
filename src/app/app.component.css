@@ -6,6 +6,22 @@ html, body{
   overflow: hidden;
 }
 
+agm-map {
+  width: 100%;
+}
+
+main {
+  max-width: 400px;
+  min-width: 400px;
+}
+
+button.create-button {
+  margin: 30px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 a.active {
   background-color: gray;
 }

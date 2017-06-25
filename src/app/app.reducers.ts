@@ -38,6 +38,8 @@ import { combineReducers } from '@ngrx/store';
  * notation packages up all of the exports into a single object.
  */
 import * as fromEvents from './services/events/events.reducer';
+import * as fromMap from './services/map/map.reducer';
+import * as fromCreate from './services/create/create.reducer';
 
 
 /**
@@ -47,6 +49,8 @@ import * as fromEvents from './services/events/events.reducer';
 export interface State {
   events: fromEvents.State;
   router: fromRouter.RouterState;
+  create: fromCreate.State;
+  map: fromMap.State;
 }
 
 
@@ -60,6 +64,8 @@ export interface State {
 const reducers = {
   events: fromEvents.reducer,
   router: fromRouter.routerReducer,
+  create: fromCreate.reducer,
+  map: fromMap.reducer,
 };
 
 // const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
@@ -75,3 +81,6 @@ export function reducer(state: any, action: any) {
 }
 
 export const getEventsState = (state: State) => state.events;
+export const getCreateState = (state: State) => state.create;
+export const getMapState = (state: State) => state.map;
+export const getRouterState = (state: State) => state.router.path;

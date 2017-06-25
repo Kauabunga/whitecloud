@@ -4,6 +4,7 @@ import {Event} from './events.model';
 export const LOAD = '[Event] Load';
 export const INIT = '[Event] Init';
 export const SELECT = '[Event] Select';
+export const REMOVE = '[Event] Remove';
 
 
 /**
@@ -34,6 +35,14 @@ export class SelectAction implements Action {
   }
 }
 
+export class RemoveAction implements Action {
+  readonly type = REMOVE;
+
+  constructor(public payload: string) {
+  }
+}
+
+
 /**
  * Export a type alias of all actions in this action group
  * so that reducers can easily compose action types
@@ -41,4 +50,5 @@ export class SelectAction implements Action {
 export type Actions
   = LoadAction
   | SelectAction
-  | InitAction;
+  | InitAction
+  | RemoveAction;

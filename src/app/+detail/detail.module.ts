@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { routes } from './detail.routes';
 import { DetailComponent } from './detail.component';
+import {DetailGuard} from './detail.guard';
 
 console.log('`Detail` bundle loaded asynchronously');
 
@@ -14,6 +15,9 @@ console.log('`Detail` bundle loaded asynchronously');
      * Components / Directives/ Pipes
      */
     DetailComponent,
+  ],
+  providers: [
+    DetailGuard
   ],
   imports: [
     CommonModule,

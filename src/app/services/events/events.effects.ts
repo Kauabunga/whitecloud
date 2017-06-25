@@ -23,22 +23,25 @@ const database = firebase.database();
 const eventsRef = database.ref('events');
 
 
-var randomCat = require('random-cat');
-var imageUrl = randomCat.get({
-  width: 24,
-  height: 24,
-  category: 'animals'
-});
+var clearUpdates = {};
+clearUpdates['/events'] = {}
+firebase.database().ref().update(clearUpdates)
+  .then(() => {
+    var updates = {};
 
-
-var newEventKey = eventsRef.push().key;
-var updates = {};
-updates['/events/' + newEventKey] = {
-  lat: getRandom(-36, -44),
-  lng: getRandom(170, 182),
-};
-
-firebase.database().ref().update(updates);
+    for (var i = 0; i < 20; i++) {
+      console.log('asdfasdf')
+      var newEventKey = eventsRef.push().key;
+      updates['/events/' + newEventKey] = <Event>{
+        lat: getRandom(-36, -44),
+        lng: getRandom(170, 182),
+        imageUrl: 'https://unsplash.it/400/300/?random&asdf=' + Math.random(),
+        description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`
+      };
+    }
+    console.log(updates);
+    firebase.database().ref().update(updates)
+  });
 
 
 function getRandom(min, max) {
@@ -66,25 +69,38 @@ function getRandom(min, max) {
 export class EventsEffects {
 
   @Effect()
-  load$: Observable<Action> = this.actions$
+  init$: Observable<Action> = this.actions$
     .ofType(eventActions.INIT)
     .map(toPayload)
     .startWith(null)
     .first()
     .switchMap(() => {
-      let replay = new ReplaySubject();
+      let replay: ReplaySubject<Action[]> = new ReplaySubject();
 
-      eventsRef.on('value', snapshot => {
-        const val = snapshot.val() || {};
-        const events = Object.keys(val)
-          .map(key => Object.assign(val[key], {id: key}));
-        this.zone.run(() => replay.next(events as Event[]));
-      });
+      eventsRef.on('value', snapshot => this.handleValue(snapshot, replay));
+      eventsRef.on('child_removed', snapshot => this.handleRemove(snapshot, replay));
 
       return replay;
     })
-    .mergeMap((events: Event[]) => from(events))
-    .map((event: Event) => new eventActions.LoadAction(event));
+    .mergeMap((actions: Action[]) => from(actions));
+
+  handleRemove(snapshot, replay) {
+    this.zone.run(() => replay.next([new eventActions.RemoveAction(snapshot.key)]));
+  }
+
+  handleValue(snapshot, replay) {
+    const val = snapshot.val() || {};
+
+    const events = Object.keys(val)
+      .map(key => Object.assign(val[key], {id: key}));
+
+    const eventsActions = events.map(event => new eventActions.LoadAction(event));
+
+    this.zone.run(() =>
+      replay.next(eventsActions as Action[])
+    );
+
+  }
 
   constructor(private actions$: Actions, private zone: NgZone) {
   }

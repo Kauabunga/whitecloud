@@ -1,0 +1,18 @@
+<article>
+  <h1>Hello from Detail</h1>
+  <p>{{(event$ | async)?.id}}</p>
+</article>
+
+<img [src]="(event$ | async)?.imageUrl"/>
+
+<article>
+  <p>{{(event$ | async)?.description}}</p>
+  <span>
+  <a [routerLink]=" ['./child-detail'] ">
+    Child Detail
+  </a>
+</span>
+
+</article>
+
+<router-outlet></router-outlet>
