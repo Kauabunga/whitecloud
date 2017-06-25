@@ -1,5 +1,5 @@
 import {Action} from '@ngrx/store';
-import {Event} from '../events/events.model';
+import {Event, EventLocation} from '../events/events.model';
 
 
 export const SAVE = '[Create] Save';
@@ -8,7 +8,8 @@ export const SAVE_FAILURE = '[Create] Save Failure';
 export const INIT = '[Create] Init';
 export const RESET = '[Create] Reset';
 export const UPDATE = '[Create] Update';
-
+export const UPDATE_LOCATION = '[Create] Update location';
+export const FINISH_LOCATION = '[Create] Finish location';
 
 /**
  * Every action is comprised of at least a type and an optional
@@ -28,6 +29,12 @@ export class UpdateAction implements Action {
   readonly type = UPDATE;
 
   constructor(public payload: Event) {
+  }
+}
+export class UpdateLocationAction implements Action {
+  readonly type = UPDATE_LOCATION;
+
+  constructor(public payload: EventLocation) {
   }
 }
 
@@ -70,4 +77,5 @@ export type Actions
   | SaveSuccessAction
   | SaveFailureAction
   | UpdateAction
+  | UpdateLocationAction
   | ResetAction;

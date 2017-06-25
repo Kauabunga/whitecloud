@@ -3,21 +3,18 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { routes } from './create.routes';
-import { CreateComponent } from './create.component';
-import {MdAutocompleteModule, MdButtonModule, MdInputModule, MdListModule, MdRadioModule} from '@angular/material';
-import {CreateGuard} from './create.guard';
+import { routes } from './create-location.routes';
+import { CreateLocationComponent } from './create-location.component';
+import {MdAutocompleteModule, MdButtonModule, MdInputModule, MdRadioModule} from '@angular/material';
 
-console.log('`Barrel` bundle loaded asynchronously');
 
 @NgModule({
   declarations: [
     /**
      * Components / Directives/ Pipes
      */
-    CreateComponent,
+    CreateLocationComponent,
   ],
-  providers: [CreateGuard],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -30,6 +27,6 @@ console.log('`Barrel` bundle loaded asynchronously');
     RouterModule.forChild(routes),
   ],
 })
-export class CreateModule {
+export class CreateLocationModule {
   public static routes = routes;
 }

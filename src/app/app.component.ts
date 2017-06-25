@@ -16,6 +16,7 @@ import {Event} from './services/events/events.model';
 import {Observable} from 'rxjs/Observable';
 import * as eventActions from './services/events/events.actions';
 import * as mapActions from './services/map/map.actions';
+import * as mapReducer from './services/map/map.reducer';
 import {go} from '@ngrx/router-store';
 import {getCreateEvent} from './services/create/create.reducer';
 import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
@@ -84,7 +85,7 @@ export class AppComponent implements OnInit {
       this.store.select(getEventsState)
         .map(getAll),
       (path, createEvent, events) =>
-        path === '/create'
+        path.indexOf('/create') === 0
           ? [createEvent]
           : events.filter(event => !!event)
     )
@@ -97,15 +98,25 @@ export class AppComponent implements OnInit {
   }
 
   public handleBoundsChange(event) {
-    console.log(event);
+    // console.log(event);
   }
 
   public handleCenterChange(event) {
-    console.log(event);
+    // console.log(event);
   }
 
   public handleZoomChange(event) {
-    console.log(event);
+    // console.log(event);
+  }
+
+  public handleResetMap(){
+    this.store.dispatch(new mapActions.SetCenterAction({
+      coords: {
+        lat: mapReducer.initialState.map.lat,
+        lng: mapReducer.initialState.map.lng
+      },
+      bounds: mapReducer.initialState.map.bounds,
+    }))
   }
 
   public handleMarker(event: Event) {

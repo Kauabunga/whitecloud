@@ -51,13 +51,21 @@
                 [longitude]="event?.location?.coords?.lng"></agm-marker>
   </agm-map>
 
-  <a [routerLink]="['create']">
-    <button class="create-button"
+  <div class="fab-buttons">
+    <a [routerLink]="['create']">
+      <button class="create-button"
+              md-button
+              md-mini-fab>
+        <md-icon>add</md-icon>
+      </button>
+    </a>
+    <button (click)="handleResetMap()"
+            class="zoom-button"
             md-button
-            md-fab>
-      <md-icon>add</md-icon>
+            md-mini-fab>
+      <md-icon>zoom_out_map</md-icon>
     </button>
-  </a>
+  </div>
 
   <button md-icon-button
           *ngIf="!opened"

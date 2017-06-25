@@ -16,6 +16,7 @@ import * as firebase from 'firebase';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
 import * as mapActions from './map.actions';
 import {Coords} from './map.model';
+import {getMapId} from './map.reducer';
 
 
 let autocompleteService;
@@ -68,7 +69,13 @@ export class MapEffects {
         ? this.searchString(query)
         .map((results: any) => new mapActions.SearchSuccessAction({query, results}))
         : this.searchCoordinates(query)
-        .map((results: any) => new mapActions.SearchSuccessAction({query: `${query.lat}${query.lng}`, results}))
+        .map((results: any[]) =>
+          //ensure formatted address are unique
+          results.filter((v, i, a) =>
+            a.indexOf(a.find(result => result.formatted_address === v.formatted_address)) === i
+          )
+        )
+        .map((results: any[]) => new mapActions.SearchSuccessAction({query: getMapId(query), results}))
     )
     .do(console.warn);
 

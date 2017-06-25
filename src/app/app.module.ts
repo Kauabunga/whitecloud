@@ -49,11 +49,13 @@ import {EventsEffects} from "./services/events/events.effects";
 import {CreateEffects} from './services/create/create.effects';
 import {MapEffects} from './services/map/map.effects';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {EventsService} from './services/events/events.service';
 
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
-  AppState
+  EventsService,
+  AppState,
 ];
 
 type StoreType = {

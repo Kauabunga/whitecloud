@@ -7,12 +7,14 @@ export interface State {
   ids: string[];
   entities: { [id: string]: Event };
   selectedEventId: string | null;
+  loaded: boolean;
 };
 
 export const initialState: State = {
   ids: [],
   entities: {},
   selectedEventId: null,
+  loaded: false,
 };
 
 export function reducer(state = initialState, action: event.Actions): State {
@@ -30,6 +32,7 @@ export function reducer(state = initialState, action: event.Actions): State {
         ids: [ ...state.ids, loadedEvent.id ],
         entities: Object.assign({}, state.entities, {[loadedEvent.id]: loadedEvent}),
         selectedEventId: state.selectedEventId,
+        loaded: true,
       };
 
     case event.SELECT:
@@ -37,6 +40,7 @@ export function reducer(state = initialState, action: event.Actions): State {
         ids: state.ids,
         entities: state.entities,
         selectedEventId: action.payload,
+        loaded: state.loaded,
       };
 
     case event.REMOVE:
@@ -47,6 +51,7 @@ export function reducer(state = initialState, action: event.Actions): State {
         selectedEventId: state.selectedEventId === removeId
           ? null
           : state.selectedEventId,
+        loaded: state.loaded,
       };
 
     default: {
@@ -69,6 +74,8 @@ export const getEntities = (state: State) => state.entities;
 export const getIds = (state: State) => Object.keys(state.entities);
 
 export const getSelectedId = (state: State) => state.selectedEventId;
+
+export const getEventsLoaded = (state: State) => state.loaded;
 
 export const getSelected = createSelector(getEntities, getSelectedId, (entities, selectedId) => {
   return entities[selectedId];

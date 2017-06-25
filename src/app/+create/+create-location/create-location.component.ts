@@ -1,32 +1,26 @@
-import 'rxjs/add/operator/combineLatest';
 import {
   Component, OnDestroy,
   OnInit,
 } from '@angular/core';
-import {getCreateState, getMapState, State} from '../app.reducers';
-import {Store} from '@ngrx/store';
-import {getCreateEvent, getSearchCoords} from '../services/create/create.reducer';
-import {Event, EventLocation} from '../services/events/events.model';
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
 import {Subject} from 'rxjs/Subject';
-import * as createActions from '../services/create/create.actions';
-import * as mapActions from '../services/map/map.actions';
-import {FormBuilder, FormGroup, Validator, Validators} from '@angular/forms';
-import {getMap, getMapId, getPlaces, getSearches} from '../services/map/map.reducer';
+import {getCreateState, getMapState, State} from '../../app.reducers';
+import {Store} from '@ngrx/store';
+import * as createActions from '../../services/create/create.actions';
+import * as mapActions from '../../services/map/map.actions';
+import {Event, EventLocation} from '../../services/events/events.model';
+import {getMapId, getPlaces, getSearches} from '../../services/map/map.reducer';
+import {getCreateEvent, getSearchCoords} from '../../services/create/create.reducer';
+import {go} from '@ngrx/router-store';
 
-
-/**
- * We're loading this component asynchronously
- * We are using some magic with es6-promise-loader that will wrap the module with a Promise
- * see https://github.com/gdi2290/es6-promise-loader for more info
- */
 @Component({
-  selector: 'create',
-  styleUrls: ['./create.component.css'],
-  templateUrl: './create.component.html',
+  selector: 'create-location',
+  styleUrls: ['./create-location.component.css'],
+  templateUrl: './create-location.component.html',
 })
-export class CreateComponent implements OnInit, OnDestroy {
+export class CreateLocationComponent implements OnInit, OnDestroy {
 
   placeSuggestions$: Observable<any>;
 
@@ -36,6 +30,7 @@ export class CreateComponent implements OnInit, OnDestroy {
 
   onDestroy$: Subject<null> = new ReplaySubject();
 
+
   constructor(public formBuilder: FormBuilder,
               public store: Store<State>) {
   }
@@ -43,21 +38,8 @@ export class CreateComponent implements OnInit, OnDestroy {
   public ngOnInit() {
 
     this.createGroup = this.formBuilder.group({
-      title: ['', Validators.required],
-      location: [''],
-      description: ['']
+      location: ['', Validators.required],
     });
-
-    this.createGroup.get('title')
-      .valueChanges
-      .takeUntil(this.onDestroy$)
-      .subscribe(title => this.store.dispatch(new createActions.UpdateAction({title} as Event)));
-
-    this.createGroup.get('description')
-      .valueChanges
-      .takeUntil(this.onDestroy$)
-      .subscribe(description => this.store.dispatch(new createActions.UpdateAction({description} as Event)))
-
 
     this.getSearchCoords()
       .takeUntil(this.onDestroy$)
@@ -116,7 +98,7 @@ export class CreateComponent implements OnInit, OnDestroy {
       coords: location.toJSON(),
       bounds: bounds.toJSON(),
       place_id: place.place_id,
-      description: place.description
+      description: place.description || place.formatted_address || null
     } as EventLocation));
 
     this.store.dispatch(new mapActions.SetCenterAction({
@@ -164,9 +146,10 @@ export class CreateComponent implements OnInit, OnDestroy {
     return result && result.description || result.toString();
   }
 
-  handleSubmit() {
+  handleSubmit($event) {
+    $event.preventDefault();
     if (this.createGroup.valid) {
-      this.store.dispatch(new createActions.SaveAction());
+      this.store.dispatch(go(['create', 'create-details']));
     }
   }
 

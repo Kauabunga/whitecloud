@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect';
 import * as map from './map.actions'
-import {Map} from './map.model';
+import {Coords, Map} from './map.model';
 
 export interface State {
   search: { [id: string]: { description: string } };
@@ -53,9 +53,9 @@ export function reducer(state = initialState, action: map.Actions): State {
       var {coords, bounds} = action.payload;
       return {
         map: Object.assign({}, map, {
-          lat: coords.lat,
-          lng: coords.lng,
-          bounds: bounds
+          lat: coords.lat || initialState.map.lat,
+          lng: coords.lng || initialState.map.lng,
+          bounds: bounds || initialState.map.bounds
         }),
         search: state.search,
         places: state.places,
@@ -75,3 +75,7 @@ export function reducer(state = initialState, action: map.Actions): State {
 export const getSearches = (state: State) => state.search;
 export const getPlaces = (state: State) => state.places;
 export const getMap = (state: State) => state.map;
+
+export const getMapId = (coords: Coords) => `${coords.lng}${coords.lat}`;
+
+

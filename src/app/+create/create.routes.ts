@@ -1,11 +1,16 @@
 import {CreateComponent} from './create.component';
+import {CreateGuard} from './create.guard';
+import {Route} from '@angular/router';
 
-export const routes = [
+export const routes: Route[] = [
   {
     path: '', data: {title: 'Create'},
+    canActivate: [CreateGuard], canDeactivate: [CreateGuard],
+    component: CreateComponent,
     children: [
-      {path: '', component: CreateComponent},
-      {path: 'child-barrel', loadChildren: './+child-barrel#ChildBarrelModule'}
+      {path: 'create-location', loadChildren: './+create-location#CreateLocationModule'},
+      {path: 'create-details', loadChildren: './+create-details#CreateDetailsModule'},
+      {path: '**', redirectTo: 'create-location'},
     ]
   },
 ];

@@ -15,11 +15,17 @@ main {
   min-width: 400px;
 }
 
-button.create-button {
+.fab-buttons {
   margin: 30px;
   position: absolute;
   top: 0;
   right: 0;
+
+
+}
+
+a {
+  text-decoration: none;
 }
 
 a.active {

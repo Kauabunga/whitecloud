@@ -33,13 +33,6 @@ export class HomeComponent implements OnInit {
 
   public ngOnInit() {
 
-    // let service = new google.maps.places.AutocompleteService();
-
-    setTimeout(() => {
-      console.log((window as any).google);
-      console.log((window as any).google.maps.places);
-    }, 5000);
-
     this.events$ = this.store.select(getEventsState)
       .map(getAll)
       .distinctUntilChanged()

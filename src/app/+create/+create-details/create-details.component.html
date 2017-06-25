@@ -1,0 +1,27 @@
+<form (submit)="handleSubmit($event)"
+      [formGroup]="createGroup"
+      novalidate>
+
+  <h3>Add some details</h3>
+
+  <md-input-container>
+    <input mdInput
+           formControlName="title"
+           placeholder="Title">
+  </md-input-container>
+
+  <br>
+
+  <md-input-container>
+    <textarea mdInput
+              formControlName="description"
+              placeholder="Description"></textarea>
+  </md-input-container>
+
+
+  <button type="submit"
+          md-button
+          md-raised-button
+  >Create</button>
+
+</form>

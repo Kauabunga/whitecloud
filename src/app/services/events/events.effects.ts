@@ -7,7 +7,7 @@ import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/takeUntil';
 import {Injectable, NgZone} from '@angular/core';
 import {Effect, Actions, toPayload} from '@ngrx/effects';
-import {Action} from '@ngrx/store';
+import {Action, Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 import {from} from 'rxjs/observable/from';
 import {empty} from 'rxjs/observable/empty';
@@ -16,6 +16,9 @@ import * as firebase from 'firebase';
 import * as eventActions from './events.actions';
 import {Event} from './events.model';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
+import {getEventsState, State} from '../../app.reducers';
+import {getEntities} from './events.reducer';
+import {SetCenterAction} from '../map/map.actions';
 
 
 const database = firebase.database();
@@ -23,9 +26,9 @@ const database = firebase.database();
 const eventsRef = database.ref('events');
 
 
-clearAndRandomiseEvents();
+// clearAndRandomiseEvents();
 
-function clearAndRandomiseEvents(){
+function clearAndRandomiseEvents() {
   var clearUpdates = {};
   clearUpdates['/events'] = {}
   firebase.database().ref().update(clearUpdates)
@@ -80,6 +83,19 @@ function clearAndRandomiseEvents(){
 export class EventsEffects {
 
   @Effect()
+  select$: Observable<Action> = this.actions$
+    .ofType(eventActions.SELECT)
+    .map(toPayload)
+    .switchMap((id) =>
+      this.store.select(getEventsState)
+        .map(getEntities)
+        .map(entities => entities[id])
+        .first()
+    )
+    .filter(event => event && !!event.location)
+    .map(event => new SetCenterAction(event.location));
+
+  @Effect()
   init$: Observable<Action> = this.actions$
     .ofType(eventActions.INIT)
     .map(toPayload)
@@ -113,6 +129,8 @@ export class EventsEffects {
 
   }
 
-  constructor(private actions$: Actions, private zone: NgZone) {
+  constructor(private actions$: Actions,
+              private zone: NgZone,
+              private store: Store<State>) {
   }
 }

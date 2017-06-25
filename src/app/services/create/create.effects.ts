@@ -52,6 +52,7 @@ export class CreateEffects {
     .ofType(createActions.SAVE)
     .map(toPayload)
     .switchMap(this.getCreateEvent.bind(this))
+    .do(console.log.bind(console, 'createEvent'))
     .switchMap((createEvent) =>
       Observable.from(eventsRef.push(createEvent))
         .mapTo(new createActions.SaveSuccessAction())
