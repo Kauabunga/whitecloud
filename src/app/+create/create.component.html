@@ -9,6 +9,20 @@
 
   <md-input-container>
     <input mdInput
+           [mdAutocomplete]="auto"
+           placeholder="Location"
+           formControlName="location">
+  </md-input-container>
+
+  <md-autocomplete #auto="mdAutocomplete">
+    <md-option *ngFor="let result of results$ | async"
+               [value]="result">
+      {{ result }}
+    </md-option>
+  </md-autocomplete>
+
+  <md-input-container>
+    <input mdInput
            formControlName="title"
            placeholder="Title">
   </md-input-container>

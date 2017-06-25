@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { routes } from './create.routes';
 import { CreateComponent } from './create.component';
-import {MdButtonModule, MdInputModule} from '@angular/material';
+import {MdAutocompleteModule, MdButtonModule, MdInputModule} from '@angular/material';
 
 console.log('`Barrel` bundle loaded asynchronously');
 
@@ -20,8 +20,11 @@ console.log('`Barrel` bundle loaded asynchronously');
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+
     MdInputModule,
     MdButtonModule,
+    MdAutocompleteModule,
+
     RouterModule.forChild(routes),
   ],
 })

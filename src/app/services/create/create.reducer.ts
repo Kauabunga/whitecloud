@@ -20,6 +20,7 @@ export const initialState: State = {
     description: null,
     lat: null,
     lng: null,
+    location: null,
   }
 };
 
@@ -61,3 +62,4 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
 }
 
 export const getCreateEvent = (state: State) => state.event;
+

@@ -14,8 +14,18 @@ import {empty} from 'rxjs/observable/empty';
 import {of} from 'rxjs/observable/of';
 import * as firebase from 'firebase';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
+import * as mapActions from './map.actions';
+import {SearchSuccessAction} from './map.actions';
 
 
+let autocompleteService;
+
+const nzBounds = {
+  south: -47.31964113109319,
+  west: 164.210693359375,
+  north: -34.01099680852081,
+  east: -179.287841796875
+}
 
 /**
  * Effects offer a way to isolate and easily test side-effects within your
@@ -36,6 +46,33 @@ import {ReplaySubject} from 'rxjs/ReplaySubject';
 @Injectable()
 export class MapEffects {
 
+
+  @Effect()
+  search$: Observable<Action> = this.actions$
+    .ofType(mapActions.SEARCH)
+    .map(toPayload)
+    .debounceTime(200)
+    .switchMap(query =>
+      this.searchString(query)
+        .map((results: any) => new SearchSuccessAction({query, results}))
+    );
+
+  searchString(query: string) {
+    return Observable.from(new Promise((resolve, reject) =>
+      this.getPlacesService().getQueryPredictions(
+        {
+          input: query,
+          bounds: nzBounds
+        },
+        (results) => resolve(results)
+      )
+    ))
+  }
+
+  getPlacesService() {
+    return autocompleteService =
+      autocompleteService || new (window as any).google.maps.places.AutocompleteService();
+  }
 
   constructor(private actions$: Actions, private zone: NgZone) {
   }

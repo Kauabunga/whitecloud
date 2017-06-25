@@ -30,7 +30,6 @@ firebase.database().ref().update(clearUpdates)
     var updates = {};
 
     for (var i = 0; i < 20; i++) {
-      console.log('asdfasdf')
       var newEventKey = eventsRef.push().key;
       updates['/events/' + newEventKey] = <Event>{
         lat: getRandom(-36, -44),
@@ -39,7 +38,6 @@ firebase.database().ref().update(clearUpdates)
         description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`
       };
     }
-    console.log(updates);
     firebase.database().ref().update(updates)
   });
 

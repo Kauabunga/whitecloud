@@ -51,16 +51,11 @@ export class CreateEffects {
   save$: Observable<Action> = this.actions$
     .ofType(createActions.SAVE)
     .map(toPayload)
-    .switchMap(() =>
-      this.store.select(getCreateState)
-        .map(getCreateEvent)
-        .first()
-    )
+    .switchMap(this.getCreateEvent.bind(this))
     .switchMap((createEvent) =>
       Observable.from(eventsRef.push(createEvent))
         .mapTo(new createActions.SaveSuccessAction())
     );
-
 
   @Effect()
   saveSuccess$: Observable<Action> = this.actions$
@@ -69,6 +64,11 @@ export class CreateEffects {
     .do(() => this.snackBar.open('Created new event', 'Undo', {duration: 2000}))
     .mapTo(go(['']));
 
+  getCreateEvent(){
+    return this.store.select(getCreateState)
+      .map(getCreateEvent)
+      .first();
+  }
 
   constructor(private actions$: Actions,
               private store: Store<State>,

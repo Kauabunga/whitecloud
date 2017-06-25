@@ -3,6 +3,8 @@ import {Coords} from './map.model';
 
 
 export const CLICK = '[Map] Click';
+export const SEARCH = '[Map] Search';
+export const SEARCH_SUCCESS = '[Map] Search Success';
 
 
 /**
@@ -19,6 +21,19 @@ export class ClickAction implements Action {
   }
 }
 
+export class SearchAction implements Action {
+  readonly type = SEARCH;
+
+  constructor(public payload: string | Coords) {
+  }
+}
+
+export class SearchSuccessAction implements Action {
+  readonly type = SEARCH_SUCCESS;
+
+  constructor(public payload: {query: string, results: string[]}) {
+  }
+}
 
 
 
@@ -27,4 +42,6 @@ export class ClickAction implements Action {
  * so that reducers can easily compose action types
  */
 export type Actions
-  = ClickAction;
+  = ClickAction
+  | SearchAction
+  | SearchSuccessAction;

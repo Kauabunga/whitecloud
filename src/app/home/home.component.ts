@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit {
 
     setTimeout(() => {
       console.log((window as any).google);
-      console.log((window as any).google.maps);
+      console.log((window as any).google.maps.places);
     }, 5000);
 
     this.events$ = this.store.select(getEventsState)
