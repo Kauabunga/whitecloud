@@ -94,7 +94,7 @@ export const getPreviousId = createSelector(getEntities, getIds, getSelectedId, 
   const length = ids.length;
   return index === 0
     ? ids[length - 1]
-    : ids[index + 1];
+    : ids[index - 1];
 });
 
 export const getAll = createSelector(getEntities, getIds, (entities, ids): Event[] => {

@@ -31,8 +31,11 @@ export class AppComponent implements OnInit {
   map$: Observable<Map>;
   events$: Observable<Event[]>;
   height: number = 0;
+  width: number = 0;
 
   title$: Observable<string>;
+
+  mapInstance;
 
   opened: boolean = true;
 
@@ -41,6 +44,7 @@ export class AppComponent implements OnInit {
 
   public ngOnInit() {
     this.height = window.innerHeight;
+    this.width = window.innerWidth;
     this.map$ = this.getMap();
     this.title$ = this.getTitle();
     this.events$ = this.getEvents();
@@ -91,7 +95,7 @@ export class AppComponent implements OnInit {
   }
 
   public handleBoundsChange(event) {
-    // console.log(event);
+    console.log(event);
   }
 
   public handleCenterChange(event) {
@@ -104,6 +108,10 @@ export class AppComponent implements OnInit {
 
   public handleMenu() {
     this.opened = !this.opened;
+  }
+
+  public handleMapInit(map){
+    this.mapInstance = map;
   }
 
   public handleResetMap() {

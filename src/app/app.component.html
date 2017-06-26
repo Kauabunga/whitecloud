@@ -42,11 +42,13 @@
   <!-- primary content -->
 
   <agm-map *ngIf="height"
+           (mapReady)="handleMapInit($event)"
            [zoom]="6"
-           [minZoom]="5"
+           [minZoom]="6"
            [disableDefaultUI]="true"
            [streetViewControl]="false"
            [style.height.px]="height"
+           [style.minWidth.px]="width"
            (mapClick)="handleMapClick($event)"
            (boundsChange)="handleBoundsChange($event)"
            (centerChange)="handleCenterChange($event)"
