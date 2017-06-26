@@ -22,15 +22,20 @@ matrix:
   fast_finish: true
 
 before_install:
+  # Install global node_modules
   - npm install npm@5 -g
   - npm install firebase-tools -g
+  # Install node_modules
   - npm cache verify
   - npm prune
   - npm update
   - npm install fs.realpath@1.X
-  - cd ./functions && npm cache verify
-  - cd ./functions && npm cache prune
-  - cd ./functions && npm cache update
+  # Install functions node_modules
+  - cd ./functions
+  - npm cache verify
+  - npm cache prune
+  - npm cache update
+  - cd ..
 
 install:
   - npm install
