@@ -28,7 +28,7 @@ import {
   MdIconModule,
   MdSnackBarModule,
   MdToolbarModule,
-  MdListModule, MdSidenavModule
+  MdListModule, MdSidenavModule, MdTooltipModule
 } from '@angular/material';
 import { EventsEffects } from './services/events/events.effects';
 import { CreateEffects } from './services/create/create.effects';
@@ -72,6 +72,7 @@ type StoreType = {
     MdToolbarModule,
     MdSidenavModule,
     MdSnackBarModule,
+    MdTooltipModule,
 
     StoreModule.provideStore(reducer),
     RouterStoreModule.connectRouter(),

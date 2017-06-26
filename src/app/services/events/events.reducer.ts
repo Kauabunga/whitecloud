@@ -81,6 +81,22 @@ export const getSelected = createSelector(getEntities, getSelectedId, (entities,
   return entities[selectedId];
 });
 
+export const getNextId = createSelector(getEntities, getIds, getSelectedId, (entities, ids, selectedId) => {
+  const index = ids.indexOf(selectedId);
+  const length = ids.length;
+  return index >= 0 && index < length - 1
+    ? ids[index + 1]
+    : ids[0];
+});
+
+export const getPreviousId = createSelector(getEntities, getIds, getSelectedId, (entities, ids, selectedId) => {
+  const index = ids.indexOf(selectedId);
+  const length = ids.length;
+  return index === 0
+    ? ids[length - 1]
+    : ids[index + 1];
+});
+
 export const getAll = createSelector(getEntities, getIds, (entities, ids): Event[] => {
   return ids
     .map((id) => entities[id])

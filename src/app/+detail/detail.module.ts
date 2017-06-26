@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { routes } from './detail.routes';
 import { DetailComponent } from './detail.component';
 import { DetailGuard } from './detail.guard';
-import { MdButtonModule, MdIconModule, MdToolbarModule } from '@angular/material';
+import { MdButtonModule, MdIconModule, MdToolbarModule, MdTooltipModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -21,6 +21,7 @@ import { MdButtonModule, MdIconModule, MdToolbarModule } from '@angular/material
     MdButtonModule,
     MdToolbarModule,
     MdIconModule,
+    MdTooltipModule,
 
     RouterModule.forChild(routes),
   ],

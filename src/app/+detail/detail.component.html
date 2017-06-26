@@ -1,6 +1,8 @@
 <md-toolbar>
   <a>
-    <button md-icon-button>
+    <button (click)="handlePrevious()"
+            md-tooltip="Previous event"
+            md-icon-button>
       <md-icon>arrow_back</md-icon>
     </button>
   </a>
@@ -10,7 +12,9 @@
   <span class="fill"></span>
 
   <a>
-    <button md-icon-button>
+    <button (click)="handleNext()"
+            md-tooltip="Next event"
+            md-icon-button>
       <md-icon>arrow_forward</md-icon>
     </button>
   </a>
