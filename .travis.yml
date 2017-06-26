@@ -46,4 +46,5 @@ script:
 
 deploy:
   provider: firebase
+  project: "whitecloud-dev"
 
