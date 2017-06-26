@@ -38,13 +38,16 @@
   <!-- CSS will be injected by webpack here -->
   <!-- Preload link tags will be injected by webpack here -->
 
+  <style>
+
+  </style>
+
 </head>
 
-<body>
+<body build-date="<%= htmlWebpackPlugin.options.metadata.buildDate %>"
+      version="<%= htmlWebpackPlugin.options.metadata.buildVersion %>">
 
-<app>
-  Loading...
-</app>
+<app></app>
 
 <!-- Scripts will be injected by webpack here -->
 </body>

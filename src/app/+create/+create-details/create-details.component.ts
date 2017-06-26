@@ -26,7 +26,7 @@ export class CreateDetailsComponent implements OnInit {
 
     this.createGroup = this.formBuilder.group({
       title: ['', Validators.required],
-      description: ['', Validators.required],
+      description: [''],
     });
 
     this.createGroup.get('title')

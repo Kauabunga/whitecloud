@@ -15,6 +15,11 @@ main {
   min-width: 400px;
 }
 
+md-sidenav {
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+}
+
 .title {
   margin-left: 12px;
 }

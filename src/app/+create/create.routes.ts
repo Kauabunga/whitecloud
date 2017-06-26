@@ -4,12 +4,14 @@ import { Route } from '@angular/router';
 
 export const routes: Route[] = [
   {
-    path: '', data: {title: 'Create'},
+    path: '',
     canActivate: [CreateGuard], canDeactivate: [CreateGuard],
     component: CreateComponent,
     children: [
-      {path: 'create-location', loadChildren: './+create-location#CreateLocationModule'},
-      {path: 'create-details', loadChildren: './+create-details#CreateDetailsModule'},
+      {path: 'create-location', data: {title: 'Create location'},
+        loadChildren: './+create-location#CreateLocationModule'},
+      {path: 'create-details', data: {title: 'Create details'},
+        loadChildren: './+create-details#CreateDetailsModule'},
       {path: '**', redirectTo: 'create-location'},
     ]
   },

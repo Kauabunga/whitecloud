@@ -2,12 +2,13 @@
       [formGroup]="createGroup"
       novalidate>
 
-  <h3>Add some details</h3>
+  <h1>Add some details</h1>
 
   <md-input-container>
     <input mdInput
            formControlName="title"
            placeholder="Title">
+    <md-error>Title is <strong>required</strong></md-error>
   </md-input-container>
 
   <br>
@@ -19,10 +20,12 @@
   </md-input-container>
 
 
+  <div class="button-container">
   <button type="submit"
           md-button
           md-raised-button
   >Create
   </button>
+  </div>
 
 </form>

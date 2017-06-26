@@ -14,3 +14,9 @@ md-radio-group {
 md-radio-button {
   margin: 5px;
 }
+
+.button-container {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}

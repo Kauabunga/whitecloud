@@ -2,12 +2,15 @@
       [formGroup]="createGroup"
       novalidate>
 
+  <h1>Select the location of the new event</h1>
 
   <md-list>
 
     <h3 md-subheader>
-      Click the map to select a location
-      <span *ngIf="(placeSuggestions$ | async)?.length !== 0"><br>Choose a location</span>
+      Click the map
+      <span *ngIf="(placeSuggestions$ | async)?.length !== 0">
+        <br>Select a location
+      </span>
     </h3>
 
     <md-radio-group formControlName="location">
@@ -29,6 +32,7 @@
                [mdAutocomplete]="auto"
                placeholder="Location"
                formControlName="location">
+        <md-error>Location is <strong>required</strong></md-error>
       </md-input-container>
       <md-autocomplete #auto="mdAutocomplete"
                        [displayWith]="displayLocation">
