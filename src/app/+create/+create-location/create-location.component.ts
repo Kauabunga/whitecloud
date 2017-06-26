@@ -1,19 +1,16 @@
-import {
-  Component, OnDestroy,
-  OnInit,
-} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ReplaySubject} from 'rxjs/ReplaySubject';
-import {Subject} from 'rxjs/Subject';
-import {getCreateState, getMapState, State} from '../../app.reducers';
-import {Store} from '@ngrx/store';
+import { Component, OnDestroy, OnInit, ElementRef } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { Subject } from 'rxjs/Subject';
+import { getCreateState, getMapState, State } from '../../app.reducers';
+import { Store } from '@ngrx/store';
 import * as createActions from '../../services/create/create.actions';
 import * as mapActions from '../../services/map/map.actions';
-import {Event, EventLocation} from '../../services/events/events.model';
-import {getMapId, getPlaces, getSearches} from '../../services/map/map.reducer';
-import {getCreateEvent, getSearchCoords} from '../../services/create/create.reducer';
-import {go} from '@ngrx/router-store';
+import { EventLocation } from '../../services/events/events.model';
+import { getMapId, getPlaces, getSearches } from '../../services/map/map.reducer';
+import { getCreateEvent, getSearchCoords } from '../../services/create/create.reducer';
+import { go } from '@ngrx/router-store';
 
 @Component({
   selector: 'create-location',
@@ -30,6 +27,7 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
 
   onDestroy$: Subject<null> = new ReplaySubject();
 
+  auto: ElementRef;
 
   constructor(public formBuilder: FormBuilder,
               public store: Store<State>) {
@@ -55,13 +53,13 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
         this.store.select(getMapState).map(getSearches),
         (coords, searches) => searches[getMapId(coords)]
       )
-      .filter(places => !!places)
+      .filter((places) => !!places)
       .startWith([] as any);
 
     this.getLocationValue()
       .distinctUntilChanged()
       .takeUntil(this.onDestroy$)
-      .subscribe(location =>
+      .subscribe((location) =>
         location.place_id
           ? this.store.dispatch(new mapActions.LookupAction(location.place_id))
           : this.store.dispatch(new mapActions.SearchAction(location))
@@ -78,15 +76,15 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
   getSearchCoords() {
     return this.store.select(getCreateState)
       .map(getSearchCoords)
-      .filter(coords => !!coords)
+      .filter((coords) => !!coords)
       .distinctUntilChanged((a, b) => a.lat === b.lat && a.lng === b.lng);
   }
 
   getEventCoords() {
     return this.store.select(getCreateState)
       .map(getCreateEvent)
-      .filter(createEvent => createEvent && createEvent.location && !!createEvent.location.coords)
-      .map(createEvent => createEvent.location.coords)
+      .filter((createEvent) => createEvent && createEvent.location && !!createEvent.location.coords)
+      .map((createEvent) => createEvent.location.coords)
       .distinctUntilChanged((a, b) => a.lat === b.lat && a.lng === b.lng);
   }
 
@@ -117,7 +115,7 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
           .map(getPlaces),
         (location, places) => places[location.place_id]
       )
-      .filter(location => !!location)
+      .filter((location) => !!location)
       .distinctUntilChanged();
   }
 
@@ -128,13 +126,13 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
           .map(getSearches),
         (location, searches) => searches[this.displayLocation(location).trim()]
       )
-      .filter(results => !!results)
+      .filter((results) => !!results);
   }
 
   getLocationValue() {
     return this.createGroup.get('location')
       .valueChanges
-      .filter(location => !!location)
+      .filter((location) => !!location);
   }
 
   public ngOnDestroy() {

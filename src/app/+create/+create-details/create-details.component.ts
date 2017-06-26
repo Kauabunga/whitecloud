@@ -1,15 +1,11 @@
-import {
-  Component,
-  OnInit,
-} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Subject} from 'rxjs/Subject';
-import {ReplaySubject} from 'rxjs/ReplaySubject';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Subject } from 'rxjs/Subject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 import * as createActions from '../../services/create/create.actions';
-import {State} from '../../app.reducers';
-import {Store} from '@ngrx/store';
-import {Event, EventLocation} from '../../services/events/events.model';
+import { State } from '../../app.reducers';
+import { Store } from '@ngrx/store';
+import { Event } from '../../services/events/events.model';
 
 @Component({
   selector: 'create-details',
@@ -36,12 +32,12 @@ export class CreateDetailsComponent implements OnInit {
     this.createGroup.get('title')
       .valueChanges
       .takeUntil(this.onDestroy$)
-      .subscribe(title => this.store.dispatch(new createActions.UpdateAction({title} as Event)));
+      .subscribe((title) => this.store.dispatch(new createActions.UpdateAction({title} as Event)));
 
     this.createGroup.get('description')
       .valueChanges
       .takeUntil(this.onDestroy$)
-      .subscribe(description => this.store.dispatch(new createActions.UpdateAction({description} as Event)))
+      .subscribe((description) => this.store.dispatch(new createActions.UpdateAction({description} as Event)));
 
   }
 

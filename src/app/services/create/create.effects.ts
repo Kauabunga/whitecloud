@@ -7,26 +7,19 @@ import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/mapTo';
 import 'rxjs/add/observable/from';
-import {Injectable, NgZone} from '@angular/core';
-import {Effect, Actions, toPayload} from '@ngrx/effects';
-import {Action, Store} from '@ngrx/store';
-import {Observable} from 'rxjs/Observable';
-import {from} from 'rxjs/observable/from';
-import {empty} from 'rxjs/observable/empty';
-import {of} from 'rxjs/observable/of';
+import { Injectable, NgZone } from '@angular/core';
+import { Effect, Actions, toPayload } from '@ngrx/effects';
+import { Action, Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 import * as firebase from 'firebase';
-import {ReplaySubject} from 'rxjs/ReplaySubject';
 import * as createActions from './create.actions';
-import {getCreateState, State} from '../../app.reducers';
-import {getCreateEvent} from './create.reducer';
-import {go} from '@ngrx/router-store';
-import {MdSnackBar} from "@angular/material";
-
+import { getCreateState, State } from '../../app.reducers';
+import { getCreateEvent } from './create.reducer';
+import { go } from '@ngrx/router-store';
+import { MdSnackBar } from '@angular/material';
 
 const database = firebase.database();
-
 const eventsRef = database.ref('events');
-
 
 /**
  * Effects offer a way to isolate and easily test side-effects within your
@@ -65,15 +58,16 @@ export class CreateEffects {
     .do(() => this.snackBar.open('Created new event', 'Undo', {duration: 2000}))
     .mapTo(go(['']));
 
-  getCreateEvent(){
-    return this.store.select(getCreateState)
-      .map(getCreateEvent)
-      .first();
-  }
-
   constructor(private actions$: Actions,
               private store: Store<State>,
               public snackBar: MdSnackBar,
               private zone: NgZone) {
   }
+
+  public getCreateEvent() {
+    return this.store.select(getCreateState)
+      .map(getCreateEvent)
+      .first();
+  }
+
 }

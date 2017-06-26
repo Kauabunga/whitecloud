@@ -3,7 +3,6 @@
  */
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { decorateModuleRef } from './app/environment';
-
 /**
  * App Module
  * our top level module that holds all of our components
@@ -35,6 +34,6 @@ switch (document.readyState) {
 }
 
 function _domReadyHandler() {
- document.removeEventListener('DOMContentLoaded', _domReadyHandler, false);
- main();
+  document.removeEventListener('DOMContentLoaded', _domReadyHandler, false);
+  main();
 }

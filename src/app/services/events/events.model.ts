@@ -1,6 +1,4 @@
-
-
-import {Bounds, Coords} from '../map/map.model';
+import { Bounds, Coords } from '../map/map.model';
 export interface Event {
 
   id: string;

@@ -1,9 +1,8 @@
-import {createSelector} from 'reselect';
-import * as create from './create.actions'
-import * as map from '../map/map.actions'
-import {Event} from '../events/events.model';
-import {Coords} from '../map/map.model';
-
+import { createSelector } from 'reselect';
+import * as create from './create.actions';
+import * as map from '../map/map.actions';
+import { Event } from '../events/events.model';
+import { Coords } from '../map/map.model';
 
 export interface State {
 
@@ -15,7 +14,8 @@ export interface State {
 
   event: Event;
 
-};
+}
+;
 
 export const initialState: State = {
 
@@ -45,7 +45,7 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
 
     case map.CLICK:
 
-      if(!state.selectingLocation){
+      if (!state.selectingLocation) {
         return state;
       }
 
@@ -57,7 +57,7 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
         searchCoords: coords,
         event: Object.assign({}, state.event, {
           location: Object.assign({}, state.event.location, {
-            coords: coords,
+            coords,
           })
         })
       };
@@ -110,4 +110,3 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
 export const getCreateEvent = (state: State) => state.event;
 
 export const getSearchCoords = (state: State) => state.searchCoords;
-

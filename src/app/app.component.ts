@@ -1,27 +1,18 @@
-/**
- * Angular 2 decorators and services
- */
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/observable/combineLatest';
-import {
-  Component,
-  OnInit,
-  ViewEncapsulation
-} from '@angular/core';
-import {AppState} from './app.service';
-import {getCreateState, getEventsState, getMapState, getRouterState, State} from './app.reducers';
-import {Store} from "@ngrx/store";
-import {getAll} from './services/events/events.reducer';
-import {Event} from './services/events/events.model';
-import {Observable} from 'rxjs/Observable';
-import * as eventActions from './services/events/events.actions';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { getCreateState, getEventsState, getMapState, getRouterState, State } from './app.reducers';
+import { Store } from '@ngrx/store';
+import { getAll } from './services/events/events.reducer';
+import { Event } from './services/events/events.model';
+import { Observable } from 'rxjs/Observable';
 import * as mapActions from './services/map/map.actions';
 import * as mapReducer from './services/map/map.reducer';
-import {go} from '@ngrx/router-store';
-import {getCreateEvent} from './services/create/create.reducer';
-import {ActivatedRouteSnapshot, NavigationEnd, Router} from '@angular/router';
-import {getMap} from './services/map/map.reducer';
-import {Map} from './services/map/map.model';
+import { getMap } from './services/map/map.reducer';
+import { go } from '@ngrx/router-store';
+import { getCreateEvent } from './services/create/create.reducer';
+import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
+import { Map } from './services/map/map.model';
 
 /**
  * App Component
@@ -87,7 +78,7 @@ export class AppComponent implements OnInit {
       (path, createEvent, events) =>
         path.indexOf('/create') === 0
           ? [createEvent]
-          : events.filter(event => !!event)
+          : events.filter((event) => !!event)
     )
       .debounceTime(0)
       .distinctUntilChanged();
@@ -98,7 +89,7 @@ export class AppComponent implements OnInit {
   }
 
   public handleMapClick({coords}) {
-    this.store.dispatch(new mapActions.ClickAction(coords))
+    this.store.dispatch(new mapActions.ClickAction(coords));
   }
 
   public handleBoundsChange(event) {
@@ -120,10 +111,10 @@ export class AppComponent implements OnInit {
         lng: mapReducer.initialState.map.lng
       },
       bounds: mapReducer.initialState.map.bounds,
-    }))
+    }));
   }
 
   public handleMarker(event: Event) {
-    this.store.dispatch(go(['detail', event.id]))
+    this.store.dispatch(go(['detail', event.id]));
   }
 }

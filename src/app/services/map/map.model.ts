@@ -1,10 +1,8 @@
-
-
 export interface Map {
   lat: number;
   lng: number;
 
-  bounds: Bounds
+  bounds: Bounds;
 }
 
 export interface Coords {

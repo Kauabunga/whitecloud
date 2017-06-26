@@ -1,20 +1,16 @@
 import 'rxjs/add/operator/combineLatest';
-import {
-  Component, OnDestroy,
-  OnInit,
-} from '@angular/core';
-import {getCreateState, getMapState, State} from '../app.reducers';
-import {Store} from '@ngrx/store';
-import {getCreateEvent, getSearchCoords} from '../services/create/create.reducer';
-import {Event, EventLocation} from '../services/events/events.model';
-import {Observable} from "rxjs/Observable";
-import {ReplaySubject} from 'rxjs/ReplaySubject';
-import {Subject} from 'rxjs/Subject';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { getCreateState, getMapState, State } from '../app.reducers';
+import { Store } from '@ngrx/store';
+import { getCreateEvent, getSearchCoords } from '../services/create/create.reducer';
+import { Event, EventLocation } from '../services/events/events.model';
+import { Observable } from 'rxjs/Observable';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { Subject } from 'rxjs/Subject';
 import * as createActions from '../services/create/create.actions';
 import * as mapActions from '../services/map/map.actions';
-import {FormBuilder, FormGroup, Validator, Validators} from '@angular/forms';
-import {getMap, getMapId, getPlaces, getSearches} from '../services/map/map.reducer';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { getMapId, getPlaces, getSearches } from '../services/map/map.reducer';
 
 /**
  * We're loading this component asynchronously
@@ -51,13 +47,12 @@ export class CreateComponent implements OnInit, OnDestroy {
     this.createGroup.get('title')
       .valueChanges
       .takeUntil(this.onDestroy$)
-      .subscribe(title => this.store.dispatch(new createActions.UpdateAction({title} as Event)));
+      .subscribe((title) => this.store.dispatch(new createActions.UpdateAction({title} as Event)));
 
     this.createGroup.get('description')
       .valueChanges
       .takeUntil(this.onDestroy$)
-      .subscribe(description => this.store.dispatch(new createActions.UpdateAction({description} as Event)))
-
+      .subscribe((description) => this.store.dispatch(new createActions.UpdateAction({description} as Event)));
 
     this.getSearchCoords()
       .takeUntil(this.onDestroy$)
@@ -73,13 +68,13 @@ export class CreateComponent implements OnInit, OnDestroy {
         this.store.select(getMapState).map(getSearches),
         (coords, searches) => searches[getMapId(coords)]
       )
-      .filter(places => !!places)
+      .filter((places) => !!places)
       .startWith([] as any);
 
     this.getLocationValue()
       .distinctUntilChanged()
       .takeUntil(this.onDestroy$)
-      .subscribe(location =>
+      .subscribe((location) =>
         location.place_id
           ? this.store.dispatch(new mapActions.LookupAction(location.place_id))
           : this.store.dispatch(new mapActions.SearchAction(location))
@@ -96,15 +91,15 @@ export class CreateComponent implements OnInit, OnDestroy {
   getSearchCoords() {
     return this.store.select(getCreateState)
       .map(getSearchCoords)
-      .filter(coords => !!coords)
+      .filter((coords) => !!coords)
       .distinctUntilChanged((a, b) => a.lat === b.lat && a.lng === b.lng);
   }
 
   getEventCoords() {
     return this.store.select(getCreateState)
       .map(getCreateEvent)
-      .filter(createEvent => createEvent && createEvent.location && !!createEvent.location.coords)
-      .map(createEvent => createEvent.location.coords)
+      .filter((createEvent) => createEvent && createEvent.location && !!createEvent.location.coords)
+      .map((createEvent) => createEvent.location.coords)
       .distinctUntilChanged((a, b) => a.lat === b.lat && a.lng === b.lng);
   }
 
@@ -135,7 +130,7 @@ export class CreateComponent implements OnInit, OnDestroy {
           .map(getPlaces),
         (location, places) => places[location.place_id]
       )
-      .filter(location => !!location)
+      .filter((location) => !!location)
       .distinctUntilChanged();
   }
 
@@ -146,13 +141,13 @@ export class CreateComponent implements OnInit, OnDestroy {
           .map(getSearches),
         (location, searches) => searches[this.displayLocation(location).trim()]
       )
-      .filter(results => !!results)
+      .filter((results) => !!results);
   }
 
   getLocationValue() {
     return this.createGroup.get('location')
       .valueChanges
-      .filter(location => !!location)
+      .filter((location) => !!location);
   }
 
   public ngOnDestroy() {

@@ -1,6 +1,5 @@
-import {Action} from '@ngrx/store';
-import {Bounds, Coords} from './map.model';
-
+import { Action } from '@ngrx/store';
+import { Bounds, Coords } from './map.model';
 
 export const RESET = '[Map] Reset';
 export const CLICK = '[Map] Click';
@@ -13,7 +12,6 @@ export const LOOKUP = '[Map] Lookup place';
 export const LOOKUP_SUCCESS = '[Map] Lookup place Success';
 export const LOOKUP_FAILURE = '[Map] Lookup place Failure';
 
-
 /**
  * Every action is comprised of at least a type and an optional
  * payload. Expressing actions as classes enables powerful
@@ -23,9 +21,6 @@ export const LOOKUP_FAILURE = '[Map] Lookup place Failure';
  */
 export class ResetAction implements Action {
   readonly type = RESET;
-
-  constructor() {
-  }
 }
 
 export class ClickAction implements Action {
@@ -84,8 +79,6 @@ export class LookupFailureAction implements Action {
   }
 }
 
-
-
 /**
  * Export a type alias of all actions in this action group
  * so that reducers can easily compose action types
@@ -99,4 +92,4 @@ export type Actions
   | SearchFailureAction
   | LookupAction
   | LookupSuccessAction
-  | LookupFailureAction
+  | LookupFailureAction;

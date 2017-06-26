@@ -42,9 +42,9 @@
            (boundsChange)="handleBoundsChange($event)"
            (centerChange)="handleCenterChange($event)"
            (zoomChange)="handleZoomChange($event)"
-           [fitBounds]="(map$ | async).bounds"
-           [latitude]="(map$ | async).lat"
-           [longitude]="(map$ | async).lng">
+           [fitBounds]="(map$ | async)?.bounds"
+           [latitude]="(map$ | async)?.lat"
+           [longitude]="(map$ | async)?.lng">
 
     <agm-marker *ngFor="let event of events$ | async"
                 (markerClick)="handleMarker(event)"

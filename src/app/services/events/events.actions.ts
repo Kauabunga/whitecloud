@@ -1,11 +1,10 @@
-import {Action} from '@ngrx/store';
-import {Event} from './events.model';
+import { Action } from '@ngrx/store';
+import { Event } from './events.model';
 
 export const LOAD = '[Event] Load';
 export const INIT = '[Event] Init';
 export const SELECT = '[Event] Select';
 export const REMOVE = '[Event] Remove';
-
 
 /**
  * Every action is comprised of at least a type and an optional
@@ -16,9 +15,6 @@ export const REMOVE = '[Event] Remove';
  */
 export class InitAction implements Action {
   readonly type = INIT;
-
-  constructor() {
-  }
 }
 
 export class LoadAction implements Action {
@@ -41,7 +37,6 @@ export class RemoveAction implements Action {
   constructor(public payload: string) {
   }
 }
-
 
 /**
  * Export a type alias of all actions in this action group

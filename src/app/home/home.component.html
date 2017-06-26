@@ -1,7 +1,7 @@
 <md-list>
   <a [routerLink]="['/detail', event.id]"
      *ngFor="let event of events$ | async">
-    <md-list-item >
+    <md-list-item>
       <div>{{event.title}}</div>
     </md-list-item>
   </a>

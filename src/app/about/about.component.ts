@@ -1,7 +1,4 @@
-import {
-  Component,
-  OnInit
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -25,9 +22,9 @@ import { ActivatedRoute } from '@angular/router';
 export class AboutComponent implements OnInit {
 
   public localState: any;
-  constructor(
-    public route: ActivatedRoute
-  ) {}
+
+  constructor(public route: ActivatedRoute) {
+  }
 
   public ngOnInit() {
     this.route
@@ -48,6 +45,7 @@ export class AboutComponent implements OnInit {
      */
     this.asyncDataWithWebpack();
   }
+
   private asyncDataWithWebpack() {
     /**
      * you can also async load mock data with 'es6-promise-loader'

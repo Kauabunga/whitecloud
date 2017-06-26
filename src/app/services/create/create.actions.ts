@@ -1,6 +1,5 @@
-import {Action} from '@ngrx/store';
-import {Event, EventLocation} from '../events/events.model';
-
+import { Action } from '@ngrx/store';
+import { Event, EventLocation } from '../events/events.model';
 
 export const SAVE = '[Create] Save';
 export const SAVE_SUCCESS = '[Create] Save Success';
@@ -20,9 +19,6 @@ export const FINISH_LOCATION = '[Create] Finish location';
  */
 export class InitAction implements Action {
   readonly type = INIT;
-
-  constructor() {
-  }
 }
 
 export class UpdateAction implements Action {
@@ -40,32 +36,19 @@ export class UpdateLocationAction implements Action {
 
 export class SaveAction implements Action {
   readonly type = SAVE;
-
-  constructor() {
-  }
 }
 
 export class SaveSuccessAction implements Action {
   readonly type = SAVE_SUCCESS;
-
-  constructor() {
-  }
 }
 
 export class SaveFailureAction implements Action {
   readonly type = SAVE_FAILURE;
-
-  constructor() {
-  }
 }
 
 export class ResetAction implements Action {
   readonly type = RESET;
-
-  constructor() {
-  }
 }
-
 
 /**
  * Export a type alias of all actions in this action group

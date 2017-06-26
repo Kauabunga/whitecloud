@@ -1,20 +1,20 @@
-  <md-toolbar>
-    <a>
-      <button md-icon-button>
-        <md-icon>arrow_back</md-icon>
-      </button>
-    </a>
+<md-toolbar>
+  <a>
+    <button md-icon-button>
+      <md-icon>arrow_back</md-icon>
+    </button>
+  </a>
 
-    <span class="fill"></span>
-    <h1>{{(event$ | async)?.title}}</h1>
-    <span class="fill"></span>
+  <span class="fill"></span>
+  <h1>{{(event$ | async)?.title}}</h1>
+  <span class="fill"></span>
 
-    <a>
-      <button md-icon-button>
-        <md-icon>arrow_forward</md-icon>
-      </button>
-    </a>
-  </md-toolbar>
+  <a>
+    <button md-icon-button>
+      <md-icon>arrow_forward</md-icon>
+    </button>
+  </a>
+</md-toolbar>
 
 <img *ngIf="(event$ | async)?.imageUrl"
      [src]="(event$ | async)?.imageUrl"/>

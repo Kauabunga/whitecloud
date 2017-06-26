@@ -1,14 +1,14 @@
 import { createSelector } from 'reselect';
 import { Event } from './events.model';
-import * as event from './events.actions'
-
+import * as event from './events.actions';
 
 export interface State {
   ids: string[];
   entities: { [id: string]: Event };
   selectedEventId: string | null;
   loaded: boolean;
-};
+}
+;
 
 export const initialState: State = {
   ids: [],
@@ -29,7 +29,7 @@ export function reducer(state = initialState, action: event.Actions): State {
       }
 
       return {
-        ids: [ ...state.ids, loadedEvent.id ],
+        ids: [...state.ids, loadedEvent.id],
         entities: Object.assign({}, state.entities, {[loadedEvent.id]: loadedEvent}),
         selectedEventId: state.selectedEventId,
         loaded: true,
@@ -46,7 +46,7 @@ export function reducer(state = initialState, action: event.Actions): State {
     case event.REMOVE:
       const removeId: string = action.payload;
       return {
-        ids: state.ids.filter(id => id !== removeId),
+        ids: state.ids.filter((id) => id !== removeId),
         entities: Object.assign({}, state.entities, {[removeId]: null}),
         selectedEventId: state.selectedEventId === removeId
           ? null
@@ -83,7 +83,7 @@ export const getSelected = createSelector(getEntities, getSelectedId, (entities,
 
 export const getAll = createSelector(getEntities, getIds, (entities, ids): Event[] => {
   return ids
-    .map(id => entities[id])
-    //TODO shouldn't need this filter?
-    .filter(entity => !!entity);
+    .map((id) => entities[id])
+    // TODO shouldn't need this filter?
+    .filter((entity) => !!entity);
 });

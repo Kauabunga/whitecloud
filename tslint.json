@@ -6,6 +6,11 @@
     "node_modules/codelyzer"
   ],
   "rules": {
+    // Added
+    "max-classes-per-file": false,
+    "member-access": false,
+    "semicolon": [true, "always"],
+
     // Custom
     "trailing-comma": [false, {"multiline": "always", "singleline": "never"}],
     "interface-name": [false, "always-prefix"],
@@ -36,7 +41,7 @@
     ],
     "max-line-length": [
       true,
-      100
+      160
     ],
     "no-string-literal": false,
     "no-use-before-declare": true,

@@ -1,12 +1,10 @@
 import { CommonModule } from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
 import { routes } from './create-location.routes';
 import { CreateLocationComponent } from './create-location.component';
-import {MdAutocompleteModule, MdButtonModule, MdInputModule, MdListModule, MdRadioModule} from '@angular/material';
-
+import { MdAutocompleteModule, MdButtonModule, MdInputModule, MdListModule, MdRadioModule } from '@angular/material';
 
 @NgModule({
   declarations: [

@@ -1,6 +1,6 @@
-import {CreateComponent} from './create.component';
-import {CreateGuard} from './create.guard';
-import {Route} from '@angular/router';
+import { CreateComponent } from './create.component';
+import { CreateGuard } from './create.guard';
+import { Route } from '@angular/router';
 
 export const routes: Route[] = [
   {

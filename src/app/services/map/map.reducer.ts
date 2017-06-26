@@ -1,6 +1,6 @@
-import {createSelector} from 'reselect';
-import * as map from './map.actions'
-import {Coords, Map} from './map.model';
+import { createSelector } from 'reselect';
+import * as map from './map.actions';
+import { Coords, Map } from './map.model';
 
 export interface State {
   search: { [id: string]: { description: string } };
@@ -28,9 +28,8 @@ export function reducer(state = initialState, action: map.Actions): State {
 
   switch (action.type) {
 
-
     case map.SEARCH_SUCCESS:
-      var {query, results} = action.payload;
+      let {query, results} = action.payload;
       return {
         search: Object.assign({}, state.search, {
           [query]: results
@@ -40,7 +39,7 @@ export function reducer(state = initialState, action: map.Actions): State {
       };
 
     case map.LOOKUP_SUCCESS:
-      var {query, results} = action.payload;
+      let {query, results} = action.payload;
       return {
         places: Object.assign({}, state.places, {
           [query]: results
@@ -50,7 +49,7 @@ export function reducer(state = initialState, action: map.Actions): State {
       };
 
     case map.SET_CENTER:
-      var {coords, bounds} = action.payload;
+      let {coords, bounds} = action.payload;
       return {
         map: Object.assign({}, map, {
           lat: coords.lat || initialState.map.lat,
@@ -77,5 +76,3 @@ export const getPlaces = (state: State) => state.places;
 export const getMap = (state: State) => state.map;
 
 export const getMapId = (coords: Coords) => `${coords.lng}${coords.lat}`;
-
-

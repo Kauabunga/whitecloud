@@ -5,19 +5,13 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/takeUntil';
-import {Injectable, NgZone} from '@angular/core';
-import {Effect, Actions, toPayload} from '@ngrx/effects';
-import {Action} from '@ngrx/store';
-import {Observable} from 'rxjs/Observable';
-import {from} from 'rxjs/observable/from';
-import {empty} from 'rxjs/observable/empty';
-import {of} from 'rxjs/observable/of';
-import * as firebase from 'firebase';
-import {ReplaySubject} from 'rxjs/ReplaySubject';
+import { Injectable, NgZone } from '@angular/core';
+import { Effect, Actions, toPayload } from '@ngrx/effects';
+import { Action } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 import * as mapActions from './map.actions';
-import {Coords} from './map.model';
-import {getMapId} from './map.reducer';
-
+import { Coords } from './map.model';
+import { getMapId } from './map.reducer';
 
 let autocompleteService;
 let placesService;
@@ -54,7 +48,7 @@ export class MapEffects {
     .ofType(mapActions.LOOKUP)
     .map(toPayload)
     .debounceTime(200)
-    .switchMap(query =>
+    .switchMap((query) =>
       this.getPlace(query)
         .map((results: any) => new mapActions.LookupSuccessAction({query, results}))
     );
@@ -64,20 +58,22 @@ export class MapEffects {
     .ofType(mapActions.SEARCH)
     .map(toPayload)
     .debounceTime(200)
-    .switchMap(query =>
+    .switchMap((query) =>
       typeof query === 'string'
         ? this.searchString(query)
         .map((results: any) => new mapActions.SearchSuccessAction({query, results}))
         : this.searchCoordinates(query)
         .map((results: any[]) =>
-          //ensure formatted address are unique
+          // ensure formatted address are unique
           results.filter((v, i, a) =>
-            a.indexOf(a.find(result => result.formatted_address === v.formatted_address)) === i
+            a.indexOf(a.find((result) => result.formatted_address === v.formatted_address)) === i
           )
         )
         .map((results: any[]) => new mapActions.SearchSuccessAction({query: getMapId(query), results}))
-    )
-    .do(console.warn);
+    );
+
+  constructor(private actions$: Actions, private zone: NgZone) {
+  }
 
   getPlace(placeId: string) {
     return Observable.from(new Promise((resolve, reject) =>
@@ -85,7 +81,7 @@ export class MapEffects {
         {placeId},
         (results) => resolve(results)
       )
-    ))
+    ));
   }
 
   searchString(query: string) {
@@ -97,7 +93,7 @@ export class MapEffects {
         },
         (results) => resolve(results)
       )
-    ))
+    ));
   }
 
   searchCoordinates(location: Coords) {
@@ -108,7 +104,7 @@ export class MapEffects {
         },
         (results) => resolve(results)
       )
-    ))
+    ));
   }
 
   getPlacesService() {
@@ -126,6 +122,4 @@ export class MapEffects {
       geocoderService || new (window as any).google.maps.Geocoder();
   }
 
-  constructor(private actions$: Actions, private zone: NgZone) {
-  }
 }

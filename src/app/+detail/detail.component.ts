@@ -1,15 +1,10 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-} from '@angular/core';
-import {getEventsState, State} from '../app.reducers';
-import {Store} from '@ngrx/store';
-import {getSelected} from '../services/events/events.reducer';
-import {Observable} from 'rxjs/Observable';
-import {Event} from '../services/events/events.model';
-import {ReplaySubject} from 'rxjs/ReplaySubject';
-
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { getEventsState, State } from '../app.reducers';
+import { Store } from '@ngrx/store';
+import { getSelected } from '../services/events/events.reducer';
+import { Observable } from 'rxjs/Observable';
+import { Event } from '../services/events/events.model';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 @Component({
   selector: 'detail',
@@ -22,14 +17,15 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   onDestroy$: ReplaySubject<null> = new ReplaySubject();
 
-  constructor(public store: Store<State>){}
+  constructor(public store: Store<State>) {
+  }
 
   public ngOnInit() {
 
     this.event$ = this.store.select(getEventsState)
       .map(getSelected)
       .distinctUntilChanged()
-      .filter(event => !!event);
+      .filter((event) => !!event);
 
   }
 

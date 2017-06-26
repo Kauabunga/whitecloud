@@ -1,5 +1,5 @@
-import {DetailComponent} from './detail.component';
-import {DetailGuard} from './detail.guard';
+import { DetailComponent } from './detail.component';
+import { DetailGuard } from './detail.guard';
 
 export const routes = [
   {
