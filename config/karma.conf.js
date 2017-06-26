@@ -57,7 +57,21 @@ module.exports = function (config) {
     webpack: testWebpackConfig,
 
     coverageReporter: {
-      type: 'in-memory'
+      type: 'in-memory',
+      check: {
+        global: {
+          statements: 0,
+          branches: 0,
+          functions: 0,
+          lines: 0
+        }
+      },
+      watermarks: {
+        statements: [ 50, 75 ],
+        functions: [ 50, 75 ],
+        branches: [ 50, 75 ],
+        lines: [ 50, 75 ]
+      }
     },
 
     remapCoverageReporter: {
