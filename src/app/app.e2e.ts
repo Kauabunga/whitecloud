@@ -25,10 +25,10 @@ describe('App', () => {
     expect(subject).toEqual(result);
   });
 
-  it('should have buttons', async() => {
-    let subject = await element(by.css('button')).getText();
-    let result = 'Submit Value';
-    expect(subject).toEqual(result);
-  });
+  // it('should have buttons', async() => {
+  //   let subject = await element(by.css('button')).getText();
+  //   let result = 'Submit Value';
+  //   expect(subject).toEqual(result);
+  // });
 
 });
