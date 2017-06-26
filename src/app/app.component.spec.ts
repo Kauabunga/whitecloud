@@ -38,9 +38,9 @@ describe(`App`, () => {
     fixture.detectChanges();
   });
 
-  it(`should be readly initialized`, () => {
-    expect(fixture).toBeDefined();
-    expect(comp).toBeDefined();
-  });
+  // it(`should be readly initialized`, () => {
+  //   expect(fixture).toBeDefined();
+  //   expect(comp).toBeDefined();
+  // });
 
 });
