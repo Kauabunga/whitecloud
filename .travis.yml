@@ -23,6 +23,7 @@ matrix:
 
 before_install:
   - npm install npm@5 -g
+  - npm install firebase-tools -g
   - npm cache verify
   - npm prune
   - npm update
@@ -44,7 +45,11 @@ before_script:
 script:
   - npm run ci:travis
 
+#after_success:
+#  - firebase deploy --token ${FIREBASE_TOKEN}
+
 deploy:
   provider: firebase
   project: "whitecloud-dev"
+  skip_cleanup: true
 
