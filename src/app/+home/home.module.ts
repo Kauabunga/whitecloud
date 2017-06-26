@@ -2,18 +2,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { routes } from './detail.routes';
-import { DetailComponent } from './detail.component';
-import { DetailGuard } from './detail.guard';
-import { MdButtonModule, MdIconModule, MdToolbarModule } from '@angular/material';
+import { routes } from './home.routes';
+import { MdButtonModule, MdIconModule, MdToolbarModule, MdListModule } from '@angular/material';
+import { HomeComponent } from './home.component';
 
 @NgModule({
   declarations: [
-    DetailComponent,
+    HomeComponent,
   ],
-  providers: [
-    DetailGuard
-  ],
+  providers: [],
   imports: [
     CommonModule,
     FormsModule,
@@ -21,10 +18,11 @@ import { MdButtonModule, MdIconModule, MdToolbarModule } from '@angular/material
     MdButtonModule,
     MdToolbarModule,
     MdIconModule,
+    MdListModule,
 
     RouterModule.forChild(routes),
   ],
 })
-export class DetailModule {
+export class HomeModule {
   public static routes = routes;
 }

@@ -18,9 +18,7 @@ import { ENV_PROVIDERS } from './environment';
 import { ROUTES } from './app.routes';
 // App is our top level component
 import { AppComponent } from './app.component';
-import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
-import { HomeComponent } from './home';
 import { NoContentComponent } from './no-content';
 import '../styles/styles.scss';
 import '../styles/headings.css';
@@ -28,22 +26,21 @@ import {
   MdButtonModule,
   MdCardModule,
   MdIconModule,
-  MdSidenavModule,
   MdSnackBarModule,
   MdToolbarModule,
-  MdListModule
+  MdListModule, MdSidenavModule
 } from '@angular/material';
 import { EventsEffects } from './services/events/events.effects';
 import { CreateEffects } from './services/create/create.effects';
 import { MapEffects } from './services/map/map.effects';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EventsService } from './services/events/events.service';
+import { CommonModule } from '@angular/common';
 
 // Application wide providers
 const APP_PROVIDERS = [
-  ...APP_RESOLVER_PROVIDERS,
   EventsService,
-  AppState,
+  // AppState,
 ];
 
 type StoreType = {
@@ -59,16 +56,13 @@ type StoreType = {
   bootstrap: [AppComponent],
   declarations: [
     AppComponent,
-    HomeComponent,
     NoContentComponent,
   ],
-  /**
-   * Import Angular's modules.
-   */
   imports: [
     BrowserModule,
-    FormsModule,
-    HttpModule,
+    CommonModule,
+    // FormsModule,
+    // HttpModule,
     BrowserAnimationsModule,
 
     MdCardModule,
@@ -78,8 +72,6 @@ type StoreType = {
     MdToolbarModule,
     MdSidenavModule,
     MdSnackBarModule,
-
-    RouterModule.forRoot(ROUTES, {useHash: true, preloadingStrategy: PreloadAllModules}),
 
     StoreModule.provideStore(reducer),
     RouterStoreModule.connectRouter(),
@@ -91,76 +83,20 @@ type StoreType = {
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB_mwjIVMU_1GjjyiI4dsRU83JvDZyqAUY',
       libraries: ['places']
-    })
+    }),
 
-  ].concat(
-    ENV === 'production'
-      ? null
-      : StoreDevtoolsModule.instrumentOnlyWithExtension()
-  ),
-  /**
-   * Expose our Services and Providers into Angular's dependency injection.
-   */
+    RouterModule.forRoot(ROUTES, {useHash: true, preloadingStrategy: PreloadAllModules}),
+
+  ],
+  //   .concat(
+  //   ENV === 'production'
+  //     ? null
+  //     : StoreDevtoolsModule.instrumentOnlyWithExtension()
+  // ),
   providers: [
     ENV_PROVIDERS,
     APP_PROVIDERS
-  ]
+  ],
 })
 export class AppModule {
-
-  constructor(public appRef: ApplicationRef,
-              public appState: AppState) {
-  }
-
-  public hmrOnInit(store: StoreType) {
-    if (!store || !store.state) {
-      return;
-    }
-    console.log('HMR store', JSON.stringify(store, null, 2));
-    /**
-     * Set state
-     */
-    this.appState._state = store.state;
-    /**
-     * Set input values
-     */
-    if ('restoreInputValues' in store) {
-      let restoreInputValues = store.restoreInputValues;
-      setTimeout(restoreInputValues);
-    }
-
-    this.appRef.tick();
-    delete store.state;
-    delete store.restoreInputValues;
-  }
-
-  public hmrOnDestroy(store: StoreType) {
-    const cmpLocation = this.appRef.components.map((cmp) => cmp.location.nativeElement);
-    /**
-     * Save state
-     */
-    const state = this.appState._state;
-    store.state = state;
-    /**
-     * Recreate root elements
-     */
-    store.disposeOldHosts = createNewHosts(cmpLocation);
-    /**
-     * Save input values
-     */
-    store.restoreInputValues = createInputTransfer();
-    /**
-     * Remove styles
-     */
-    removeNgStyles();
-  }
-
-  public hmrAfterDestroy(store: StoreType) {
-    /**
-     * Display new elements
-     */
-    store.disposeOldHosts();
-    delete store.disposeOldHosts;
-  }
-
 }

@@ -1,3 +1,4 @@
+import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/observable/combineLatest';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
@@ -19,6 +20,7 @@ import { Map } from './services/map/map.model';
  * Top Level Component
  */
 @Component({
+  moduleId: 'app',
   selector: 'app',
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./app.component.css'],
@@ -38,13 +40,9 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit() {
-
     this.height = window.innerHeight;
-
     this.map$ = this.getMap();
-
     this.title$ = this.getTitle();
-
     this.events$ = this.getEvents();
   }
 
@@ -84,7 +82,7 @@ export class AppComponent implements OnInit {
       .distinctUntilChanged();
   }
 
-  public handleHome() {
+  public handleHome(event) {
     this.handleResetMap();
   }
 
@@ -102,6 +100,10 @@ export class AppComponent implements OnInit {
 
   public handleZoomChange(event) {
     // console.log(event);
+  }
+
+  public handleMenu() {
+    this.opened = !this.opened;
   }
 
   public handleResetMap() {

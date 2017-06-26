@@ -72,7 +72,7 @@ export function reducer(state: any, action: any) {
   }
 }
 
-export const getEventsState = (state: State) => state.events;
-export const getCreateState = (state: State) => state.create;
-export const getMapState = (state: State) => state.map;
-export const getRouterState = (state: State) => state.router.path;
+export const getEventsState = (state: State, ...args) => state.events;
+export const getCreateState = (state: State, ...args) => state.create;
+export const getMapState = (state: State, ...args) => state.map;
+export const getRouterState = (state: State, ...args) => state.router.path;
