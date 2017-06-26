@@ -35,18 +35,18 @@ export class DetailComponent implements OnInit, OnDestroy {
     this.onDestroy$.complete();
   }
 
-  handleNext(){
+  handleNext() {
     return this.store.select(getEventsState)
       .map(getNextId)
       .first()
-      .subscribe(id => this.store.dispatch(new eventsActions.SelectAction(id)))
+      .subscribe((id) => this.store.dispatch(new eventsActions.SelectAction(id)));
   }
 
-  handlePrevious(){
+  handlePrevious() {
     return this.store.select(getEventsState)
       .map(getPreviousId)
       .first()
-      .subscribe(id => this.store.dispatch(new eventsActions.SelectAction(id)))
+      .subscribe((id) => this.store.dispatch(new eventsActions.SelectAction(id)));
   }
 
 }

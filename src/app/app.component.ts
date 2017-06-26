@@ -110,7 +110,7 @@ export class AppComponent implements OnInit {
     this.opened = !this.opened;
   }
 
-  public handleMapInit(map){
+  public handleMapInit(map) {
     this.mapInstance = map;
   }
 
