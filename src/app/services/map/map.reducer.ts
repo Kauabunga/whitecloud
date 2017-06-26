@@ -28,7 +28,7 @@ export function reducer(state = initialState, action: map.Actions): State {
 
   switch (action.type) {
 
-    case map.SEARCH_SUCCESS:
+    case map.SEARCH_SUCCESS: {
       let {query, results} = action.payload;
       return {
         search: Object.assign({}, state.search, {
@@ -37,8 +37,9 @@ export function reducer(state = initialState, action: map.Actions): State {
         places: state.places,
         map: state.map
       };
+    }
 
-    case map.LOOKUP_SUCCESS:
+    case map.LOOKUP_SUCCESS: {
       let {query, results} = action.payload;
       return {
         places: Object.assign({}, state.places, {
@@ -47,8 +48,9 @@ export function reducer(state = initialState, action: map.Actions): State {
         search: state.search,
         map: state.map
       };
+    }
 
-    case map.SET_CENTER:
+    case map.SET_CENTER: {
       let {coords, bounds} = action.payload;
       return {
         map: Object.assign({}, map, {
@@ -59,6 +61,7 @@ export function reducer(state = initialState, action: map.Actions): State {
         search: state.search,
         places: state.places,
       };
+    }
 
     case map.RESET:
       return initialState;
