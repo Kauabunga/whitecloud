@@ -61,20 +61,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.onDestroy.complete();
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event?) {
-    this.height = window.innerHeight;
-    this.width = window.innerWidth;
-    this.menuState = this.getMenuState();
-    this.triggerMapsResize();
-  }
-
-  getMenuState(): 'side' | 'over' {
-    return this.width > 768
-      ? 'side'
-      : 'over';
-  }
-
   getTitle() {
     return this.router.events
       .filter((event) => event instanceof NavigationEnd)
@@ -87,6 +73,20 @@ export class AppComponent implements OnInit, OnDestroy {
       title = this.getDeepestTitle(routeSnapshot.firstChild) || title;
     }
     return title || 'Title';
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event?) {
+    this.height = window.innerHeight;
+    this.width = window.innerWidth;
+    this.menuState = this.getMenuState();
+    this.triggerMapsResize();
+  }
+
+  getMenuState(): 'side' | 'over' {
+    return this.width > 768
+      ? 'side'
+      : 'over';
   }
 
   triggerMapsResize() {
@@ -126,7 +126,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   public handleBoundsChange(event) {
-    console.log(event);
+    // console.log(event);
   }
 
   public handleCenterChange(event) {
@@ -140,6 +140,11 @@ export class AppComponent implements OnInit, OnDestroy {
   public handleSidenavClose() {
     this.triggerMapsResize();
     this.opened = false;
+  }
+
+  public handleSidenavOpen() {
+    this.triggerMapsResize();
+    this.opened = true;
   }
 
   public handleMenu() {

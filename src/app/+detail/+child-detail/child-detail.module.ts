@@ -5,13 +5,8 @@ import { RouterModule } from '@angular/router';
 import { routes } from './child-detail.routes';
 import { ChildDetailComponent } from './child-detail.component';
 
-console.log('`ChildDetail` bundle loaded asynchronously');
-
 @NgModule({
   declarations: [
-    /**
-     * Components / Directives/ Pipes
-     */
     ChildDetailComponent,
   ],
   imports: [

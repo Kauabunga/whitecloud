@@ -88,9 +88,7 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
       };
 
     case create.UPDATE_LOCATION:
-
       const location = action.payload;
-      console.log('UPDATE_LOCATION', location);
       return {
         selectingLocation: state.selectingLocation,
         saving: state.saving,

@@ -21,10 +21,12 @@
 
 
   <div class="button-container">
-    <button type="button"
-            md-button
-    >Previous
-    </button>
+    <a [routerLink]="['create', 'create-location']">
+      <button type="button"
+              md-button
+      >Previous
+      </button>
+    </a>
 
     <button type="submit"
           md-button
