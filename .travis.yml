@@ -21,12 +21,13 @@ node_js:
 matrix:
   fast_finish: true
 
+env:
+  global:
+    secure: "KETk4pGGW5Jvutf5yYMS8Uw1C6TDuR+OdB2yZE5jG9SRxoIKG0B6jyNXRX/jWJRSD8dh7DRXc/DwgQnIWzLbV1kxIAnU3f86oFtrnXp/Swj4PjIZRFFwpsKVHgmK/EOBBQhSjRBKYc5Az92rpX97fyh/dTTxFtQipQQUNfZDgJmGyc3km14W6sJgUd0HDTj7NaVrEH8HNrG/+3nsDXQFPdt2YJbra0Be7oEuif5Vde8jPw9IVkQatMrF3QgjPFRbRLft8SRiiElrOhRdDrevADM5eqE1YxUhvtGlFS5OCMk1dlh1/KwYq5SCfGCqYPVE9PA8smbupYEyTSzTuMT1n4+fPNZaBAvD5IVVgTGzQw4UmCYcS52PfBHq6Keg6TuqkRprYGWHAO2HMLj+Ow9q7NkGXOVsxnbuoxSUAUREQ8vsMrMiAMm+jl1KiqgCWD/Bf4V53MjiX/+lwkO202EpLlNYqiha5iP06AxbYgxL7Cu8pbTJFgdbGusSq5N3V+eVkCdcxho1GWHHAqBTZsXLLDFgzOiqRxi51C1bcZo3cGjopE9Q7H4LFRSetWXxvWM1HSHM3jvRrH9n3VExM1c698copxKBRmsEmcGXa4fmk+cWX2cMvfcYFUaIdSI0uDH6kA4nwV40DlT5h3tlmYbsChatn1UpjzLJ8zWgIzyYAUk="
+
 before_install:
   # decrypt firebase admin key
-  # - openssl aes-256-cbc -K $encrypted_21bc075d5e40_key -iv $encrypted_21bc075d5e40_iv
-  #   -in whitecloud-dev-firebase-adminsdk-bhag6-f3a977c8bc.json.enc
-  #   -out ./functions/whitecloud-dev-firebase-adminsdk-bhag6-f3a977c8bc.json
-  #   -d
+  - openssl aes-256-cbc -k "$encrypted_firebase_key" -in ./functions/whitecloud-dev-firebase-adminsdk-bhag6-f3a977c8bc.json.enc -out ./functions/whitecloud-dev-firebase-adminsdk-bhag6-f3a977c8bc.json -d
   # Install global node_modules
   - npm install npm@5 -g
   - npm install firebase-tools -g
