@@ -73,15 +73,15 @@ export class MapEffects {
               a.indexOf(a.find((result) => JSON.stringify(result.geometry.location) === JSON.stringify(v.geometry.location))) === i
             )
             // ignore new zealand
-            .filter(value => value.formatted_address !== 'New Zealand')
+            .filter((value) => value.formatted_address !== 'New Zealand')
             // strip the 'New Zealand' from the strings
-            .map(value =>
+            .map((value) =>
               Object.assign({}, value, {
                 formatted_address: value.formatted_address.replace(', New Zealand', '').trim()
               })
             )
             // Ignore any address that are just numbers
-            .filter(value => isNaN(parseInt(value.formatted_address)))
+            .filter((value) => isNaN(parseInt(value.formatted_address, 10)))
 
         )
         .map((results: any[]) =>
