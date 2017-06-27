@@ -3,8 +3,8 @@ form {
   padding: 20px;
 }
 
-form.ng-valid button {
-  background-color: #f5f5f5;
+form.ng-valid button[type='submit'] {
+  background-color: #8BC34A;
 }
 
 md-list {
@@ -17,6 +17,7 @@ md-input-container {
 }
 
 md-radio-group {
+  margin-top: 20px;
   padding: 16px;
   max-width: 360px;
   display: inline-flex;

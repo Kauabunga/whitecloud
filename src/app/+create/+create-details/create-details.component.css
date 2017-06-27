@@ -6,17 +6,12 @@ form {
   flex-direction: column;
 }
 
-md-radio-group {
-  display: inline-flex;
-  flex-direction: column;
+form.ng-valid button[type='submit'] {
+  background-color: #8BC34A;
 }
 
-md-radio-button {
-  margin: 5px;
-}
 
 .button-container {
   display: flex;
-  align-items: flex-end;
-  flex-direction: column;
+  justify-content: space-between;
 }
