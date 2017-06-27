@@ -91,7 +91,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   triggerMapsResize() {
     if (this.mapInstance) {
-      (window as any).google.maps.event.trigger(this.mapInstance, 'resize')
+      (window as any).google.maps.event.trigger(this.mapInstance, 'resize');
     }
   }
 
