@@ -15,11 +15,12 @@
  */
 'use strict';
 
+const path = require('path');
 const functions = require('firebase-functions');
 const mkdirp = require('mkdirp-promise');
 // Include a Service Account Key to use a Signed URL
 const gcs = require('@google-cloud/storage')({
-  credentials: require('./whitecloud-dev-firebase-adminsdk-bhag6-f3a977c8bc.json')
+  credentials: require(path.join(__dirname, 'whitecloud-dev-firebase-adminsdk-bhag6-f3a977c8bc.json'))
 });
 const admin = require('firebase-admin');
 const spawn = require('child-process-promise').spawn;
