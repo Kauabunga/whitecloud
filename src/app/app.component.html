@@ -1,6 +1,7 @@
 <md-sidenav-container>
-  <md-sidenav mode="side"
-              [opened]="opened">
+  <md-sidenav [mode]="menuState"
+              [opened]="opened"
+              (close)="handleSidenavClose()">
 
     <main>
       <md-toolbar>
@@ -72,10 +73,10 @@
     </button>
   </div>
 
-  <button md-icon-button
-          *ngIf="!opened"
+  <button *ngIf="!opened"
+          md-icon-button
           class="menu-button static"
-          (click)="opened = !opened">
+          (click)="handleMenu()">
     <md-icon>menu</md-icon>
   </button>
 

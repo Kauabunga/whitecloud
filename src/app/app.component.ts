@@ -1,7 +1,7 @@
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/withLatestFrom';
 import 'rxjs/add/observable/combineLatest';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, OnDestroy, HostListener } from '@angular/core';
 import { getCreateState, getEventsState, getMapState, getRouterState, State } from './app.reducers';
 import { Store } from '@ngrx/store';
 import { getAll } from './services/events/events.reducer';
@@ -14,6 +14,7 @@ import { go } from '@ngrx/router-store';
 import { getCreateEvent } from './services/create/create.reducer';
 import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { Map } from './services/map/map.model';
+import { ReplaySubject } from 'rxjs';
 
 /**
  * App Component
@@ -26,28 +27,52 @@ import { Map } from './services/map/map.model';
   styleUrls: ['./app.component.css'],
   templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
 
   map$: Observable<Map>;
   events$: Observable<Event[]>;
   height: number = 0;
   width: number = 0;
 
+  menuState: 'over' | 'side' = 'side';
+
   title$: Observable<string>;
 
+  // Google map instance
   mapInstance;
 
   opened: boolean = true;
+
+  onDestroy: ReplaySubject<null> = new ReplaySubject();
 
   constructor(public store: Store<State>, public router: Router) {
   }
 
   public ngOnInit() {
-    this.height = window.innerHeight;
-    this.width = window.innerWidth;
+    this.onResize();
     this.map$ = this.getMap();
     this.title$ = this.getTitle();
     this.events$ = this.getEvents();
+
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next(null);
+    this.onDestroy.complete();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event?) {
+    this.height = window.innerHeight;
+    this.width = window.innerWidth;
+    this.menuState = this.getMenuState();
+    this.triggerMapsResize();
+  }
+
+  getMenuState(): 'side' | 'over' {
+    return this.width > 768
+      ? 'side'
+      : 'over';
   }
 
   getTitle() {
@@ -62,6 +87,12 @@ export class AppComponent implements OnInit {
       title = this.getDeepestTitle(routeSnapshot.firstChild) || title;
     }
     return title || 'Title';
+  }
+
+  triggerMapsResize() {
+    if (this.mapInstance) {
+      (window as any).google.maps.event.trigger(this.mapInstance, 'resize')
+    }
   }
 
   getMap() {
@@ -104,6 +135,11 @@ export class AppComponent implements OnInit {
 
   public handleZoomChange(event) {
     // console.log(event);
+  }
+
+  public handleSidenavClose() {
+    this.triggerMapsResize();
+    this.opened = false;
   }
 
   public handleMenu() {
