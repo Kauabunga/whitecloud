@@ -7,8 +7,6 @@ import { CreateComponent } from './create.component';
 import { MdAutocompleteModule, MdButtonModule, MdInputModule, MdRadioModule } from '@angular/material';
 import { CreateGuard } from './create.guard';
 
-console.log('`Barrel` bundle loaded asynchronously');
-
 @NgModule({
   declarations: [
     /**

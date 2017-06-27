@@ -25,7 +25,8 @@ md-radio-group {
 }
 
 md-radio-button {
-  margin: 8px 5px;
+  margin: 8px 0px;
+  font-size: 0.9em;
 }
 
 .radio-content {

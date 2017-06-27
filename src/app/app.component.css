@@ -15,9 +15,14 @@ main {
   min-width: 360px;
 }
 
+md-sidenav-container {
+  background: rgb(229, 227, 223) !important;
+}
+
 md-sidenav {
   overflow-y: scroll !important;
   overflow-x: hidden !important;
+  background: #fefefe;
 }
 
 .title {
