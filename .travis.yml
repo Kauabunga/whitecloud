@@ -23,10 +23,10 @@ matrix:
 
 before_install:
   # decrypt firebase admin key
-  - openssl aes-256-cbc -K $encrypted_21bc075d5e40_key -iv $encrypted_21bc075d5e40_iv
-    -in whitecloud-dev-firebase-adminsdk-bhag6-f3a977c8bc.json.enc
-    -out ./functions/whitecloud-dev-firebase-adminsdk-bhag6-f3a977c8bc.json
-    -d
+  # - openssl aes-256-cbc -K $encrypted_21bc075d5e40_key -iv $encrypted_21bc075d5e40_iv
+  #   -in whitecloud-dev-firebase-adminsdk-bhag6-f3a977c8bc.json.enc
+  #   -out ./functions/whitecloud-dev-firebase-adminsdk-bhag6-f3a977c8bc.json
+  #   -d
   # Install global node_modules
   - npm install npm@5 -g
   - npm install firebase-tools -g
