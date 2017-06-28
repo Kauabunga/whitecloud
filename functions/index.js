@@ -161,13 +161,13 @@ exports.generateThumbnail = functions.storage.object().onChange(event => {
   })
     .then((base64) => {
       // Update any references to this image id
-      return ref('events').orderByChild('imageId')
+      return ref.child('events').orderByChild('imageId')
         .equalTo(fileId)
         .once('value')
         .then(dataSnapshot => {
           const val = dataSnapshot && dataSnapshot.val() || {};
           return Promise.all(Object.keys(val).map(key => {
-            return ref(`events/${key}`)
+            return ref.child(`events/${key}`)
               .set(Object.assign(val[key], {
                 imageUrl: fileUrl,
                 thumbUrl: thumbFileUrl,
