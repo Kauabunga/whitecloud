@@ -154,9 +154,28 @@ exports.generateThumbnail = functions.storage.object().onChange(event => {
           base64: base64,
           thumbnail: thumbFileUrl,
           blur: blurFileUrl
-        });
+        })
+        .then(() => base64);
     });
-  }).catch(reason => {
-    console.error(reason);
-  });
+  })
+    .then((base64) => {
+      // Update any references to this image id
+      return ref('events').orderByChild('imageId')
+        .equalTo(fileId)
+        .once('value')
+        .then(dataSnapshot => {
+          const val = dataSnapshot && dataSnapshot.val() || {};
+          return Promise.all(Object.keys(val).map(key => {
+            return ref(`events/${key}`)
+              .set(Object.assign(val[key], {
+                imageUrl: fileUrl,
+                thumbUrl: thumbFileUrl,
+                blur: base64,
+              }));
+          }))
+        });
+    })
+    .catch(reason => {
+      console.error(reason);
+    });
 })
