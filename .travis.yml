@@ -31,6 +31,7 @@ before_install:
   # Install global node_modules
   - npm install npm@5 -g
   - npm install firebase-tools -g
+  - npm install concurrently -g
   # Install node_modules
   - npm cache verify
   - npm prune
