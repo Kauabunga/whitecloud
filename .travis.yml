@@ -60,3 +60,4 @@ before_script:
 
 script:
   - npm run ci
+  - curl -k https://us-central1-whitecloud-dev.cloudfunctions.net/newVersion

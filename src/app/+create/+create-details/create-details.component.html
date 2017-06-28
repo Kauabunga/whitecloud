@@ -2,16 +2,7 @@
       [formGroup]="createGroup"
       novalidate>
 
-  <h1>Add some details</h1>
-
-  <!--<md-input-container>-->
-    <!--<input mdInput-->
-           <!--formControlName="title"-->
-           <!--placeholder="Title">-->
-    <!--<md-error>Title is <strong>required</strong></md-error>-->
-  <!--</md-input-container>-->
-
-  <label class="radio-label">What was the pest</label>
+  <h1>What did you catch?</h1>
 
   <md-button-toggle-group #group="mdButtonToggleGroup"
                           formControlName="pest">
@@ -30,6 +21,7 @@
   </md-button-toggle-group>
 
   <br>
+  <h2>Add optional details</h2>
 
   <md-input-container>
     <input mdInput
@@ -50,7 +42,7 @@
     <a [routerLink]="['create', 'location']">
       <button type="button"
               md-button
-      >Previous
+      >Back
       </button>
     </a>
 

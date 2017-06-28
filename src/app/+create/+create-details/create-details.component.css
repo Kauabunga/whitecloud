@@ -10,12 +10,7 @@ form.ng-valid button[type='submit'] {
   background-color: #8BC34A;
 }
 
-
 .button-container {
   display: flex;
   justify-content: space-between;
-}
-
-.radio-label {
-  margin: 12px 0;
 }
