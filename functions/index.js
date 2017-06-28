@@ -27,10 +27,10 @@ const spawn = require('child-process-promise').spawn;
 const LOCAL_TMP_FOLDER = '/tmp/';
 
 // Max height and width of the thumbnail in pixels.
-const THUMB_MAX_HEIGHT = 50;
-const THUMB_MAX_WIDTH = 50;
-const THUMB_QUALITY = 10;
-const THUMB_BLUR = '0x8';
+const THUMB_MAX_HEIGHT = 40;
+const THUMB_MAX_WIDTH = 40;
+const THUMB_QUALITY = 1;
+const THUMB_BLUR = '0x5';
 // Thumbnail prefix added to file names.
 const THUMB_PREFIX = 'blur_';
 admin.initializeApp(functions.config().firebase);

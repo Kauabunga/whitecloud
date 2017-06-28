@@ -57,8 +57,4 @@ before_script:
   - sleep 3
 
 script:
-  - npm run lint
-#  - npm run test
-#  - npm run e2e:travis
-  - npm run build:aot
-  - firebase deploy --token=${FIREBASE_API_TOKEN}
+  - npm run ci
