@@ -62,6 +62,7 @@ exports.generateThumbnail = functions.storage.object().onChange(event => {
   const tempLocalFile = `${tempLocalDir}${fileName}`;
   const tempLocalThumbFile = `${LOCAL_TMP_FOLDER}${thumbFilePath}`;
   const tempLocalBlurFile = `${LOCAL_TMP_FOLDER}${blurFilePath}`;
+  const blurFile = bucket.file(blurFilePath);
   const thumbFile = bucket.file(thumbFilePath);
 
 // Exit if this is triggered on a file that is not an image.
