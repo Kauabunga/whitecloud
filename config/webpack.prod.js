@@ -328,7 +328,9 @@ module.exports = function (env) {
       new OfflinePlugin({
         ServiceWorker: {
           events: true
-        }
+        },
+        autoUpdate: true,
+        version: require('../package.json').version,
       }),
 
     ],
