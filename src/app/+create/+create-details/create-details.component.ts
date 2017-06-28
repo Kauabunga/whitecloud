@@ -24,6 +24,8 @@ export class CreateDetailsComponent implements OnInit {
 
   public ngOnInit() {
 
+    this.store.dispatch(new createActions.SelectingLocationAction(false));
+
     this.createGroup = this.formBuilder.group({
       title: ['', Validators.required],
       description: [''],

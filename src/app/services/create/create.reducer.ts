@@ -15,7 +15,6 @@ export interface State {
   event: Event;
 
 }
-;
 
 export const initialState: State = {
 
@@ -63,16 +62,23 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
     case map.SEARCH: {
       let query = action.payload;
       console.log('map.SEARCH', query);
-      return {
+      return Object.assign({}, state, {
         searchQuery: typeof query === 'string' ? action.payload : null,
         searchCoords: typeof query !== 'string' ? action.payload : null,
-        ...state,
-      };
+      });
     }
+
+    case create.SELECTING_LOCATION:
+      console.log('SELECTING_LOCATION', action.payload);
+      return Object.assign({}, state, {
+        selectingLocation: action.payload,
+      });
 
     case create.SAVE_SUCCESS:
     case create.RESET:
-      return initialState;
+      return Object.assign({}, initialState, {
+        selectingLocation: state.selectingLocation
+      });
 
     case create.SAVE:
       return {

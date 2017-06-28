@@ -35,6 +35,8 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
 
+    this.store.dispatch(new createActions.SelectingLocationAction(true));
+
     this.createGroup = this.formBuilder.group({
       location: ['', Validators.required],
     });
@@ -75,6 +77,11 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
 
     this.results$ = this.getResults();
 
+  }
+
+  public ngOnDestroy() {
+    this.onDestroy$.next(null);
+    this.onDestroy$.complete();
   }
 
   getSearchCoords() {
@@ -137,11 +144,6 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
     return this.createGroup.get('location')
       .valueChanges
       .filter((location) => !!location);
-  }
-
-  public ngOnDestroy() {
-    this.onDestroy$.next(null);
-    this.onDestroy$.complete();
   }
 
   displayLocation(result) {
