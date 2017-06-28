@@ -15,3 +15,14 @@ pre {
   margin-top: 40px;
   opacity: 0.2;
 }
+
+.image-container {
+  position: relative;
+  padding-bottom: 300px;
+}
+
+.image-container img,
+.image-container svg {
+  position: absolute;
+
+}

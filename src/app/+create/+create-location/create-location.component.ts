@@ -147,7 +147,7 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
   handleSubmit($event) {
     $event.preventDefault();
     if (this.createGroup.valid) {
-      this.store.dispatch(go(['create', 'create-details']));
+      this.store.dispatch(go(['create', 'details']));
     }
   }
 

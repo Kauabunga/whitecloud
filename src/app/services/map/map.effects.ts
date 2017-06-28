@@ -64,25 +64,7 @@ export class MapEffects {
         .map((results: any) => new mapActions.SearchSuccessAction({query, results}))
         : this.searchCoordinates(query)
         .map((results: any[]) =>
-          // ensure formatted address are unique
-          results.filter((v, i, a) =>
-            a.indexOf(a.find((result) => result.formatted_address === v.formatted_address)) === i
-          )
-            // ensure we only display unique locations
-            .filter((v, i, a) =>
-              a.indexOf(a.find((result) => JSON.stringify(result.geometry.location) === JSON.stringify(v.geometry.location))) === i
-            )
-            // ignore new zealand
-            .filter((value) => value.formatted_address !== 'New Zealand')
-            // strip the 'New Zealand' from the strings
-            .map((value) =>
-              Object.assign({}, value, {
-                formatted_address: value.formatted_address.replace(', New Zealand', '').trim()
-              })
-            )
-            // Ignore any address that are just numbers
-            .filter((value) => isNaN(parseInt(value.formatted_address, 10)))
-
+          this.filterCoordsSearchResults(results)
         )
         .map((results: any[]) =>
           [
@@ -101,6 +83,27 @@ export class MapEffects {
     );
 
   constructor(private actions$: Actions, private zone: NgZone) {
+  }
+
+  filterCoordsSearchResults(results) {
+    // ensure formatted address are unique
+    return results.filter((v, i, a) =>
+      a.indexOf(a.find((result) => result.formatted_address === v.formatted_address)) === i
+    )
+    // ensure we only display unique locations
+      .filter((v, i, a) =>
+        a.indexOf(a.find((result) => JSON.stringify(result.geometry.location) === JSON.stringify(v.geometry.location))) === i
+      )
+      // ignore new zealand
+      .filter((value) => value.formatted_address !== 'New Zealand')
+      // strip the 'New Zealand' from the strings
+      .map((value) =>
+        Object.assign({}, value, {
+          formatted_address: value.formatted_address.replace(', New Zealand', '').trim()
+        })
+      )
+      // Ignore any address that are just numbers
+      .filter((value) => isNaN(parseInt(value.formatted_address, 10)));
   }
 
   getPlace(placeId: string) {

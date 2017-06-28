@@ -8,11 +8,11 @@ export const routes: Route[] = [
     canActivate: [CreateGuard], canDeactivate: [CreateGuard],
     component: CreateComponent,
     children: [
-      {path: 'create-location', data: {title: 'Create location'},
+      {path: 'location', data: {title: 'Create location'},
         loadChildren: './+create-location#CreateLocationModule'},
-      {path: 'create-details', data: {title: 'Create details'},
+      {path: 'details', data: {title: 'Create details'},
         loadChildren: './+create-details#CreateDetailsModule'},
-      {path: '**', redirectTo: 'create-location'},
+      {path: '**', redirectTo: 'location'},
     ]
   },
 ];

@@ -1,7 +1,7 @@
 <md-toolbar>
-  <a>
-    <button (click)="handlePrevious()"
-            md-tooltip="Previous event"
+
+  <a [routerLink]="['../', (prevId$ | async)]">
+    <button md-tooltip="Previous event"
             md-icon-button>
       <md-icon>arrow_back</md-icon>
     </button>
@@ -11,17 +11,41 @@
   <h1>{{(event$ | async)?.title}}</h1>
   <span class="fill"></span>
 
-  <a>
-    <button (click)="handleNext()"
-            md-tooltip="Next event"
+  <a [routerLink]="['../', (nextId$ | async)]">
+    <button md-tooltip="Next event"
             md-icon-button>
       <md-icon>arrow_forward</md-icon>
     </button>
   </a>
 </md-toolbar>
 
-<img *ngIf="(event$ | async)?.imageUrl"
-     [src]="(event$ | async)?.imageUrl"/>
+
+<div class="image-container">
+
+  <!--<img class="image-blur"-->
+       <!--[src]="(event$ | async)?.blur"/>-->
+
+  <svg xmlns="http://www.w3.org/2000/svg"
+       xmlns:xlink="http://www.w3.org/1999/xlink"
+       width="360" heigh="240"
+       viewBox="0 0 360 240">
+    <filter id="blur" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="20 20" edgeMode="duplicate" />
+      <feComponentTransfer>
+        <feFuncA type="discrete" tableValues="1 1" />
+      </feComponentTransfer>
+    </filter>
+    <image filter="url(#blur)"
+           [attr.xlink:href]="(event$ | async)?.blur"
+           x="0" y="0"
+           height="100%" width="100%"/>
+  </svg>
+
+
+  <img *ngIf="imageUrl"
+       class="image-hd"
+       [src]="imageUrl"/>
+</div>
 
 <article>
   <p>{{(event$ | async)?.description}}</p>

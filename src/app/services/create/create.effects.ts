@@ -47,7 +47,7 @@ export class CreateEffects {
     .switchMap(this.getCreateEvent.bind(this))
     .do(console.log.bind(console, 'createEvent'))
     .switchMap((createEvent) =>
-      Observable.from(eventsRef.push(createEvent))
+      Observable.from(eventsRef.push(this.transformCreateEvent(createEvent)))
         .mapTo(new createActions.SaveSuccessAction())
     );
 
@@ -60,8 +60,14 @@ export class CreateEffects {
 
   constructor(private actions$: Actions,
               private store: Store<State>,
-              public snackBar: MdSnackBar,
+              private snackBar: MdSnackBar,
               private zone: NgZone) {
+  }
+
+  public transformCreateEvent(event) {
+    return Object.assign({}, event, {
+      createdAt: new Date().toISOString()
+    });
   }
 
   public getCreateEvent() {
