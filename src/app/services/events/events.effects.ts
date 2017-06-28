@@ -22,7 +22,6 @@ const database = firebase.database();
 
 const eventsRef = database.ref('events');
 
-
 /**
  * Effects offer a way to isolate and easily test side-effects within your
  * application.
