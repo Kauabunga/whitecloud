@@ -23,6 +23,7 @@ build/Release
 
 # Function modules
 functions/node_modules/*
+functions/*firebase-adminsdk*.json
 
 # Users Environment Variables
 .lock-wscript
