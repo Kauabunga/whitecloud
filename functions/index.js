@@ -51,6 +51,7 @@ exports.generateThumbnail = functions.storage.object().onChange(event => {
   const filePathSplit = filePath.split('/');
   const fileName = filePathSplit.pop();
   const fileDir = filePathSplit.join('/') + (filePathSplit.length > 0 ? '/' : '');
+  const fileId = fileName.split('.')[0];
   const thumbFilePath = `${fileDir}${THUMB_PREFIX}${fileName}`;
   const tempLocalDir = `${LOCAL_TMP_FOLDER}${fileDir}`;
   const tempLocalFile = `${tempLocalDir}${fileName}`;
@@ -124,8 +125,8 @@ exports.generateThumbnail = functions.storage.object().onChange(event => {
       )
     }).then(base64 => {
       // Add the URLs to the Database
-      return ref.child('images')
-        .push({
+      return ref.child(`images/${fileId}`)
+        .set({
           path: fileUrl,
           base64: base64,
           thumbnail: thumbFileUrl
