@@ -2,14 +2,14 @@
       [formGroup]="createGroup"
       novalidate>
 
-  <h1>Select the location of the new event</h1>
+  <h1>Where did you catch the pest?</h1>
 
   <md-list>
 
     <h3 md-subheader>
       Click the map
       <span *ngIf="(placeSuggestions$ | async)?.length !== 0">
-        <br>Select a location
+        <br>Choose a location
       </span>
     </h3>
 

@@ -4,7 +4,9 @@ import { createSelector } from 'reselect';
  * exception will be thrown. This is useful during development mode to
  * ensure that none of the reducers accidentally mutates the state.
  */
-// import { storeFreeze } from 'ngrx-store-freeze';
+import { storeFreeze } from 'ngrx-store-freeze';
+import { localStorageSync } from 'ngrx-store-localstorage';
+
 /**
  * combineReducers is another useful metareducer that takes a map of reducer
  * functions and creates a new reducer that gathers the values
@@ -61,8 +63,21 @@ const reducers = {
 };
 
 // const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);
-const developmentReducer: ActionReducer<State> = combineReducers(reducers);
-const productionReducer: ActionReducer<State> = combineReducers(reducers);
+const developmentReducer: ActionReducer<State> = compose(
+  storeFreeze,
+  localStorageSync({
+    keys: ['events', 'map'],
+    rehydrate: true
+  }),
+  combineReducers,
+)(reducers);
+const productionReducer: ActionReducer<State> = compose(
+  localStorageSync({
+    keys: ['events', 'map'],
+    rehydrate: true
+  }),
+  combineReducers,
+)(reducers);
 
 export function reducer(state: any, action: any) {
   if ('production' === ENV) {

@@ -41,6 +41,15 @@ const BLUR_PREFIX = 'blur_';
 admin.initializeApp(functions.config().firebase);
 const ref = admin.database().ref();
 
+exports.newVersion = functions.https.onRequest((req, res) => {
+  return ref.child('version').set({
+      timestamp: new Date().toISOString(),
+    })
+    .then(() => res.status(200).send())
+    .catch((err) => res.status(500).send());
+  });
+
+
 /**
  * When an image is uploaded in the Storage bucket We generate a thumbnail automatically using
  * ImageMagick.

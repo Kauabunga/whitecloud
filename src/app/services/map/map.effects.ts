@@ -64,30 +64,13 @@ export class MapEffects {
         .map((results: any) => new mapActions.SearchSuccessAction({query, results}))
         : this.searchCoordinates(query)
         .map((results: any[]) =>
-          // ensure formatted address are unique
-          results.filter((v, i, a) =>
-            a.indexOf(a.find((result) => result.formatted_address === v.formatted_address)) === i
-          )
-            // ensure we only display unique locations
-            .filter((v, i, a) =>
-              a.indexOf(a.find((result) => JSON.stringify(result.geometry.location) === JSON.stringify(v.geometry.location))) === i
-            )
-            // ignore new zealand
-            .filter((value) => value.formatted_address !== 'New Zealand')
-            // strip the 'New Zealand' from the strings
-            .map((value) =>
-              Object.assign({}, value, {
-                formatted_address: value.formatted_address.replace(', New Zealand', '').trim()
-              })
-            )
-            // Ignore any address that are just numbers
-            .filter((value) => isNaN(parseInt(value.formatted_address, 10)))
-
+          this.filterCoordsSearchResults(results)
         )
         .map((results: any[]) =>
           [
             {
-              formatted_address: 'Current marker',
+              description: 'Current marker',
+              formatted_address: results[0] && results[0].formatted_address || 'Current marker',
               place_id: null,
               geometry: {
                 location: query
@@ -103,6 +86,38 @@ export class MapEffects {
   constructor(private actions$: Actions, private zone: NgZone) {
   }
 
+  filterCoordsSearchResults(results) {
+    console.log(results);
+    return results
+    // ensure we only display unique lat/lng locations
+      .filter((v, i, a) =>
+        a.indexOf(
+          a.find((result) => JSON.stringify(result.geometry.location) === JSON.stringify(v.geometry.location))
+        ) === i
+      )
+      // ignore new zealand
+      .filter((value) => value.formatted_address !== 'New Zealand')
+      // strip the 'New Zealand' from the strings
+      .map((value) =>
+        Object.assign({}, value, {
+          formatted_address: value.formatted_address
+            .replace(/\s\d\d\d\d/, '')
+            .replace(', New Zealand', '')
+            .trim()
+            .replace(/,$/, '')
+        })
+      )
+      // ensure formatted address are unique
+      .filter((v, i, a) =>
+        a.indexOf(a.find((result) =>
+        result.formatted_address.toLowerCase().replace(',', '').trim() ===
+        v.formatted_address.toLowerCase().replace(',', '').trim())) === i
+      )
+      // Ignore any address that are just numbers
+      .filter((value) => value.formatted_address.replace(/\d*/, '').trim().length !== 0)
+      .slice(0, 4);
+  }
+
   getPlace(placeId: string) {
     return Observable.from(new Promise((resolve, reject) =>
       this.getPlacesService().getDetails(
@@ -114,10 +129,12 @@ export class MapEffects {
 
   searchString(query: string) {
     return Observable.from(new Promise((resolve, reject) =>
-      this.getAutocompleteService().getQueryPredictions(
+      // this.getAutocompleteService().getQueryPredictions(
+      this.getAutocompleteService().getPlacePredictions(
         {
           input: query,
-          bounds: nzBounds
+          bounds: nzBounds,
+          componentRestrictions: {country: 'nz'}
         },
         (results) => resolve(results)
       )

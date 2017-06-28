@@ -15,7 +15,6 @@ export interface State {
   event: Event;
 
 }
-;
 
 export const initialState: State = {
 
@@ -30,6 +29,8 @@ export const initialState: State = {
     title: null,
     imageUrl: null,
     description: null,
+    owner: null,
+    pest: null,
     location: {
       coords: null,
       bounds: null,
@@ -44,16 +45,14 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
   switch (action.type) {
 
     case map.CLICK:
-
       if (!state.selectingLocation) {
         return state;
       }
-
       const coords = action.payload;
       return {
         selectingLocation: state.selectingLocation,
         saving: state.saving,
-        searchQuery: state.searchQuery,
+        searchQuery: null,
         searchCoords: coords,
         event: Object.assign({}, state.event, {
           location: Object.assign({}, state.event.location, {
@@ -62,9 +61,25 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
         })
       };
 
+    case map.SEARCH: {
+      let query = action.payload;
+      console.log('map.SEARCH', query);
+      return Object.assign({}, state, {
+        searchQuery: typeof query === 'string' ? action.payload : null,
+        searchCoords: typeof query !== 'string' ? action.payload : null,
+      });
+    }
+
+    case create.SELECTING_LOCATION:
+      return Object.assign({}, state, {
+        selectingLocation: action.payload,
+      });
+
     case create.SAVE_SUCCESS:
     case create.RESET:
-      return initialState;
+      return Object.assign({}, initialState, {
+        selectingLocation: state.selectingLocation
+      });
 
     case create.SAVE:
       return {

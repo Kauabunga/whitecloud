@@ -3,11 +3,12 @@ import { DetailGuard } from './detail.guard';
 
 export const routes = [
   {
-    path: ':id', data: {title: 'Detail'},
+    path: ':id', data: {title: ''},
     canActivate: [DetailGuard], canDeactivate: [DetailGuard],
-    children: [
-      {path: '', component: DetailComponent},
-      {path: 'child-detail', loadChildren: './+child-detail#ChildDetailModule'}
-    ]
+    component: DetailComponent,
+    // children: [
+    //   {path: '', },
+    //   {path: 'child-detail', loadChildren: './+child-detail#ChildDetailModule'}
+    // ]
   },
 ];

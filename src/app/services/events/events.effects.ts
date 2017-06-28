@@ -22,48 +22,6 @@ const database = firebase.database();
 
 const eventsRef = database.ref('events');
 
-// clearAndRandomiseEvents();
-
-function clearAndRandomiseEvents() {
-  let clearUpdates = {};
-  clearUpdates['/events'] = {};
-  firebase.database().ref().update(clearUpdates)
-    .then(() => {
-      let updates = {};
-
-      for (let i = 0; i < 20; i++) {
-        let newEventKey = eventsRef.push().key;
-        updates['/events/' + newEventKey] = <Event> {
-          id: null,
-          title: newEventKey,
-          location: {
-            description: null,
-            coords: {
-              lat: getRandom(-36, -44),
-              lng: getRandom(170, 182),
-            },
-            bounds: null,
-            place_id: null,
-          },
-          imageUrl: 'https://unsplash.it/400/300/?random&asdf=' + Math.random(),
-          description: `
-          Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-          when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
-          It has survived not only five centuries, but also the leap into electronic typesetting,
-          remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset 
-          sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like
-          Aldus PageMaker including versions of Lorem Ipsum.`
-        };
-      }
-      firebase.database().ref().update(updates);
-    });
-
-  function getRandom(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-}
-
 /**
  * Effects offer a way to isolate and easily test side-effects within your
  * application.
@@ -105,6 +63,7 @@ export class EventsEffects {
     .switchMap(() => {
       let replay: ReplaySubject<Action[]> = new ReplaySubject();
 
+      // TODO listen to child events once loaded
       eventsRef.on('value', (snapshot) => this.handleValue(snapshot, replay));
       eventsRef.on('child_removed', (snapshot) => this.handleRemove(snapshot, replay));
 

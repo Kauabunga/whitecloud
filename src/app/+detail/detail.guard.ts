@@ -62,7 +62,6 @@ export class DetailGuard implements CanActivate, CanDeactivate<any> {
   hasEventInApi(id: string): Observable<boolean> {
     return this.eventsService.retrieveEvent(id)
       .take(1)
-      .do(console.error)
       .map((event) => new eventActions.LoadAction(event))
       .do((action: eventActions.LoadAction) => this.store.dispatch(action))
       .map((event) => !!event)

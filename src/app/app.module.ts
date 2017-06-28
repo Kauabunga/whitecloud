@@ -16,6 +16,7 @@ import { reducer } from './app.reducers';
  */
 import { ENV_PROVIDERS } from './environment';
 import { ROUTES } from './app.routes';
+import './offline';
 // App is our top level component
 import { AppComponent } from './app.component';
 import { AppState, InternalStateType } from './app.service';

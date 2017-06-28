@@ -6,6 +6,7 @@ import * as createActions from '../../services/create/create.actions';
 import { State } from '../../app.reducers';
 import { Store } from '@ngrx/store';
 import { Event } from '../../services/events/events.model';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'create-details',
@@ -24,20 +25,23 @@ export class CreateDetailsComponent implements OnInit {
 
   public ngOnInit() {
 
+    this.store.dispatch(new createActions.SelectingLocationAction(false));
+
     this.createGroup = this.formBuilder.group({
-      title: ['', Validators.required],
+      pest: ['', Validators.required],
+      owner: [''],
       description: [''],
     });
 
-    this.createGroup.get('title')
-      .valueChanges
-      .takeUntil(this.onDestroy$)
-      .subscribe((title) => this.store.dispatch(new createActions.UpdateAction({title} as Event)));
-
-    this.createGroup.get('description')
-      .valueChanges
-      .takeUntil(this.onDestroy$)
-      .subscribe((description) => this.store.dispatch(new createActions.UpdateAction({description} as Event)));
+    Observable.combineLatest(
+      this.createGroup.get('pest').valueChanges,
+      this.createGroup.get('owner').valueChanges,
+      this.createGroup.get('description').valueChanges,
+      () => null
+    ).takeUntil(this.onDestroy$)
+      .subscribe(() =>
+        this.store.dispatch(new createActions.UpdateAction(this.createGroup.value as Event))
+      );
 
   }
 

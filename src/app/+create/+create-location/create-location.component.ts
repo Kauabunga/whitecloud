@@ -35,6 +35,8 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
 
+    this.store.dispatch(new createActions.SelectingLocationAction(true));
+
     this.createGroup = this.formBuilder.group({
       location: ['', Validators.required],
     });
@@ -54,6 +56,10 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
         (coords, searches) => searches[getMapId(coords)]
       )
       .filter((places) => !!places)
+      .distinctUntilChanged()
+      .do((places) => this.createGroup.patchValue({
+        location: places[0],
+      }))
       .startWith([] as any);
 
     this.getLocationValue()
@@ -71,6 +77,11 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
 
     this.results$ = this.getResults();
 
+  }
+
+  public ngOnDestroy() {
+    this.onDestroy$.next(null);
+    this.onDestroy$.complete();
   }
 
   getSearchCoords() {
@@ -135,19 +146,16 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
       .filter((location) => !!location);
   }
 
-  public ngOnDestroy() {
-    this.onDestroy$.next(null);
-    this.onDestroy$.complete();
-  }
-
   displayLocation(result) {
-    return result && result.description || result.toString();
+    return result && result.description ||
+      result && result.formatted_address ||
+      result;
   }
 
   handleSubmit($event) {
     $event.preventDefault();
     if (this.createGroup.valid) {
-      this.store.dispatch(go(['create', 'create-details']));
+      this.store.dispatch(go(['create', 'details']));
     }
   }
 

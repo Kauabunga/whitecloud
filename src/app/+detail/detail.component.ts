@@ -16,6 +16,11 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   event$: Observable<Event>;
 
+  imageUrl: string;
+
+  nextId$: Observable<string>;
+  prevId$: Observable<string>;
+
   onDestroy$: ReplaySubject<null> = new ReplaySubject();
 
   constructor(public store: Store<State>) {
@@ -28,25 +33,29 @@ export class DetailComponent implements OnInit, OnDestroy {
       .distinctUntilChanged()
       .filter((event) => !!event);
 
+    this.event$
+      .map((event) => event.imageUrl)
+      .distinctUntilChanged()
+      .do(console.log)
+      .mergeMap((url) =>
+        Observable.of(url).delay(50).startWith(null),
+      )
+      .takeUntil(this.onDestroy$)
+      .subscribe((imageUrl) => this.imageUrl = imageUrl);
+
+    this.nextId$ = this.store.select(getEventsState)
+      .map(getNextId)
+      .distinctUntilChanged();
+
+    this.prevId$ = this.store.select(getEventsState)
+      .map(getPreviousId)
+      .distinctUntilChanged();
+
   }
 
   ngOnDestroy(): void {
     this.onDestroy$.next(null);
     this.onDestroy$.complete();
-  }
-
-  handleNext() {
-    return this.store.select(getEventsState)
-      .map(getNextId)
-      .first()
-      .subscribe((id) => this.store.dispatch(new eventsActions.SelectAction(id)));
-  }
-
-  handlePrevious() {
-    return this.store.select(getEventsState)
-      .map(getPreviousId)
-      .first()
-      .subscribe((id) => this.store.dispatch(new eventsActions.SelectAction(id)));
   }
 
 }

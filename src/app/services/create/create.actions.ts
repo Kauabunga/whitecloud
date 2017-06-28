@@ -8,7 +8,7 @@ export const INIT = '[Create] Init';
 export const RESET = '[Create] Reset';
 export const UPDATE = '[Create] Update';
 export const UPDATE_LOCATION = '[Create] Update location';
-export const FINISH_LOCATION = '[Create] Finish location';
+export const SELECTING_LOCATION = '[Create] Selecting location';
 
 /**
  * Every action is comprised of at least a type and an optional
@@ -34,6 +34,13 @@ export class UpdateLocationAction implements Action {
   }
 }
 
+export class SelectingLocationAction implements Action {
+  readonly type = SELECTING_LOCATION;
+
+  constructor(public payload: boolean) {
+  }
+}
+
 export class SaveAction implements Action {
   readonly type = SAVE;
 }
@@ -56,6 +63,7 @@ export class ResetAction implements Action {
  */
 export type Actions
   = InitAction
+  | SelectingLocationAction
   | SaveAction
   | SaveSuccessAction
   | SaveFailureAction
