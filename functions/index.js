@@ -25,11 +25,12 @@ const gcs = require('@google-cloud/storage')({
 const admin = require('firebase-admin');
 const spawn = require('child-process-promise').spawn;
 const LOCAL_TMP_FOLDER = '/tmp/';
+const base64Img = require('base64-img');
 
 // Max height and width of the thumbnail in pixels.
 const THUMB_MAX_HEIGHT = 40;
 const THUMB_MAX_WIDTH = 40;
-const THUMB_QUALITY = 20;
+const THUMB_QUALITY = 25;
 const THUMB_BLUR = '0x8';
 // Thumbnail prefix added to file names.
 const THUMB_PREFIX = 'blur_';
@@ -114,8 +115,23 @@ exports.generateThumbnail = functions.storage.object().onChange(event => {
     const originalResult = results[1];
     const thumbFileUrl = thumbResult[0];
     const fileUrl = originalResult[0];
-    // Add the URLs to the Database
-    return ref.child('images').push({path: fileUrl, thumbnail: thumbFileUrl});
+
+    return new Promise((success, failure) => {
+      base64Img.base64(tempLocalThumbFile, (err, data) =>
+        err
+          ? failure(err)
+          : success(data)
+      )
+    }).then(base64 => {
+      // Add the URLs to the Database
+      return ref.child('images')
+        .push({
+          path: fileUrl,
+          base64: base64,
+          thumbnail: thumbFileUrl
+        });
+    })
+
   }).catch(reason => {
     console.error(reason);
   });
