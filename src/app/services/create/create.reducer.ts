@@ -29,6 +29,8 @@ export const initialState: State = {
     title: null,
     imageUrl: null,
     description: null,
+    owner: null,
+    pest: null,
     location: {
       coords: null,
       bounds: null,
@@ -121,4 +123,3 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
 export const getCreateEvent = (state: State) => state.event;
 
 export const getSearchCoords = (state: State) => state.searchCoords;
-

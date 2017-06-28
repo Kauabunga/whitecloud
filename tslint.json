@@ -10,6 +10,7 @@
     "max-classes-per-file": false,
     "member-access": false,
     "semicolon": [true, "always"],
+    "one-line": false,
 
     // Custom
     "trailing-comma": [false, {"multiline": "always", "singleline": "never"}],
