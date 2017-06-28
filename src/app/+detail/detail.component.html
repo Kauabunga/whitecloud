@@ -21,10 +21,6 @@
 
 
 <div class="image-container">
-
-  <!--<img class="image-blur"-->
-       <!--[src]="(event$ | async)?.blur"/>-->
-
   <svg xmlns="http://www.w3.org/2000/svg"
        xmlns:xlink="http://www.w3.org/1999/xlink"
        width="360" heigh="240"
@@ -41,31 +37,17 @@
            height="100%" width="100%"/>
   </svg>
 
-
   <img *ngIf="imageUrl"
        class="image-hd"
        [src]="imageUrl"/>
 </div>
 
-<!--<svg xmlns="http://www.w3.org/2000/svg"-->
-     <!--xmlns:xlink="http://www.w3.org/1999/xlink">-->
-  <!--<filter id="blur"-->
-          <!--filterUnits="userSpaceOnUse"-->
-          <!--color-interpolation-filters="sRGB">-->
-    <!--<feGaussianBlur stdDeviation="20 20" edgeMode="duplicate" />-->
-    <!--<feComponentTransfer>-->
-      <!--<feFuncA type="discrete" tableValues="1 1" />-->
-    <!--</feComponentTransfer>-->
-  <!--</filter>-->
-  <!--<image filter="url(#blur)"-->
-         <!--xlink:href="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDACgcHiMeGSgjISMtKygwPGRBPDc3PHtYXUlkkYCZlo+AjIqgtObDoKrarYqMyP/L2u71////m8H////6/+b9//j/2wBDASstLTw1PHZBQXb4pYyl+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj4+Pj/wAARCAAbACgDASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAIEAQP/xAAoEAABAwMCBQQDAAAAAAAAAAABAAIDBBEScZETITEyQRQiNGGBguH/xAAYAQEBAAMAAAAAAAAAAAAAAAAABAECA//EABsRAAICAwEAAAAAAAAAAAAAAAABAhESIVET/9oADAMBAAIRAxEAPwAFOR4WGAjwqjVUwHeT+qwz05F+KBqCu2ZL5sidGubmWVhkp3jlM0aghKY4HD5MazkgoyRAWoVRhYTZs0bvzZCWjbY3pul8t/4gQNDrWvqVKXuvbI7pw53IZHdSU+lNIp4DMiMSPu6x1M3JtgSPK45ux7jukdI+9sjbVKYpFDqVrumW6FM2WTn73boSn0aP/9k="-->
-         <!--x="0" y="0"-->
-         <!--height="100%"-->
-         <!--width="100%"/>-->
-<!--</svg>-->
-
 <article>
   <p>{{(event$ | async)?.description}}</p>
+  <p>{{(event$ | async)?.createdAt}}</p>
+  <p>{{(event$ | async)?.location?.description}}</p>
+  <br>
+  <br>
   <pre>{{(event$ | async | json)}}</pre>
 </article>
 

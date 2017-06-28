@@ -99,6 +99,7 @@
     "firebase": "^4.1.3",
     "http-server": "^0.9.0",
     "ie-shim": "^0.1.0",
+    "moment": "^2.18.1",
     "ngrx-store-localstorage": "^0.1.8",
     "promise-polyfill": "^6.0.2",
     "random-cat": "^1.0.1",

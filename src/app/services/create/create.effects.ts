@@ -60,13 +60,12 @@ export class CreateEffects {
 
   constructor(private actions$: Actions,
               private store: Store<State>,
-              private snackBar: MdSnackBar,
-              private zone: NgZone) {
+              private snackBar: MdSnackBar) {
   }
 
   public transformCreateEvent(event) {
     return Object.assign({}, event, {
-      createdAt: new Date().toISOString()
+      createdAt: firebase.database.ServerValue.TIMESTAMP
     });
   }
 

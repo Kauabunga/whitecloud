@@ -69,7 +69,8 @@ export class MapEffects {
         .map((results: any[]) =>
           [
             {
-              formatted_address: 'Current marker',
+              description: 'Current marker',
+              formatted_address: results[0] && results[0].formatted_address || 'Current marker',
               place_id: null,
               geometry: {
                 location: query

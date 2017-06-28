@@ -4,11 +4,37 @@
 
   <h1>Add some details</h1>
 
+  <!--<md-input-container>-->
+    <!--<input mdInput-->
+           <!--formControlName="title"-->
+           <!--placeholder="Title">-->
+    <!--<md-error>Title is <strong>required</strong></md-error>-->
+  <!--</md-input-container>-->
+
+  <label class="radio-label">What was the pest</label>
+
+  <md-button-toggle-group #group="mdButtonToggleGroup"
+                          formControlName="pest">
+    <md-button-toggle value="rat">
+      Rat
+    </md-button-toggle>
+    <md-button-toggle value="mouse">
+      Mouse
+    </md-button-toggle>
+    <md-button-toggle value="possum">
+      Possum
+    </md-button-toggle>
+    <md-button-toggle value="stoat">
+      Stoat
+    </md-button-toggle>
+  </md-button-toggle-group>
+
+  <br>
+
   <md-input-container>
     <input mdInput
-           formControlName="title"
-           placeholder="Title">
-    <md-error>Title is <strong>required</strong></md-error>
+              formControlName="owner"
+              placeholder="Your name"/>
   </md-input-container>
 
   <br>
@@ -16,7 +42,7 @@
   <md-input-container>
     <textarea mdInput
               formControlName="description"
-              placeholder="Description"></textarea>
+              placeholder="Additional notes"></textarea>
   </md-input-container>
 
 
