@@ -54,6 +54,10 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
         (coords, searches) => searches[getMapId(coords)]
       )
       .filter((places) => !!places)
+      .distinctUntilChanged()
+      .do((places) => this.createGroup.patchValue({
+        location: places[0],
+      }))
       .startWith([] as any);
 
     this.getLocationValue()
@@ -141,7 +145,9 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
   }
 
   displayLocation(result) {
-    return result && result.description || result.toString();
+    return result && result.description ||
+      result && result.formatted_address ||
+      result;
   }
 
   handleSubmit($event) {

@@ -4,7 +4,7 @@ import 'rxjs/add/observable/combineLatest';
 import { Component, OnInit, ViewEncapsulation, OnDestroy, HostListener } from '@angular/core';
 import { getCreateState, getEventsState, getMapState, getRouterState, State } from './app.reducers';
 import { Store } from '@ngrx/store';
-import { getAll } from './services/events/events.reducer';
+import { getAll, getIds } from './services/events/events.reducer';
 import { Event } from './services/events/events.model';
 import { Observable } from 'rxjs/Observable';
 import * as mapActions from './services/map/map.actions';
@@ -36,6 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   menuState: 'over' | 'side' = 'side';
 
+
   title$: Observable<string>;
 
   // Google map instance
@@ -53,7 +54,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.map$ = this.getMap();
     this.title$ = this.getTitle();
     this.events$ = this.getEvents();
-
   }
 
   ngOnDestroy(): void {
@@ -72,7 +72,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (routeSnapshot.firstChild) {
       title = this.getDeepestTitle(routeSnapshot.firstChild) || title;
     }
-    return title || 'Title';
+    return title;
   }
 
   @HostListener('window:resize', ['$event'])

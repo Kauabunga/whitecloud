@@ -1,4 +1,12 @@
+
+<h1>Pests caught {{total$ | async}}</h1>
+
+<br>
+
+
+
 <md-list>
+  <h3 md-subheader>Latest catches</h3>
   <a [routerLink]="['/detail', event.id]"
      *ngFor="let event of events$ | async">
     <md-list-item>

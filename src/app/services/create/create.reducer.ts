@@ -44,16 +44,14 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
   switch (action.type) {
 
     case map.CLICK:
-
       if (!state.selectingLocation) {
         return state;
       }
-
       const coords = action.payload;
       return {
         selectingLocation: state.selectingLocation,
         saving: state.saving,
-        searchQuery: state.searchQuery,
+        searchQuery: null,
         searchCoords: coords,
         event: Object.assign({}, state.event, {
           location: Object.assign({}, state.event.location, {
@@ -61,6 +59,16 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
           })
         })
       };
+
+    case map.SEARCH: {
+      let query = action.payload;
+      console.log('map.SEARCH', query);
+      return {
+        searchQuery: typeof query === 'string' ? action.payload : null,
+        searchCoords: typeof query !== 'string' ? action.payload : null,
+        ...state,
+      };
+    }
 
     case create.SAVE_SUCCESS:
     case create.RESET:
