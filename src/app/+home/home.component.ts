@@ -27,11 +27,10 @@ export class HomeComponent implements OnInit {
       .debounceTime(0)
       .filter((events) => events.length !== 0);
 
-
     this.total$ = this.store.select(getEventsState)
       .map(getIds)
-      .map(ids => ids.length)
-      .filter(total => total !== 0);
+      .map((ids) => ids.length)
+      .filter((total) => total !== 0);
   }
 
 }

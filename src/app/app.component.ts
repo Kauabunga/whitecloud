@@ -36,7 +36,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   menuState: 'over' | 'side' = 'side';
 
-
   title$: Observable<string>;
 
   // Google map instance

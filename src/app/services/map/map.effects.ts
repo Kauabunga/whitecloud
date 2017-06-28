@@ -86,7 +86,7 @@ export class MapEffects {
   }
 
   filterCoordsSearchResults(results) {
-    console.log(results)
+    console.log(results);
     return results
     // ensure we only display unique lat/lng locations
       .filter((v, i, a) =>
