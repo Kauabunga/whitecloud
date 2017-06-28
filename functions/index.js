@@ -87,7 +87,7 @@ exports.generateThumbnail = functions.storage.object().onChange(event => {
       tempLocalFile,
       '-thumbnail', `${THUMB_MAX_WIDTH}x${THUMB_MAX_HEIGHT}>`,
       '-quality', `${THUMB_QUALITY}`,
-      '-blur', `${THUMB_BLUR}`,
+      // '-blur', `${THUMB_BLUR}`,
       tempLocalThumbFile
     ]);
   }).then(() => {
