@@ -8,13 +8,14 @@ import {
   MdAutocompleteModule, MdButtonModule, MdButtonToggleModule, MdInputModule,
   MdRadioModule
 } from '@angular/material';
+import { CreateDetailsGuard } from './create-details.guard';
 
 @NgModule({
   declarations: [
-    /**
-     * Components / Directives/ Pipes
-     */
     CreateDetailsComponent,
+  ],
+  providers: [
+    CreateDetailsGuard,
   ],
   imports: [
     CommonModule,

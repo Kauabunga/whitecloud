@@ -69,7 +69,6 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
     }
 
     case create.SELECTING_LOCATION:
-      console.log('SELECTING_LOCATION', action.payload);
       return Object.assign({}, state, {
         selectingLocation: action.payload,
       });
@@ -122,3 +121,4 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
 export const getCreateEvent = (state: State) => state.event;
 
 export const getSearchCoords = (state: State) => state.searchCoords;
+

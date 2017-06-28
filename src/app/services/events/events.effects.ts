@@ -83,9 +83,6 @@ export class EventsEffects {
   public handleValue(snapshot, replay) {
     const val = snapshot.val() || {};
 
-    Object.keys(val)
-      .map((key) => console.log(val[key]));
-
     const events = Object.keys(val)
       .map((key) => Object.assign(val[key], {id: key}));
 
