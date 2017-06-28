@@ -27,8 +27,9 @@ const spawn = require('child-process-promise').spawn;
 const LOCAL_TMP_FOLDER = '/tmp/';
 
 // Max height and width of the thumbnail in pixels.
-const THUMB_MAX_HEIGHT = 200;
-const THUMB_MAX_WIDTH = 200;
+const THUMB_MAX_HEIGHT = 50;
+const THUMB_MAX_WIDTH = 50;
+const THUMB_QUALITY = 5;
 // Thumbnail prefix added to file names.
 const THUMB_PREFIX = 'thumb_';
 admin.initializeApp(functions.config().firebase);
@@ -81,7 +82,12 @@ exports.generateThumbnail = functions.storage.object().onChange(event => {
   }).then(() => {
     console.log('The file has been downloaded to', tempLocalFile);
 // Generate a thumbnail using ImageMagick.
-    return spawn('convert', [tempLocalFile, '-thumbnail', `${THUMB_MAX_WIDTH}x${THUMB_MAX_HEIGHT}>`, tempLocalThumbFile]);
+    return spawn('convert', [
+      tempLocalFile,
+      '-thumbnail', `${THUMB_MAX_WIDTH}x${THUMB_MAX_HEIGHT}>`,
+      '-quality', `${THUMB_QUALITY}>`,
+      tempLocalThumbFile
+    ]);
   }).then(() => {
     console.log('Thumbnail created at', tempLocalThumbFile);
 // Uploading the Thumbnail.
