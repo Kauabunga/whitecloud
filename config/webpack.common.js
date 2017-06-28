@@ -34,8 +34,8 @@ const METADATA = {
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer(),
   HMR: HMR,
-  buildDate: JSON.stringify(new Date().toISOString()),
-  buildVersion: JSON.stringify(require('../package.json').version),
+  buildDate: new Date().toISOString(),
+  buildVersion: require('../package.json').version,
 };
 
 /**
