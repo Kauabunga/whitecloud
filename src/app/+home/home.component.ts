@@ -2,7 +2,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import { Component, OnInit } from '@angular/core';
 import { getEventsState, State } from '../app.reducers';
 import { getAll, getIds } from '../services/events/events.reducer';
-import { Event } from '../services/events/events.model';
+import { Event, Event } from '../services/events/events.model';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
@@ -23,9 +23,9 @@ export class HomeComponent implements OnInit {
   public ngOnInit() {
     this.events$ = this.store.select(getEventsState)
       .map(getAll)
+      .filter((events) => events.length !== 0)
       .distinctUntilChanged()
-      .debounceTime(0)
-      .filter((events) => events.length !== 0);
+      .debounceTime(0);
 
     this.total$ = this.store.select(getEventsState)
       .map(getIds)
@@ -33,4 +33,7 @@ export class HomeComponent implements OnInit {
       .filter((total) => total !== 0);
   }
 
+  public eventIdentity(event: Event) {
+    return event.id;
+  }
 }

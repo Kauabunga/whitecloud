@@ -1,6 +1,8 @@
 import { Bounds, Coords } from '../map/map.model';
 export interface Event {
 
+  createdAt?: number;
+
   id: string;
 
   location: EventLocation;
