@@ -29,8 +29,8 @@ const LOCAL_TMP_FOLDER = '/tmp/';
 // Max height and width of the thumbnail in pixels.
 const THUMB_MAX_HEIGHT = 40;
 const THUMB_MAX_WIDTH = 40;
-const THUMB_QUALITY = 1;
-const THUMB_BLUR = '0x5';
+const THUMB_QUALITY = 20;
+const THUMB_BLUR = '0x8';
 // Thumbnail prefix added to file names.
 const THUMB_PREFIX = 'blur_';
 admin.initializeApp(functions.config().firebase);
