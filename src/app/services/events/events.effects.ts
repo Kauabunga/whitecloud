@@ -105,7 +105,7 @@ export class EventsEffects {
     .switchMap(() => {
       let replay: ReplaySubject<Action[]> = new ReplaySubject();
 
-      // TODO child updated / added events?
+      // TODO listen to child events once loaded
       eventsRef.on('value', (snapshot) => this.handleValue(snapshot, replay));
       eventsRef.on('child_removed', (snapshot) => this.handleRemove(snapshot, replay));
 
@@ -124,8 +124,6 @@ export class EventsEffects {
 
   public handleValue(snapshot, replay) {
     const val = snapshot.val() || {};
-
-    console.log('snapshot', snapshot);
 
     Object.keys(val)
       .map((key) => console.log(val[key]));
