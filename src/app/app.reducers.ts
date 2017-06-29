@@ -36,12 +36,14 @@ import { compose } from '@ngrx/core/compose';
 import * as fromEvents from './services/events/events.reducer';
 import * as fromMap from './services/map/map.reducer';
 import * as fromCreate from './services/create/create.reducer';
+import * as fromAppVersion from './services/app-version/app-version.reducer';
 
 /**
  * As mentioned, we treat each reducer like a table in a database. This means
  * our top level state interface is just a map of keys to inner state types.
  */
 export interface State {
+  version: fromAppVersion.State;
   events: fromEvents.State;
   router: fromRouter.RouterState;
   create: fromCreate.State;
@@ -56,6 +58,7 @@ export interface State {
  * the result from right to left.
  */
 const reducers = {
+  version: fromAppVersion.reducer,
   events: fromEvents.reducer,
   router: fromRouter.routerReducer,
   create: fromCreate.reducer,
@@ -66,14 +69,14 @@ const reducers = {
 const developmentReducer: ActionReducer<State> = compose(
   storeFreeze,
   localStorageSync({
-    keys: ['events', 'map'],
+    keys: ['events', 'map', 'version'],
     rehydrate: true
   }),
   combineReducers,
 )(reducers);
 const productionReducer: ActionReducer<State> = compose(
   localStorageSync({
-    keys: ['events', 'map'],
+    keys: ['events', 'map', 'version'],
     rehydrate: true
   }),
   combineReducers,
@@ -88,6 +91,7 @@ export function reducer(state: any, action: any) {
 }
 
 export const getEventsState = (state: State, ...args) => state.events;
+export const getVersionState = (state: State, ...args) => state.version;
 export const getCreateState = (state: State, ...args) => state.create;
 export const getMapState = (state: State, ...args) => state.map;
 export const getRouterState = (state: State, ...args) => state.router.path;
