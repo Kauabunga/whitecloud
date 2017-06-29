@@ -24,10 +24,11 @@ matrix:
 
 env:
   global:
-    secure: "KETk4pGGW5Jvutf5yYMS8Uw1C6TDuR+OdB2yZE5jG9SRxoIKG0B6jyNXRX/jWJRSD8dh7DRXc/DwgQnIWzLbV1kxIAnU3f86oFtrnXp/Swj4PjIZRFFwpsKVHgmK/EOBBQhSjRBKYc5Az92rpX97fyh/dTTxFtQipQQUNfZDgJmGyc3km14W6sJgUd0HDTj7NaVrEH8HNrG/+3nsDXQFPdt2YJbra0Be7oEuif5Vde8jPw9IVkQatMrF3QgjPFRbRLft8SRiiElrOhRdDrevADM5eqE1YxUhvtGlFS5OCMk1dlh1/KwYq5SCfGCqYPVE9PA8smbupYEyTSzTuMT1n4+fPNZaBAvD5IVVgTGzQw4UmCYcS52PfBHq6Keg6TuqkRprYGWHAO2HMLj+Ow9q7NkGXOVsxnbuoxSUAUREQ8vsMrMiAMm+jl1KiqgCWD/Bf4V53MjiX/+lwkO202EpLlNYqiha5iP06AxbYgxL7Cu8pbTJFgdbGusSq5N3V+eVkCdcxho1GWHHAqBTZsXLLDFgzOiqRxi51C1bcZo3cGjopE9Q7H4LFRSetWXxvWM1HSHM3jvRrH9n3VExM1c698copxKBRmsEmcGXa4fmk+cWX2cMvfcYFUaIdSI0uDH6kA4nwV40DlT5h3tlmYbsChatn1UpjzLJ8zWgIzyYAUk="
+  - secure: KETk4pGGW5Jvutf5yYMS8Uw1C6TDuR+OdB2yZE5jG9SRxoIKG0B6jyNXRX/jWJRSD8dh7DRXc/DwgQnIWzLbV1kxIAnU3f86oFtrnXp/Swj4PjIZRFFwpsKVHgmK/EOBBQhSjRBKYc5Az92rpX97fyh/dTTxFtQipQQUNfZDgJmGyc3km14W6sJgUd0HDTj7NaVrEH8HNrG/+3nsDXQFPdt2YJbra0Be7oEuif5Vde8jPw9IVkQatMrF3QgjPFRbRLft8SRiiElrOhRdDrevADM5eqE1YxUhvtGlFS5OCMk1dlh1/KwYq5SCfGCqYPVE9PA8smbupYEyTSzTuMT1n4+fPNZaBAvD5IVVgTGzQw4UmCYcS52PfBHq6Keg6TuqkRprYGWHAO2HMLj+Ow9q7NkGXOVsxnbuoxSUAUREQ8vsMrMiAMm+jl1KiqgCWD/Bf4V53MjiX/+lwkO202EpLlNYqiha5iP06AxbYgxL7Cu8pbTJFgdbGusSq5N3V+eVkCdcxho1GWHHAqBTZsXLLDFgzOiqRxi51C1bcZo3cGjopE9Q7H4LFRSetWXxvWM1HSHM3jvRrH9n3VExM1c698copxKBRmsEmcGXa4fmk+cWX2cMvfcYFUaIdSI0uDH6kA4nwV40DlT5h3tlmYbsChatn1UpjzLJ8zWgIzyYAUk=
+  - secure: QTcJtgjp12oPdxbY/jFrOvyMsIsRQZtRs5wio68f2M3LTy1pQmHXdN1+xWTqyvVPsUXOZAEkbuypGbii8xhIAGmjQVkYfFltm++FHDD4RmDLgG04EJgp/a2CbHvZm8n4y5U9pI9vkctDDpdd3mugXCgdlxYcVCB7Vp6BF7ageyABm0quvltqC+dK4GnoK61wyHa2qzWtQiqyE5zfi1pd0CD4gVpgz+eAivkH4yFb68pvTEQI0aM7Yh7K/Vie96W/J3BGCkfd3BisIC4O8sWcWVP+6KlG1dY8vN4wGsQtxyhK89OIQDC7i0qHull7wD3Cfd9WoeKIwEFLiE2QI+pWfJDpf6iW/AdW4wsLNEu67/DINqPY9x73f/6Yob+/RbGwqoeDy67GY9mqiuyp4IENYjrLED+BMQiToNyuKc6gnLXG39Bqv7LlpPT7OuoL7V8UZr5J5rqA2pF0IyS7BKjlPnvexjjqvefY8AAhtRq0n5M1vE7yWu8wOniKJLsZ/DgpdvGzGdX4KWWWxfF7VQNoXUf/ws0BgioUXIyObB3rRNLkBhB0li36bXwRNODLtcc7hDBnNoMTWyScbL3HWOQK4NCtYTIOf4o+aP3pvdVo9w6lIkLiineRV0icyYSgUKRKpIcoano5LkXVEvRo22WCvo99lyHYqWtJw1lKlvUQZCY=
 
 before_install:
-  # decrypt firebase admin key
+  # decrypt firebase dev admin key
   - openssl aes-256-cbc -k "$encrypted_firebase_key" -in ./functions/whitecloud-dev-firebase-adminsdk-bhag6-f3a977c8bc.json.enc -out ./functions/whitecloud-dev-firebase-adminsdk-bhag6-f3a977c8bc.json -d
   # Install global node_modules
   - npm install npm@5 -g
@@ -59,5 +60,16 @@ before_script:
   - sleep 3
 
 script:
+  # increment the version
+  - npm version patch
+  # Build and deploy the app
   - npm run ci
-  - curl -k https://us-central1-whitecloud-dev.cloudfunctions.net/newVersion
+  # Commit patch version back to github
+  - git config --global user.email "travis@travis-ci.org"
+  - git config --global user.name "Travis CI"
+  - git add package.json
+  - git commit --message "Travis build: $TRAVIS_BUILD_NUMBER"
+  - git remote add origin-version https://${GH_TOKEN}@github.com/Kauabunga/whitecloud.git > /dev/null 2>&1
+  - git push --set-upstream origin-version master
+  # Trigger new version function
+  - curl -k https://us-central1-whitecloud-dev.cloudfunctions.net/newVersion?version=$(node -p -e "require('./package.json').version")
