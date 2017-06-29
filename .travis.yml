@@ -65,13 +65,13 @@ script:
   - git status
   - git checkout master
   - git diff --raw -p
-  - npm version patch
+  - npm version patch --git-tag-version=false
   # Build and deploy the app
   - npm run ci
   # Commit patch version back to github
   - git add package.json
   - git add package-lock.json
-  - git commit -m "Travis build [ci skip]"
+  - git commit -m "Travis build $(node -p -e "require('./package.json').version") [ci skip]"
   - git remote add origin-version https://${GH_TOKEN}@github.com/Kauabunga/whitecloud.git > /dev/null 2>&1
   # - git push origin-version master && git push origin-version master --tags
   - git push origin-version master
