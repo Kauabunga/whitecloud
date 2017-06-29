@@ -25,10 +25,10 @@ export class AppVersionEffects {
     .startWith(null)
     .mergeMap(() =>
       firebaseService.get<AppVersion>('version')
-        .map(version => version && version.version)
+        .map((version) => version && version.version)
         .combineLatest(
           this.store.select(getVersionState)
-            .map(version => version.version)
+            .map((version) => version.version)
             .first(),
           (serverVersion, clientVersion) => {
             this.updateToast(serverVersion, clientVersion);
