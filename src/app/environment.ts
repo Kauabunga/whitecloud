@@ -17,7 +17,7 @@ let PROVIDERS: any[] = [
  * Add env info
  */
 declare var METADATA;
-if(typeof METADATA !== 'undefined'){
+if (typeof METADATA !== 'undefined') {
   console.log(METADATA);
   (window as any).METADATA = METADATA;
 }
