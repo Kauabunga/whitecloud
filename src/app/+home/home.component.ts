@@ -5,12 +5,14 @@ import { getAll, getIds } from '../services/events/events.reducer';
 import { Event } from '../services/events/events.model';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { fadeInAnimation } from '../animations/fade-in.animation';
 
 @Component({
   selector: 'home',
-  providers: [],
   styleUrls: ['home.component.css'],
-  templateUrl: 'home.component.html'
+  templateUrl: 'home.component.html',
+  animations: [fadeInAnimation],
+  host: { '[@fadeInAnimation]': '' },
 })
 export class HomeComponent implements OnInit {
 
