@@ -68,7 +68,7 @@ script:
   - git config --global user.email "travis@travis-ci.org"
   - git config --global user.name "Travis CI"
   - git add package.json
-  - git commit --message "Travis build: $TRAVIS_BUILD_NUMBER"
+  - git commit -m "Travis build"
   - git remote add origin-version https://${GH_TOKEN}@github.com/Kauabunga/whitecloud.git > /dev/null 2>&1
   - git push --set-upstream origin-version master
   # Trigger new version function
