@@ -22,7 +22,7 @@ const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const ngcWebpack = require('ngc-webpack');
-//const PreloadWebpackPlugin = require('preload-webpack-plugin');
+const PreloadWebpackPlugin = require('preload-webpack-plugin');
 
 /**
  * Webpack Constants
@@ -246,21 +246,21 @@ module.exports = function (options) {
       /**
        * This enables tree shaking of the vendor modules
        */
-      // new CommonsChunkPlugin({
-      //   name: 'vendor',
-      //   chunks: ['main'],
-      //   minChunks: module => /node_modules/.test(module.resource)
-      // }),
+      new CommonsChunkPlugin({
+        name: 'vendor',
+        chunks: ['main'],
+        minChunks: module => /node_modules/.test(module.resource)
+      }),
       /**
        * Specify the correct order the scripts will be injected in
        */
-      // new CommonsChunkPlugin({
-      //   name: ['polyfills', 'vendor'].reverse()
-      // }),
-      // new CommonsChunkPlugin({
-      //   name: ['manifest'],
-      //   minChunks: Infinity,
-      // }),
+      new CommonsChunkPlugin({
+        name: ['polyfills', 'vendor'].reverse()
+      }),
+      new CommonsChunkPlugin({
+        name: ['manifest'],
+        minChunks: Infinity,
+      }),
 
       /**
        * Plugin: ContextReplacementPlugin
@@ -304,12 +304,12 @@ module.exports = function (options) {
        *
        * See: https://github.com/GoogleChrome/preload-webpack-plugin
        */
-      //new PreloadWebpackPlugin({
+      // new PreloadWebpackPlugin({
       //  rel: 'preload',
       //  as: 'script',
       //  include: ['polyfills', 'vendor', 'main'].reverse(),
       //  fileBlacklist: ['.css', '.map']
-      //}),
+      // }),
       //new PreloadWebpackPlugin({
       //  rel: 'prefetch',
       //  as: 'script',
@@ -324,7 +324,7 @@ module.exports = function (options) {
        * See: https://github.com/numical/script-ext-html-webpack-plugin
        */
       new ScriptExtHtmlWebpackPlugin({
-        sync: /polyfill|vendor/,
+        sync: /polyfill|vendor|main/,
         defaultAttribute: 'async',
         preload: [/polyfill|vendor|main/],
         prefetch: [/chunk/]

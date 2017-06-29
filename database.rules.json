@@ -3,6 +3,14 @@
     "events": {
       ".read": "true",
       ".write": "true"
+    },
+    "images": {
+      ".read": "true",
+      ".write": "true"
+    },
+    "version": {
+      ".read": "true",
+      ".write": "true"
     }
   }
 }

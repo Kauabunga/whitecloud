@@ -42,8 +42,11 @@ admin.initializeApp(functions.config().firebase);
 const ref = admin.database().ref();
 
 exports.newVersion = functions.https.onRequest((req, res) => {
+  const version = req.query && req.query.version || null;
+  console.log('newVersion', version);
   return ref.child('version').set({
       timestamp: new Date().toISOString(),
+      version: version,
     })
     .then(() => res.status(200).send())
     .catch((err) => res.status(500).send());

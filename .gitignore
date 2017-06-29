@@ -21,6 +21,10 @@ coverage
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
 
+# Lock files
+package-lock.json
+functions/package-lock.json
+
 # Function modules
 functions/node_modules/*
 functions/*firebase-adminsdk*.json

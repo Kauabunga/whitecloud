@@ -11,6 +11,7 @@ import * as createActions from '../services/create/create.actions';
 import * as mapActions from '../services/map/map.actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { getMapId, getPlaces, getSearches } from '../services/map/map.reducer';
+import { fadeInAnimation } from '../animations/fade-in.animation';
 
 /**
  * We're loading this component asynchronously
@@ -21,6 +22,7 @@ import { getMapId, getPlaces, getSearches } from '../services/map/map.reducer';
   selector: 'create',
   styleUrls: ['./create.component.css'],
   templateUrl: './create.component.html',
+  animations: [fadeInAnimation],
 })
 export class CreateComponent implements OnInit, OnDestroy {
 

@@ -11,11 +11,13 @@ import { EventLocation } from '../../services/events/events.model';
 import { getMapId, getPlaces, getSearches } from '../../services/map/map.reducer';
 import { getCreateEvent, getSearchCoords } from '../../services/create/create.reducer';
 import { go } from '@ngrx/router-store';
+import { fadeInAnimation } from '../../animations/fade-in.animation';
 
 @Component({
   selector: 'create-location',
   styleUrls: ['./create-location.component.css'],
   templateUrl: './create-location.component.html',
+  animations: [fadeInAnimation],
 })
 export class CreateLocationComponent implements OnInit, OnDestroy {
 

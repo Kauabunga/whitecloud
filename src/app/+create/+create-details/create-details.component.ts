@@ -8,11 +8,13 @@ import { Store } from '@ngrx/store';
 import { Event } from '../../services/events/events.model';
 import { Observable } from 'rxjs/Observable';
 import { getCreateEvent } from '../../services/create/create.reducer';
+import { fadeInAnimation } from '../../animations/fade-in.animation';
 
 @Component({
   selector: 'create-details',
   styleUrls: ['./create-details.component.css'],
   templateUrl: './create-details.component.html',
+  animations: [fadeInAnimation],
 })
 export class CreateDetailsComponent implements OnInit {
 

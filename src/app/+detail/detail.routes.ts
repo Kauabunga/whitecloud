@@ -6,9 +6,8 @@ export const routes = [
     path: ':id', data: {title: ''},
     canActivate: [DetailGuard], canDeactivate: [DetailGuard],
     component: DetailComponent,
-    // children: [
-    //   {path: '', },
-    //   {path: 'child-detail', loadChildren: './+child-detail#ChildDetailModule'}
-    // ]
+    children: [
+      {path: '', loadChildren: './+child-detail#ChildDetailModule'}
+    ]
   },
 ];
