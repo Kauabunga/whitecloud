@@ -21,11 +21,13 @@ export class AppVersionEffects {
     .ofType(null)
     .startWith(null)
     .mergeMap(() =>
-      firebaseService.get('version')
-        .map((version: AppVersion) =>
+      firebaseService.get<AppVersion>('version')
+        .do(console.error)
+        .map((version) =>
           new appVersionActions.UpdateAction(version && version.version)
         )
     )
+    .do(console.log.bind(console, 'version effects'))
     .filter((action) => !!action);
 
   constructor(private actions$: Actions) {
