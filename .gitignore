@@ -22,7 +22,6 @@ coverage
 build/Release
 
 # Lock files
-package-lock.json
 functions/package-lock.json
 
 # Function modules
