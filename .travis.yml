@@ -30,8 +30,6 @@ env:
 before_install:
   # decrypt firebase dev admin key
   - openssl aes-256-cbc -k "$encrypted_firebase_key" -in ./functions/whitecloud-dev-firebase-adminsdk-bhag6-f3a977c8bc.json.enc -out ./functions/whitecloud-dev-firebase-adminsdk-bhag6-f3a977c8bc.json -d
-  # Ensure our repo is clean
-  - git reset --hard HEAD
   # Install global node_modules
   - npm install npm@5 -g
   - npm install firebase-tools -g
@@ -40,7 +38,6 @@ before_install:
   - npm cache verify
   - npm prune
   - npm update
-  - npm install fs.realpath@1.X
   # Install functions node_modules
   - cd ./functions
   - npm cache verify
