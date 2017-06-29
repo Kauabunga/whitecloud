@@ -70,6 +70,7 @@ script:
   - git add package.json
   - git commit -m "Travis build [ci skip]"
   - git remote add origin-version https://${GH_TOKEN}@github.com/Kauabunga/whitecloud.git > /dev/null 2>&1
-  - git push origin-version master && git push origin-version master --tags
+  # - git push origin-version master && git push origin-version master --tags
+  - git push origin-version master
   # Trigger new version function
   - curl -k https://us-central1-whitecloud-dev.cloudfunctions.net/newVersion?version=$(node -p -e "require('./package.json').version")
