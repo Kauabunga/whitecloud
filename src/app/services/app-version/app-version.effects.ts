@@ -12,6 +12,7 @@ import { Observable } from 'rxjs/Observable';
 import * as firebaseService from '../firebase/firebase.service';
 import * as appVersionActions from './app-version.actions';
 import { AppVersion } from './app-version.model';
+import { getMetadata } from '../../environment';
 
 @Injectable()
 export class AppVersionEffects {
@@ -22,12 +23,16 @@ export class AppVersionEffects {
     .startWith(null)
     .mergeMap(() =>
       firebaseService.get<AppVersion>('version')
-        .do(console.error)
+        .map(version => version && version.version)
+        .do(version => {
+          if (version !== getMetadata().buildVersion) {
+            alert(`New version: ${version}`);
+          }
+        })
         .map((version) =>
-          new appVersionActions.UpdateAction(version && version.version)
+          new appVersionActions.UpdateAction(version)
         )
     )
-    .do(console.log.bind(console, 'version effects'))
     .filter((action) => !!action);
 
   constructor(private actions$: Actions) {

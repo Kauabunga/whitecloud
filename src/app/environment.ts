@@ -17,9 +17,13 @@ let PROVIDERS: any[] = [
  * Add env info
  */
 declare var METADATA;
-if (typeof METADATA !== 'undefined') {
-  console.log(METADATA);
-  (window as any).METADATA = METADATA;
+
+(window as any).METADATA = getMetadata();
+
+export function getMetadata(): { buildVersion: string } {
+  return typeof METADATA !== 'undefined'
+    ? METADATA
+    : {};
 }
 
 /**
