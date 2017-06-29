@@ -27,7 +27,10 @@ export class AppVersionEffects {
         .map(version => version && version.version)
         .do(version => {
           if (version !== getMetadata().buildVersion) {
-            this.snackBar.open('New update available', 'Update', {duration: 10000});
+            this.snackBar.open('New update available', 'Update', {duration: 10000})
+              .onAction().subscribe(() =>
+              window.location.reload(true)
+            );
           }
         })
         .map((version) =>
