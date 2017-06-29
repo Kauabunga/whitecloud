@@ -1,5 +1,5 @@
 import 'rxjs/add/operator/distinctUntilChanged';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { getEventsState, State } from '../app.reducers';
 import { getAll, getIds } from '../services/events/events.reducer';
 import { Event } from '../services/events/events.model';
@@ -12,7 +12,6 @@ import { fadeInAnimation } from '../animations/fade-in.animation';
   styleUrls: ['home.component.css'],
   templateUrl: 'home.component.html',
   animations: [fadeInAnimation],
-  host: { '[@fadeInAnimation]': '' },
 })
 export class HomeComponent implements OnInit {
 

@@ -37,6 +37,7 @@ import { MapEffects } from './services/map/map.effects';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EventsService } from './services/events/events.service';
 import { CommonModule } from '@angular/common';
+import { AppVersionEffects } from './services/app-version/app-version.effects';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -62,8 +63,6 @@ type StoreType = {
   imports: [
     BrowserModule,
     CommonModule,
-    // FormsModule,
-    // HttpModule,
     BrowserAnimationsModule,
 
     MdCardModule,
@@ -81,6 +80,7 @@ type StoreType = {
     EffectsModule.run(EventsEffects),
     EffectsModule.run(CreateEffects),
     EffectsModule.run(MapEffects),
+    EffectsModule.run(AppVersionEffects),
 
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyB_mwjIVMU_1GjjyiI4dsRU83JvDZyqAUY',
@@ -88,7 +88,6 @@ type StoreType = {
     }),
 
     RouterModule.forRoot(ROUTES, {useHash: true, preloadingStrategy: PreloadAllModules}),
-
   ],
   //   .concat(
   //   ENV === 'production'

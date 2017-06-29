@@ -18,7 +18,6 @@ import { fadeInAnimation } from '../../animations/fade-in.animation';
   styleUrls: ['./create-location.component.css'],
   templateUrl: './create-location.component.html',
   animations: [fadeInAnimation],
-  host: { '[@fadeInAnimation]': '' },
 })
 export class CreateLocationComponent implements OnInit, OnDestroy {
 

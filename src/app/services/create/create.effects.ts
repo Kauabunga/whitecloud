@@ -17,9 +17,9 @@ import { getCreateState, State } from '../../app.reducers';
 import { getCreateEvent } from './create.reducer';
 import { go } from '@ngrx/router-store';
 import { MdSnackBar } from '@angular/material';
+import * as firebaseService from '../firebase/firebase.service';
 
-const database = firebase.database();
-const eventsRef = database.ref('events');
+const eventsRef = 'events';
 
 /**
  * Effects offer a way to isolate and easily test side-effects within your
@@ -47,9 +47,8 @@ export class CreateEffects {
     .switchMap(this.getCreateEvent.bind(this))
     .do(console.log.bind(console, 'createEvent'))
     .switchMap((createEvent) =>
-      Observable.from(eventsRef.push(this.transformCreateEvent(createEvent)))
-        .mapTo(new createActions.SaveSuccessAction())
-    );
+      firebaseService.push(eventsRef, createEvent)
+    ).mapTo(new createActions.SaveSuccessAction());
 
   @Effect()
   saveSuccess$: Observable<Action> = this.actions$
@@ -61,12 +60,6 @@ export class CreateEffects {
   constructor(private actions$: Actions,
               private store: Store<State>,
               private snackBar: MdSnackBar) {
-  }
-
-  public transformCreateEvent(event) {
-    return Object.assign({}, event, {
-      createdAt: firebase.database.ServerValue.TIMESTAMP
-    });
   }
 
   public getCreateEvent() {

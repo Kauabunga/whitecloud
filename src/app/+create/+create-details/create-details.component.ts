@@ -14,7 +14,6 @@ import { fadeInAnimation } from '../../animations/fade-in.animation';
   styleUrls: ['./create-details.component.css'],
   templateUrl: './create-details.component.html',
   animations: [fadeInAnimation],
-  host: { '[@fadeInAnimation]': '' },
 })
 export class CreateDetailsComponent implements OnInit {
 

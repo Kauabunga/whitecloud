@@ -23,7 +23,6 @@ import { fadeInAnimation } from '../animations/fade-in.animation';
   styleUrls: ['./create.component.css'],
   templateUrl: './create.component.html',
   animations: [fadeInAnimation],
-  host: { '[@fadeInAnimation]': '' },
 })
 export class CreateComponent implements OnInit, OnDestroy {
 
