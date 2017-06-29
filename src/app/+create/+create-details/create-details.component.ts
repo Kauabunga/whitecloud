@@ -3,10 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import * as createActions from '../../services/create/create.actions';
-import { State } from '../../app.reducers';
+import { getCreateState, State } from '../../app.reducers';
 import { Store } from '@ngrx/store';
 import { Event } from '../../services/events/events.model';
 import { Observable } from 'rxjs/Observable';
+import { getCreateEvent } from '../../services/create/create.reducer';
 
 @Component({
   selector: 'create-details',
@@ -17,6 +18,8 @@ export class CreateDetailsComponent implements OnInit {
 
   createGroup: FormGroup;
 
+  event$: Observable<Event>;
+
   onDestroy$: Subject<null> = new ReplaySubject();
 
   constructor(public formBuilder: FormBuilder,
@@ -26,6 +29,10 @@ export class CreateDetailsComponent implements OnInit {
   public ngOnInit() {
 
     this.store.dispatch(new createActions.SelectingLocationAction(false));
+
+    this.event$ = this.store.select(getCreateState)
+      .map(getCreateEvent)
+      .distinctUntilChanged();
 
     this.createGroup = this.formBuilder.group({
       pest: ['', Validators.required],

@@ -67,11 +67,16 @@ export class MapEffects {
           this.filterCoordsSearchResults(results)
         )
         .map((results: any[]) =>
+
+        // TODO join this @ container level
+        // TODO flatten all place_id into single redux layer
+        // TODO take this into searchLocation redux layer
+        // TODO model these objects
           [
             {
               description: 'Current marker',
               formatted_address: results[0] && results[0].formatted_address || 'Current marker',
-              place_id: null,
+              place_id: 'current_marker',
               geometry: {
                 location: query
               }

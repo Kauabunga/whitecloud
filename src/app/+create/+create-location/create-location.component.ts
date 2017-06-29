@@ -43,6 +43,7 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
 
     this.getSearchCoords()
       .takeUntil(this.onDestroy$)
+      .filter((coords) => coords && coords.lat && !!coords.lng)
       .subscribe((coords) => {
         this.store.dispatch(new mapActions.SearchAction({
           lat: coords.lat,

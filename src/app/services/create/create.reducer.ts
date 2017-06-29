@@ -92,6 +92,7 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
 
     case create.UPDATE:
       const event = action.payload;
+      console.log('create.UPDATE', event);
       return {
         selectingLocation: state.selectingLocation,
         saving: state.saving,

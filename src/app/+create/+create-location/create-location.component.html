@@ -6,25 +6,7 @@
 
   <md-list>
 
-    <h3 md-subheader>
-      Click the map
-      <span *ngIf="(placeSuggestions$ | async)?.length !== 0">
-        <br>Choose a location
-      </span>
-    </h3>
-
-    <md-radio-group formControlName="location">
-      <md-radio-button *ngFor="let place of placeSuggestions$ | async"
-                       [value]="place">
-        <div class="radio-content">
-          {{place.description || place.formatted_address}}
-        </div>
-      </md-radio-button>
-    </md-radio-group>
-
-    <md-divider></md-divider>
-
-    <h3 md-subheader>Or search for a location</h3>
+    <h3 md-subheader>Search for a location</h3>
 
     <md-list-item>
       <md-input-container>
@@ -42,6 +24,23 @@
         </md-option>
       </md-autocomplete>
     </md-list-item>
+
+
+    <h3 md-subheader>
+      Or click the map
+      <span *ngIf="(placeSuggestions$ | async)?.length !== 0">
+        <br>Choose a location
+      </span>
+    </h3>
+
+    <md-radio-group formControlName="location">
+      <md-radio-button *ngFor="let place of placeSuggestions$ | async"
+                       [value]="place">
+        <div class="radio-content">
+          {{place.description || place.formatted_address}}
+        </div>
+      </md-radio-button>
+    </md-radio-group>
 
     <md-list-item>
       <span class="fill"></span>
