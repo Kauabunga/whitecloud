@@ -37,12 +37,12 @@ before_install:
   # Install node_modules
   - npm cache verify
   - npm prune
-  - npm update
+  # - npm update
   # Install functions node_modules
   - cd ./functions
   - npm cache verify
   - npm prune
-  - npm update
+  # - npm update
   - cd ..
 
 install:
