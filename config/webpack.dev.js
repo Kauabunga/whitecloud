@@ -18,17 +18,25 @@ const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 /**
  * Webpack Constants
  */
+const COMMON_METADATA = require('./webpack.common').METADATA;
 const ENV = process.env.ENV = process.env.NODE_ENV = 'development';
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 3000;
 const HMR = helpers.hasProcessFlag('hot');
-const METADATA = webpackMerge(commonConfig({env: ENV}).metadata, {
+const METADATA = webpackMerge(COMMON_METADATA, commonConfig({env: ENV}).metadata, {
   host: HOST,
   port: PORT,
   ENV: ENV,
-  HMR: HMR
+  HMR: HMR,
+  // Added
+  buildDate: new Date().toISOString(),
+  buildVersion: require('../package.json').version,
+  travisBuildNumber: process.env.TRAVIS_BUILD_NUMBER,
+  travisCommit: process.env.TRAVIS_COMMIT,
+  travisCommitRange: process.env.TRAVIS_COMMIT_RANGE,
 });
 
+console.log(METADATA);
 
 // const DllBundlesPlugin = require('webpack-dll-bundles-plugin').DllBundlesPlugin;
 
@@ -139,7 +147,8 @@ module.exports = function (options) {
           'ENV': JSON.stringify(METADATA.ENV),
           'NODE_ENV': JSON.stringify(METADATA.ENV),
           'HMR': METADATA.HMR,
-        }
+        },
+        'METADATA': JSON.stringify(METADATA)
       }),
 
       // new DllBundlesPlugin({

@@ -32,13 +32,17 @@ const OfflinePlugin = require('offline-plugin');
 const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 const HOST = process.env.HOST || 'localhost';
 const PORT = process.env.PORT || 8080;
-const METADATA = webpackMerge(commonConfig({
-  env: ENV
-}).metadata, {
+const METADATA = webpackMerge(commonConfig({env: ENV}).metadata, {
   host: HOST,
   port: PORT,
   ENV: ENV,
-  HMR: false
+  HMR: false,
+  // Added
+  buildDate: new Date().toISOString(),
+  buildVersion: require('../package.json').version,
+  travisBuildNumber: process.env.TRAVIS_BUILD_NUMBER,
+  travisCommit: process.env.TRAVIS_COMMIT,
+  travisCommitRange: process.env.TRAVIS_COMMIT_RANGE,
 });
 
 module.exports = function (env) {
@@ -168,7 +172,8 @@ module.exports = function (env) {
           'ENV': JSON.stringify(METADATA.ENV),
           'NODE_ENV': JSON.stringify(METADATA.ENV),
           'HMR': METADATA.HMR,
-        }
+        },
+        'METADATA': JSON.stringify(METADATA)
       }),
 
       /**

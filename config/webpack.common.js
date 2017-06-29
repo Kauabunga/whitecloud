@@ -33,9 +33,7 @@ const METADATA = {
   title: 'Race to the top',
   baseUrl: '/',
   isDevServer: helpers.isWebpackDevServer(),
-  HMR: HMR,
-  buildDate: new Date().toISOString(),
-  buildVersion: require('../package.json').version,
+  HMR: HMR
 };
 
 /**

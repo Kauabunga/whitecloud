@@ -60,13 +60,15 @@ before_script:
 
 script:
   # increment the version
+  - git config --global user.email "travis@travis-ci.org"
+  - git config --global user.name "Travis CI"
+  - git status
+  - git checkout master
   - git diff --raw -p
   - npm version patch
   # Build and deploy the app
   - npm run ci
   # Commit patch version back to github
-  - git config --global user.email "travis@travis-ci.org"
-  - git config --global user.name "Travis CI"
   - git add package.json
   - git add package-lock.json
   - git commit -m "Travis build [ci skip]"
