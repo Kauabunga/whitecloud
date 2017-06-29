@@ -63,6 +63,7 @@ before_script:
 
 script:
   # increment the version
+  - git diff --raw -p
   - npm version patch
   # Build and deploy the app
   - npm run ci
