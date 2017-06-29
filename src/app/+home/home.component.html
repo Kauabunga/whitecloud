@@ -3,7 +3,7 @@
 
 <br>
 
-<md-list>
+<md-nav-list>
   <h3 md-subheader>Latest catches</h3>
   <a [routerLink]="['/detail', event.id]"
      *ngFor="let event of events$ | async; trackBy:eventIdentity">
@@ -11,5 +11,5 @@
       <div>{{event.title || event.location?.description || event.createdAt}}</div>
     </md-list-item>
   </a>
-</md-list>
+</md-nav-list>
 

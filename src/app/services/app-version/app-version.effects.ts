@@ -13,6 +13,7 @@ import * as firebaseService from '../firebase/firebase.service';
 import * as appVersionActions from './app-version.actions';
 import { AppVersion } from './app-version.model';
 import { getMetadata } from '../../environment';
+import { MdSnackBar } from '@angular/material';
 
 @Injectable()
 export class AppVersionEffects {
@@ -26,7 +27,7 @@ export class AppVersionEffects {
         .map(version => version && version.version)
         .do(version => {
           if (version !== getMetadata().buildVersion) {
-            alert(`New version: ${version}`);
+            this.snackBar.open('New update available', 'Update', {duration: 10000});
           }
         })
         .map((version) =>
@@ -35,7 +36,8 @@ export class AppVersionEffects {
     )
     .filter((action) => !!action);
 
-  constructor(private actions$: Actions) {
+  constructor(private actions$: Actions,
+              private snackBar: MdSnackBar) {
   }
 
 }
