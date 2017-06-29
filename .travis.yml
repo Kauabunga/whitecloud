@@ -30,6 +30,8 @@ env:
 before_install:
   # decrypt firebase dev admin key
   - openssl aes-256-cbc -k "$encrypted_firebase_key" -in ./functions/whitecloud-dev-firebase-adminsdk-bhag6-f3a977c8bc.json.enc -out ./functions/whitecloud-dev-firebase-adminsdk-bhag6-f3a977c8bc.json -d
+  # Ensure our repo is clean
+  - git reset --hard HEAD
   # Install global node_modules
   - npm install npm@5 -g
   - npm install firebase-tools -g
@@ -70,6 +72,6 @@ script:
   - git add package.json
   - git commit -m "Travis build"
   - git remote add origin-version https://${GH_TOKEN}@github.com/Kauabunga/whitecloud.git > /dev/null 2>&1
-  - git push --set-upstream origin-version master
+  - git push origin-version master
   # Trigger new version function
   - curl -k https://us-central1-whitecloud-dev.cloudfunctions.net/newVersion?version=$(node -p -e "require('./package.json').version")
