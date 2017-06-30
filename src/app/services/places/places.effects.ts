@@ -25,7 +25,7 @@ const nzBounds = {
 };
 
 @Injectable()
-export class PlaceEffects {
+export class PlacesEffects {
 
   @Effect()
   lookup$: Observable<Action> = this.actions$

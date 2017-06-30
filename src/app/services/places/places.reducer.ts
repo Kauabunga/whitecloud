@@ -2,7 +2,7 @@ import * as place from './places.actions';
 import { Place } from './places.model';
 
 export interface State {
-  search: { [id: string]: { description: string } };
+  search: { [id: string]: Place[] };
   places: { [id: string]: Place };
 }
 
@@ -34,6 +34,7 @@ export function reducer(state = initialState, action: place.Actions): State {
         search: state.search,
       };
     }
+
     default: {
       return state;
     }

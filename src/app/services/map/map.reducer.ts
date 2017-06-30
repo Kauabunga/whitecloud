@@ -48,5 +48,4 @@ export function reducer(state = initialState, action: map.Actions): State {
 }
 
 export const getMap = (state: State) => state.map;
-
 export const getMapId = (coords: Coords) => `${coords.lng}${coords.lat}`;

@@ -35,6 +35,7 @@ import { GeolocationEffects } from './services/geolocation/geolocation.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { MapComponent } from './components/map/map.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { PlacesEffects } from './services/places/places.effects';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -69,6 +70,7 @@ let IMPORTS = [
   EffectsModule.run(MapEffects),
   EffectsModule.run(AppVersionEffects),
   EffectsModule.run(GeolocationEffects),
+  EffectsModule.run(PlacesEffects),
 
   AgmCoreModule.forRoot({
     apiKey: 'AIzaSyB_mwjIVMU_1GjjyiI4dsRU83JvDZyqAUY',
