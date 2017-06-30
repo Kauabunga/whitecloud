@@ -38,6 +38,7 @@ const METADATA = webpackMerge(commonConfig({env: ENV}).metadata, {
   ENV: ENV,
   HMR: false,
   // Added
+  __DEV__: false,
   buildDate: new Date().toISOString(),
   buildVersion: require('../package.json').version,
   travisBuildNumber: process.env.TRAVIS_BUILD_NUMBER,
@@ -173,7 +174,8 @@ module.exports = function (env) {
           'NODE_ENV': JSON.stringify(METADATA.ENV),
           'HMR': METADATA.HMR,
         },
-        'METADATA': JSON.stringify(METADATA)
+        'METADATA': JSON.stringify(METADATA),
+        '__DEV__': METADATA.__DEV__,
       }),
 
       /**
