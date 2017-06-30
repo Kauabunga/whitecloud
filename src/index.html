@@ -39,7 +39,6 @@
   <!-- Preload link tags will be injected by webpack here -->
 
   <style>
-
     html, body {
       height: 100%;
       margin: 0;
@@ -48,10 +47,12 @@
       font-family: 'Roboto', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', Arial, Lucida Grande, sans-serif;
     }
 
-    h1, h2, h3, h4, h5 {
+    h1, h2, h3, h4, h5, button {
       font-family: 'Roboto', 'Helvetica Neue Light', 'Helvetica Neue', 'Helvetica', Arial, Lucida Grande, sans-serif;
     }
+  </style>
 
+  <style>
     .loader-container {
       opacity: 0;
       transition: opacity 0.8s ease-in-out;
@@ -68,9 +69,11 @@
       opacity: 1;
     }
 
-    .loader-sidenav {
-      min-width: 360px;
-      overflow-y: scroll;
+    @media (min-width: 768px) {
+      .loader-sidenav {
+        min-width: 360px;
+        overflow-y: scroll;
+      }
     }
 
     .loader-sidenav-menu {
@@ -87,6 +90,64 @@
       justify-content: center;
     }
 
+    .loader-image {
+      transition: opacity 200ms ease;
+    }
+
+  </style>
+
+  <style>
+    .error-container {
+      opacity: 0;
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: opacity 200ms ease;
+    }
+
+    .error-container button {
+      box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
+      transform: translate3d(0, 0, 0);
+      transition: background .4s cubic-bezier(.25, .8, .25, 1), box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
+
+      background-color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+
+      box-sizing: border-box;
+      position: relative;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      cursor: pointer;
+      outline: 0;
+      border: none;
+      -webkit-tap-highlight-color: transparent;
+      display: inline-block;
+      white-space: nowrap;
+      text-decoration: none;
+      vertical-align: baseline;
+      text-align: center;
+      margin: 0;
+      min-width: 88px;
+      line-height: 36px;
+      padding: 0 16px;
+      border-radius: 2px;
+    }
+
+    .error-container button:hover {
+      background-color: rgba(0, 0, 0, .12);
+    }
+
+    .loader-container.show-error .error-container {
+      opacity: 1;
+    }
+
+    .loader-container.show-error .loader-image {
+      opacity: 0;
+    }
   </style>
 
 </head>
@@ -94,7 +155,7 @@
 <body build-date="<%= htmlWebpackPlugin.options.metadata.buildDate %>"
       version="<%= htmlWebpackPlugin.options.metadata.buildVersion %>">
 
-<app></app>
+<app id="app"></app>
 
 <div id="loader-container"
      class="loader-container">
@@ -104,16 +165,31 @@
   <div class="loader-main">
     <img class="loader-image"
          src="data:image/png;base64,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">
+    <div class="error-container">
+      <h1>Something has gone wrong</h1>
+      <button onclick="window.location.reload(true)">Try again</button>
+    </div>
   </div>
 </div>
+
 
 <script>
   (function () {
     var loader = document.getElementById('loader-container');
+
     loader.addEventListener('webkitTransitionEnd', function handle() {
-      loader.style.display = 'none';
-      loader.removeEventListener('webkitTransitionEnd', handle);
+      var app = document.getElementById('app');
+      if (app && app.children && app.children.length > 0) {
+        loader.style.display = 'none';
+        loader.removeEventListener('webkitTransitionEnd', handle);
+      }
     }, false);
+
+    setTimeout(() => {
+      if (loader) {
+        loader.classList.add('show-error');
+      }
+    }, 5000);
   })()
 </script>
 
