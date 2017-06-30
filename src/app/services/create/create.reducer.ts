@@ -1,5 +1,6 @@
 import * as create from './create.actions';
 import * as map from '../map/map.actions';
+import * as places from '../places/places.actions';
 import { Event } from '../events/events.model';
 import { Coords } from '../map/map.model';
 
@@ -39,7 +40,7 @@ export const initialState: State = {
   }
 };
 
-export function reducer(state = initialState, action: create.Actions | map.Actions): State {
+export function reducer(state = initialState, action: create.Actions | map.Actions | places.Actions): State {
 
   switch (action.type) {
 
@@ -60,7 +61,7 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
         })
       };
 
-    case map.SEARCH: {
+    case places.SEARCH: {
       let query = action.payload;
       console.log('map.SEARCH', query);
       return Object.assign({}, state, {

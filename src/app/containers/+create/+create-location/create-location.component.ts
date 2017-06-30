@@ -3,15 +3,17 @@ import { Observable } from 'rxjs/Observable';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Subject } from 'rxjs/Subject';
-import { getCreateState, getMapState, State } from '../../../app.reducers';
+import { getCreateState, getMapState, getPlacesState, State } from '../../../app.reducers';
 import { Store } from '@ngrx/store';
 import * as createActions from '../../../services/create/create.actions';
 import * as mapActions from '../../../services/map/map.actions';
+import * as placesActions from '../../../services/places/places.actions';
 import { EventLocation } from '../../../services/events/events.model';
-import { getMapId, getPlaces, getSearches } from '../../../services/map/map.reducer';
+import { getMapId } from '../../../services/map/map.reducer';
 import { getCreateEvent, getSearchCoords } from '../../../services/create/create.reducer';
 import { go } from '@ngrx/router-store';
 import { fadeInAnimation } from '../../../animations/fade-in.animation';
+import { getPlaces, getSearches } from '../../../services/places/places.reducer';
 
 @Component({
   selector: 'create-location',
@@ -47,7 +49,7 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
       .takeUntil(this.onDestroy$)
       .filter((coords) => coords && coords.lat && !!coords.lng)
       .subscribe((coords) => {
-        this.store.dispatch(new mapActions.SearchAction({
+        this.store.dispatch(new placesActions.SearchAction({
           lat: coords.lat,
           lng: coords.lng
         }));
@@ -55,7 +57,7 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
 
     this.placeSuggestions$ = this.getEventCoords()
       .combineLatest(
-        this.store.select(getMapState).map(getSearches),
+        this.store.select(getPlacesState).map(getSearches),
         (coords, searches) => searches[getMapId(coords)]
       )
       .filter((places) => !!places)
@@ -70,8 +72,8 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
       .takeUntil(this.onDestroy$)
       .subscribe((location) =>
         location.place_id
-          ? this.store.dispatch(new mapActions.LookupAction(location.place_id))
-          : this.store.dispatch(new mapActions.SearchAction(location))
+          ? this.store.dispatch(new placesActions.LookupAction(location.place_id))
+          : this.store.dispatch(new placesActions.SearchAction(location))
       );
 
     this.getPlace()
@@ -125,8 +127,7 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
       .takeUntil(this.onDestroy$)
       .distinctUntilChanged()
       .combineLatest(
-        this.store.select(getMapState)
-          .map(getPlaces),
+        this.store.select(getPlacesState).map(getPlaces),
         (location, places) => places[location.place_id]
       )
       .filter((location) => !!location)
@@ -136,8 +137,7 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
   getResults() {
     return this.getLocationValue()
       .combineLatest(
-        this.store.select(getMapState)
-          .map(getSearches),
+        this.store.select(getPlacesState).map(getSearches),
         (location, searches) => searches[this.displayLocation(location).trim()]
       )
       .filter((results) => !!results);

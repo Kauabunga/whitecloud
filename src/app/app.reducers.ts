@@ -9,6 +9,7 @@ import * as fromMap from './services/map/map.reducer';
 import * as fromCreate from './services/create/create.reducer';
 import * as fromAppVersion from './services/app-version/app-version.reducer';
 import * as fromGeolocation from './services/geolocation/geolocation.reducer';
+import * as fromPlaces from './services/places/places.reducer';
 
 export interface State {
   version: fromAppVersion.State;
@@ -17,6 +18,7 @@ export interface State {
   create: fromCreate.State;
   map: fromMap.State;
   geolocation: fromGeolocation.State;
+  places: fromPlaces.State;
 }
 
 const reducers = {
@@ -26,6 +28,7 @@ const reducers = {
   create: fromCreate.reducer,
   map: fromMap.reducer,
   geolocation: fromGeolocation.reducer,
+  places: fromPlaces.reducer,
 };
 
 const developmentReducer: ActionReducer<State> = compose(
@@ -58,3 +61,4 @@ export const getCreateState = (state: State, ...args) => state.create;
 export const getMapState = (state: State, ...args) => state.map;
 export const getRouterState = (state: State, ...args) => state.router.path;
 export const getGeolocationState = (state: State, ...args) => state.geolocation;
+export const getPlacesState = (state: State, ...args) => state.places;
