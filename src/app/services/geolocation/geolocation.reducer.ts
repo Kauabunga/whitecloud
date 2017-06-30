@@ -1,18 +1,39 @@
 import * as geolocation from './geolocation.actions';
+import { Geolocation } from './geolocation.model';
 
 export interface State {
+  geolocation: Geolocation;
 
+  sharingLocation: boolean;
+  notified: boolean;
 }
 
-export const initialState: State = {};
+export const initialState: State = {
+  geolocation: null,
+
+  sharingLocation: false,
+  notified: false,
+};
 
 export function reducer(state = initialState, action: geolocation.Actions): State {
 
   switch (action.type) {
 
     case geolocation.GET_GEOLOCATION:
-    case geolocation.GET_GEOLOCATION_FAILURE:
+      return {
+        geolocation: state.geolocation,
+        sharingLocation: state.sharingLocation,
+        notified: true,
+      };
+
     case geolocation.GET_GEOLOCATION_SUCCESS:
+      return {
+        geolocation: action.payload,
+        sharingLocation: state.sharingLocation,
+        notified: state.notified,
+      };
+
+    case geolocation.GET_GEOLOCATION_FAILURE:
       return state;
 
     default: {
@@ -20,3 +41,5 @@ export function reducer(state = initialState, action: geolocation.Actions): Stat
     }
   }
 }
+
+export const getCoords = (state: State) => state.geolocation && state.geolocation.coords;

@@ -5,8 +5,9 @@ export interface State {
   search: { [id: string]: { description: string } };
   places: { [id: string]: { description: string } };
   map: Map;
+
+  mapInstance?: any;
 }
-;
 
 export const initialState: State = {
   search: {},
@@ -14,6 +15,7 @@ export const initialState: State = {
   map: {
     lat: -41,
     lng: 172,
+    zoom: 6,
     bounds: {
       south: -47.408938145433844,
       west: 164.90283203125,
@@ -50,12 +52,13 @@ export function reducer(state = initialState, action: map.Actions): State {
     }
 
     case map.SET_CENTER: {
-      let {coords, bounds} = action.payload;
+      let {coords, bounds, zoom} = action.payload;
       return {
         map: Object.assign({}, map, {
           lat: coords.lat || initialState.map.lat,
           lng: coords.lng || initialState.map.lng,
-          bounds: bounds || initialState.map.bounds
+          bounds,
+          zoom: zoom || initialState.map.zoom,
         }),
         search: state.search,
         places: state.places,

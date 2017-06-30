@@ -3,6 +3,8 @@ export interface Map {
   lng: number;
 
   bounds: Bounds;
+
+  zoom: number;
 }
 
 export interface Coords {

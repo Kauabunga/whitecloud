@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { Geolocation } from './geolocation.model';
 
 export const GET_GEOLOCATION = '[Geolocation] Get';
 export const GET_GEOLOCATION_SUCCESS = '[Geolocation] Get success';
@@ -11,7 +12,7 @@ export class GetGeolocationAction implements Action {
 export class GetGeolocationSuccessAction implements Action {
   readonly type = GET_GEOLOCATION_SUCCESS;
 
-  constructor(public payload: Position) {
+  constructor(public payload: Geolocation) {
   }
 }
 

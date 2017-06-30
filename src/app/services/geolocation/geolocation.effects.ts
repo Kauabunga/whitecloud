@@ -26,7 +26,13 @@ export class GeolocationEffects {
       )
     )
     .map((position: Position) =>
-      new geolocationActions.GetGeolocationSuccessAction(position)
+      new geolocationActions.GetGeolocationSuccessAction({
+        coords: {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        },
+        timestamp: position.timestamp,
+      })
     )
     .catch((err: PositionError, errStream) =>
       Observable.of(new geolocationActions.GetGeolocationFailureAction(err))

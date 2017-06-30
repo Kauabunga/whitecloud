@@ -1,6 +1,13 @@
 import 'rxjs/add/operator/distinctUntilChanged';
-import { Component, OnInit, HostListener, Input, EventEmitter, Output } from '@angular/core';
-import { getEventsState, State, getCreateState, getRouterState, getMapState } from '../../app.reducers';
+import { Component, OnInit, HostListener, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
+import {
+  getEventsState,
+  State,
+  getCreateState,
+  getRouterState,
+  getMapState,
+  getGeolocationState
+} from '../../app.reducers';
 import { getAll } from '../../services/events/events.reducer';
 import { Event } from '../../services/events/events.model';
 import { Store } from '@ngrx/store';
@@ -8,11 +15,12 @@ import { Observable } from 'rxjs/Observable';
 import { fadeInAnimation } from '../../animations/fade-in.animation';
 import { Map } from '../../services/map/map.model';
 import { getCreateEvent } from '../../services/create/create.reducer';
-import * as mapReducer from '../../services/map/map.reducer';
 import { getMap } from '../../services/map/map.reducer';
 import * as mapActions from '../../services/map/map.actions';
 import * as geolocationActions from '../../services/geolocation/geolocation.actions';
 import { go } from '@ngrx/router-store';
+import { getCoords } from '../../services/geolocation/geolocation.reducer';
+import { ReplaySubject } from 'rxjs';
 
 @Component({
   selector: 'map',
@@ -20,13 +28,14 @@ import { go } from '@ngrx/router-store';
   templateUrl: 'map.component.html',
   animations: [fadeInAnimation],
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnDestroy {
 
   @Input()
   opened: boolean = true;
 
   events$: Observable<Event[]>;
   map$: Observable<Map>;
+  onDestroy$: ReplaySubject<null> = new ReplaySubject();
 
   height: number = 0;
   width: number = 0;
@@ -41,9 +50,23 @@ export class MapComponent implements OnInit {
   }
 
   public ngOnInit() {
+
     this.onResize();
+
     this.map$ = this.getMap();
     this.events$ = this.getEvents();
+
+    this.getUserLocation()
+      .takeUntil(this.onDestroy$)
+      .do(console.error)
+      .subscribe((coords) =>
+        this.store.dispatch(new mapActions.SetCenterAction({coords, zoom: 15}))
+      );
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next(null);
+    this.onDestroy$.complete();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -57,6 +80,13 @@ export class MapComponent implements OnInit {
     if (this.mapInstance) {
       (window as any).google.maps.event.trigger(this.mapInstance, 'resize');
     }
+  }
+
+  getUserLocation() {
+    return this.store.select(getGeolocationState)
+      .map(getCoords)
+      .distinctUntilChanged()
+      .skip(1);
   }
 
   getMap() {

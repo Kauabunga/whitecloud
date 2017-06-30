@@ -1,7 +1,7 @@
 <!-- primary content -->
 <agm-map *ngIf="height"
          (mapReady)="handleMapInit($event)"
-         [zoom]="6"
+         [zoom]="(map$ | async)?.zoom"
          [minZoom]="6"
          [clickableIcons]="false"
          [disableDefaultUI]="true"

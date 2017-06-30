@@ -33,7 +33,7 @@ export class ClickAction implements Action {
 export class SetCenterAction implements Action {
   readonly type = SET_CENTER;
 
-  constructor(public payload: {coords: Coords, bounds: Bounds}) {
+  constructor(public payload: {coords: Coords, zoom?: number, bounds?: Bounds}) {
   }
 }
 
