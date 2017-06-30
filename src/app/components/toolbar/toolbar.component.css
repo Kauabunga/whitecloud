@@ -1,0 +1,15 @@
+
+agm-map {
+  width: 100%;
+}
+
+.map-buttons {
+  margin: 36px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.map-buttons button {
+  margin-right: 6px;
+}

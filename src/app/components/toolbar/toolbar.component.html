@@ -1,0 +1,27 @@
+<md-toolbar>
+  <button md-icon-button
+          class="menu-button"
+          (click)="menu.emit()">
+    <md-icon>menu</md-icon>
+  </button>
+
+  <h1 class="title">{{title$ | async}}</h1>
+
+  <span class="fill"></span>
+
+  <a [routerLink]="['create']"
+     md-tooltip="Create event">
+    <button class="create-button"
+            md-icon-button>
+      <md-icon>add</md-icon>
+    </button>
+  </a>
+
+  <a [routerLink]="['']"
+     md-tooltip="Home"
+     (click)="home.emit()">
+    <button md-icon-button>
+      <md-icon>home</md-icon>
+    </button>
+  </a>
+</md-toolbar>

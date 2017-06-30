@@ -1,79 +1,23 @@
 <md-sidenav-container>
+
   <md-sidenav [mode]="menuState"
               [opened]="opened"
               (open)="handleSidenavOpen()"
               (close)="handleSidenavClose()">
-
     <main>
-      <md-toolbar>
-        <button md-icon-button
-                class="menu-button"
-                (click)="handleMenu()">
-          <md-icon>menu</md-icon>
-        </button>
 
-        <h1 class="title">{{title$ | async}}</h1>
-
-        <span class="fill"></span>
-
-        <a [routerLink]="['create']"
-           md-tooltip="Create event">
-          <button class="create-button"
-                  md-icon-button>
-            <md-icon>add</md-icon>
-          </button>
-        </a>
-
-        <a [routerLink]="['']"
-           md-tooltip="Home"
-           (click)="handleHome($event)">
-          <button md-icon-button>
-            <md-icon>home</md-icon>
-          </button>
-        </a>
-      </md-toolbar>
+      <toolbar (home)="handleHome()"
+               (menu)="handleMenu()"></toolbar>
 
       <div class="container">
         <router-outlet></router-outlet>
       </div>
-
     </main>
 
   </md-sidenav>
 
-  <!-- primary content -->
-
-  <agm-map *ngIf="height"
-           (mapReady)="handleMapInit($event)"
-           [zoom]="6"
-           [minZoom]="6"
-           [clickableIcons]="false"
-           [disableDefaultUI]="true"
-           [streetViewControl]="false"
-           [style.height.px]="height"
-           [style.minWidth.px]="width"
-           (mapClick)="handleMapClick($event)"
-           (boundsChange)="handleBoundsChange($event)"
-           (centerChange)="handleCenterChange($event)"
-           (zoomChange)="handleZoomChange($event)"
-           [fitBounds]="(map$ | async)?.bounds"
-           [latitude]="(map$ | async)?.lat"
-           [longitude]="(map$ | async)?.lng">
-
-    <agm-marker *ngFor="let event of events$ | async"
-                (markerClick)="handleMarker(event)"
-                [latitude]="event?.location?.coords?.lat"
-                [longitude]="event?.location?.coords?.lng"></agm-marker>
-  </agm-map>
-
-  <div class="fab-buttons">
-    <button (click)="handleResetMap()"
-            class="zoom-button"
-            md-tooltip="Reset zoom"
-            md-icon-button>
-      <md-icon>zoom_out_map</md-icon>
-    </button>
-  </div>
+  <map [opened]="opened"
+       (googleMap)="handleMapInstance($event)"></map>
 
   <button *ngIf="!opened"
           md-icon-button

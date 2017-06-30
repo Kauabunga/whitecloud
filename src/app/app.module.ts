@@ -33,6 +33,8 @@ import { CommonModule } from '@angular/common';
 import { AppVersionEffects } from './services/app-version/app-version.effects';
 import { GeolocationEffects } from './services/geolocation/geolocation.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { MapComponent } from './components/map/map.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -87,6 +89,8 @@ if (ENV === 'production'){
   bootstrap: [AppComponent],
   declarations: [
     AppComponent,
+    MapComponent,
+    ToolbarComponent,
     NoContentComponent,
   ],
   imports: IMPORTS,

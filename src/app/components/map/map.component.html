@@ -1,0 +1,39 @@
+<!-- primary content -->
+<agm-map *ngIf="height"
+         (mapReady)="handleMapInit($event)"
+         [zoom]="6"
+         [minZoom]="6"
+         [clickableIcons]="false"
+         [disableDefaultUI]="true"
+         [streetViewControl]="false"
+         [style.height.px]="height"
+         [style.minWidth.px]="width"
+         (mapClick)="handleMapClick($event)"
+         (boundsChange)="handleBoundsChange($event)"
+         (centerChange)="handleCenterChange($event)"
+         (zoomChange)="handleZoomChange($event)"
+         [fitBounds]="(map$ | async)?.bounds"
+         [latitude]="(map$ | async)?.lat"
+         [longitude]="(map$ | async)?.lng">
+
+  <agm-marker *ngFor="let event of events$ | async"
+              (markerClick)="handleMarker(event)"
+              [latitude]="event?.location?.coords?.lat"
+              [longitude]="event?.location?.coords?.lng"></agm-marker>
+</agm-map>
+
+<div class="map-buttons">
+  <button (click)="handleMyLocation()"
+          class="zoom-button"
+          md-tooltip="My location"
+          md-icon-button>
+    <md-icon>my_location</md-icon>
+  </button>
+  <button (click)="handleResetMap()"
+          class="zoom-button"
+          md-tooltip="Reset zoom"
+          md-icon-button>
+    <md-icon>zoom_out_map</md-icon>
+  </button>
+</div>
+

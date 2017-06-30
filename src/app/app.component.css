@@ -1,8 +1,3 @@
-
-agm-map {
-  width: 100%;
-}
-
 main {
   max-width: 360px;
   min-width: 360px;
@@ -20,17 +15,6 @@ md-sidenav {
 
 .title {
   margin-left: 12px;
-}
-
-.fab-buttons {
-  margin: 36px;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-.fab-buttons button {
-  margin-right: 6px;
 }
 
 a {
