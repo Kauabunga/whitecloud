@@ -10,7 +10,9 @@ export function reducer(state = initialState, action: geolocation.Actions): Stat
 
   switch (action.type) {
 
-    case geolocation.UPDATE:
+    case geolocation.GET_GEOLOCATION:
+    case geolocation.GET_GEOLOCATION_FAILURE:
+    case geolocation.GET_GEOLOCATION_SUCCESS:
       return state;
 
     default: {
