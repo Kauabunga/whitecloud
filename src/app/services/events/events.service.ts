@@ -5,7 +5,6 @@ import * as firebase from 'firebase';
 import { Event } from './events.model';
 
 const database = firebase.database();
-const eventsRef = database.ref('events');
 
 @Injectable()
 export class EventsService {

@@ -37,7 +37,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 // Application wide providers
 const APP_PROVIDERS = [
   EventsService,
-  // AppState,
 ];
 
 type StoreType = {
