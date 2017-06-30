@@ -10,3 +10,9 @@
 .mat-radio-container {
   flex-shrink: 0;
 }
+
+
+.mat-list .mat-list-item .mat-line,
+.mat-nav-list .mat-list-item .mat-line {
+  white-space: inherit;
+}

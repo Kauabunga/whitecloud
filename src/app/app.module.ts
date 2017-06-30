@@ -36,6 +36,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { MapComponent } from './components/map/map.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { PlacesEffects } from './services/places/places.effects';
+import { MomentPipe } from './pipes/moment/moment.pipe';
+import { PipesModule } from './pipes/pipes.module';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -49,9 +51,10 @@ type StoreType = {
 };
 
 let IMPORTS = [
+
   BrowserModule,
-  CommonModule,
   BrowserAnimationsModule,
+  CommonModule,
 
   MdCardModule,
   MdListModule,

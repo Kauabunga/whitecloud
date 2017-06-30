@@ -7,7 +7,8 @@
   <a [routerLink]="['/detail', event.id]"
      *ngFor="let event of events$ | async; trackBy:eventIdentity">
     <md-list-item>
-      <div>{{event.title || event.location?.description || event.createdAt}}</div>
+      <div md-line>{{event.title || event.location?.description}}</div>
+      <div md-line>{{event.createdAt | moment}}</div>
     </md-list-item>
   </a>
 </md-nav-list>

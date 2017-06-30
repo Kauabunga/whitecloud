@@ -43,7 +43,7 @@
 
 <article>
   <p>{{(event$ | async)?.description}}</p>
-  <p>{{(event$ | async)?.createdAt}}</p>
+  <p>{{(event$ | async)?.createdAt | moment}}</p>
   <p>{{(event$ | async)?.location?.description}}</p>
   <br>
   <br>

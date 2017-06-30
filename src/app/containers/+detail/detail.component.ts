@@ -5,11 +5,13 @@ import { getNextId, getPreviousId, getSelected } from '../../services/events/eve
 import { Observable } from 'rxjs/Observable';
 import { Event } from '../../services/events/events.model';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { fadeInAnimation } from '../../animations/fade-in.animation';
 
 @Component({
   selector: 'detail',
   templateUrl: 'detail.component.html',
   styleUrls: ['detail.component.css'],
+  animations: [fadeInAnimation],
 })
 export class DetailComponent implements OnInit, OnDestroy {
 
