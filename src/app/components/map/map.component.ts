@@ -114,5 +114,4 @@ export class MapComponent implements OnInit {
     this.store.dispatch(new mapActions.ResetAction());
   }
 
-
 }
