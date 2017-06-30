@@ -17,6 +17,7 @@
          [longitude]="(map$ | async)?.lng">
 
   <agm-marker *ngFor="let event of events$ | async"
+              [iconUrl]="'/assets/img/rat-marker.png'"
               (markerClick)="handleMarker(event)"
               [latitude]="event?.location?.coords?.lat"
               [longitude]="event?.location?.coords?.lng"></agm-marker>
