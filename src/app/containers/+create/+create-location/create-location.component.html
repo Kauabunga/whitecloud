@@ -36,8 +36,8 @@
     <md-radio-group formControlName="location">
       <md-radio-button *ngFor="let place of placeSuggestions$ | async"
                        [value]="place">
-        <div class="radio-content">
-          {{place.description || place.formatted_address}}
+        <div class="radio-content"
+             [innerHTML]="place.description || place.formatted_address">
         </div>
       </md-radio-button>
     </md-radio-group>

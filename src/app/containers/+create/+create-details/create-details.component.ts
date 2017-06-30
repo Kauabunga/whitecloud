@@ -24,6 +24,8 @@ export class CreateDetailsComponent implements OnInit {
 
   onDestroy$: Subject<null> = new ReplaySubject();
 
+  isDev: boolean = __DEV__;
+
   constructor(public formBuilder: FormBuilder,
               public store: Store<State>) {
   }

@@ -16,8 +16,6 @@ let PROVIDERS: any[] = [
 /**
  * Add env info
  */
-declare var METADATA;
-
 (window as any).METADATA = getMetadata();
 
 export function getMetadata(): { buildVersion: string } {

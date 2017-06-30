@@ -53,7 +53,6 @@
     </button>
   </div>
 
-
-  <pre>{{event$ | async | json}}</pre>
+  <pre *ngIf="isDev">{{event$ | async | json}}</pre>
 
 </form>

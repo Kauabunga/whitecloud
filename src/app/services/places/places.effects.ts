@@ -89,11 +89,7 @@ export class PlacesEffects {
       // strip the 'New Zealand' from the strings
       .map((value) =>
         Object.assign({}, value, {
-          formatted_address: value.formatted_address
-            .replace(/\s\d\d\d\d/, '')
-            .replace(', New Zealand', '')
-            .trim()
-            .replace(/,$/, '')
+          formatted_address: this.tidyAddress(value.formatted_address)
         })
       )
       // ensure formatted address are unique
@@ -105,6 +101,18 @@ export class PlacesEffects {
       // Ignore any address that are just numbers
       .filter((value) => value.formatted_address.replace(/\d*/, '').trim().length !== 0)
       .slice(0, 4);
+  }
+
+  tidyAddress(address: string) {
+    let tidyAddress = (address || '')
+      .replace(/\s\d\d\d\d/, '')
+      .replace(', New Zealand', '')
+      .trim()
+      .replace(/,$/, '');
+
+    // de widow
+    let pos = tidyAddress.lastIndexOf(' ');
+    return tidyAddress.substring(0, pos) + '&nbsp;' + tidyAddress.substring(pos + 1);
   }
 
   getPlace(placeId: string) {

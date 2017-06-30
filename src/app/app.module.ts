@@ -80,8 +80,8 @@ let IMPORTS = [
   RouterModule.forRoot(ROUTES, {useHash: true, preloadingStrategy: PreloadAllModules}),
 ];
 
-if (ENV === 'production'){
-  IMPORTS.push(StoreDevtoolsModule.instrumentOnlyWithExtension());
+if (ENV !== 'production') {
+  IMPORTS.push(StoreDevtoolsModule.instrumentOnlyWithExtension({maxAge: 10}));
 }
 
 /**

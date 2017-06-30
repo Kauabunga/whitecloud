@@ -47,7 +47,7 @@
   <p>{{(event$ | async)?.location?.description}}</p>
   <br>
   <br>
-  <pre>{{(event$ | async | json)}}</pre>
+  <pre *ngIf="isDev">{{(event$ | async | json)}}</pre>
 </article>
 
 <router-outlet></router-outlet>

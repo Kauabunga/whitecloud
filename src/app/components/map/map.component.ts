@@ -85,8 +85,8 @@ export class MapComponent implements OnInit, OnDestroy {
   getUserLocation() {
     return this.store.select(getGeolocationState)
       .map(getCoords)
-      .distinctUntilChanged()
-      .skip(1);
+      .skip(1)
+      .filter((coords) => !!coords);
   }
 
   getMap() {

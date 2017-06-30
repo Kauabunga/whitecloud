@@ -20,6 +20,8 @@ export class DetailComponent implements OnInit, OnDestroy {
   nextId$: Observable<string>;
   prevId$: Observable<string>;
 
+  isDev: boolean = __DEV__;
+
   onDestroy$: ReplaySubject<null> = new ReplaySubject();
 
   constructor(public store: Store<State>) {
