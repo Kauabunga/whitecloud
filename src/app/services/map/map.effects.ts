@@ -68,10 +68,10 @@ export class MapEffects {
         )
         .map((results: any[]) =>
 
-        // TODO join this @ container level
-        // TODO flatten all place_id into single redux layer
-        // TODO take this into searchLocation redux layer
-        // TODO model these objects
+          // TODO join this @ container level
+          // TODO flatten all place_id into single redux layer
+          // TODO take this into searchLocation redux layer
+          // TODO model these objects
           [
             {
               description: 'Current marker',

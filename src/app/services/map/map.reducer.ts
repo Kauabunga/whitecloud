@@ -1,4 +1,3 @@
-import { createSelector } from 'reselect';
 import * as map from './map.actions';
 import { Coords, Map } from './map.model';
 

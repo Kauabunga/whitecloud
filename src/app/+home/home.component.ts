@@ -1,5 +1,5 @@
 import 'rxjs/add/operator/distinctUntilChanged';
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { getEventsState, State } from '../app.reducers';
 import { getAll, getIds } from '../services/events/events.reducer';
 import { Event } from '../services/events/events.model';

@@ -4,7 +4,7 @@ import 'rxjs/add/observable/combineLatest';
 import { Component, OnInit, ViewEncapsulation, OnDestroy, HostListener } from '@angular/core';
 import { getCreateState, getEventsState, getMapState, getRouterState, State } from './app.reducers';
 import { Store } from '@ngrx/store';
-import { getAll, getIds } from './services/events/events.reducer';
+import { getAll } from './services/events/events.reducer';
 import { Event } from './services/events/events.model';
 import { Observable } from 'rxjs/Observable';
 import * as mapActions from './services/map/map.actions';

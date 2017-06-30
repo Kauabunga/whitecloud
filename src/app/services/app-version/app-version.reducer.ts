@@ -1,4 +1,3 @@
-import { createSelector } from 'reselect';
 import * as appVersion from './app-version.actions';
 
 export interface State {

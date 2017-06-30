@@ -11,7 +11,6 @@ import { CanActivate, ActivatedRouteSnapshot, CanDeactivate } from '@angular/rou
 import { Observable } from 'rxjs/Observable';
 import { getCreateState, State } from '../../app.reducers';
 import { go } from '@ngrx/router-store';
-import * as createActions from '../../services/create/create.actions';
 import { getCreateEvent } from '../../services/create/create.reducer';
 
 @Injectable()

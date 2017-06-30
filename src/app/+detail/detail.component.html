@@ -22,13 +22,12 @@
 
 <div class="image-container">
   <svg xmlns="http://www.w3.org/2000/svg"
-       xmlns:xlink="http://www.w3.org/1999/xlink"
        width="360" heigh="240"
        viewBox="0 0 360 240">
     <filter id="blur" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-      <feGaussianBlur stdDeviation="20 20" edgeMode="duplicate" />
+      <feGaussianBlur stdDeviation="20 20" edgeMode="duplicate"/>
       <feComponentTransfer>
-        <feFuncA type="discrete" tableValues="1 1" />
+        <feFuncA type="discrete" tableValues="1 1"/>
       </feComponentTransfer>
     </filter>
     <image filter="url(#blur)"

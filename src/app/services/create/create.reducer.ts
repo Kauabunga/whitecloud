@@ -1,4 +1,3 @@
-import { createSelector } from 'reselect';
 import * as create from './create.actions';
 import * as map from '../map/map.actions';
 import { Event } from '../events/events.model';

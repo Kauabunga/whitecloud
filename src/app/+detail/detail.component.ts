@@ -5,7 +5,6 @@ import { getNextId, getPreviousId, getSelected } from '../services/events/events
 import { Observable } from 'rxjs/Observable';
 import { Event } from '../services/events/events.model';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import * as eventsActions from '../services/events/events.actions';
 
 @Component({
   selector: 'detail',

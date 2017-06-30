@@ -12,7 +12,6 @@ import { Observable } from 'rxjs/Observable';
 import { from } from 'rxjs/observable/from';
 import * as firebase from 'firebase';
 import * as eventActions from './events.actions';
-import { Event } from './events.model';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { getEventsState, State } from '../../app.reducers';
 import { getEntities } from './events.reducer';

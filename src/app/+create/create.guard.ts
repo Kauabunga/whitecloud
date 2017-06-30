@@ -10,7 +10,6 @@ import { Store } from '@ngrx/store';
 import { CanActivate, ActivatedRouteSnapshot, CanDeactivate } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { State } from '../app.reducers';
-import { go } from '@ngrx/router-store';
 import * as createActions from '../services/create/create.actions';
 
 @Injectable()
