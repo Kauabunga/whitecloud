@@ -1,15 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { getEventsState, State } from '../app.reducers';
+import { getEventsState, State } from '../../app.reducers';
 import { Store } from '@ngrx/store';
-import { getNextId, getPreviousId, getSelected } from '../services/events/events.reducer';
+import { getNextId, getPreviousId, getSelected } from '../../services/events/events.reducer';
 import { Observable } from 'rxjs/Observable';
-import { Event } from '../services/events/events.model';
+import { Event } from '../../services/events/events.model';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 @Component({
   selector: 'detail',
-  templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.css'],
+  templateUrl: 'detail.component.html',
+  styleUrls: ['detail.component.css'],
 })
 export class DetailComponent implements OnInit, OnDestroy {
 

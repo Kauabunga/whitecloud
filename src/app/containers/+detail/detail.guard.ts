@@ -10,11 +10,11 @@ import { Store } from '@ngrx/store';
 import { CanActivate, ActivatedRouteSnapshot, CanDeactivate } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import * as eventActions from '../services/events/events.actions';
-import { SelectAction } from '../services/events/events.actions';
-import { getEventsState, State } from '../app.reducers';
-import { getEntities, getEventsLoaded } from '../services/events/events.reducer';
-import { EventsService } from '../services/events/events.service';
+import * as eventActions from '../../services/events/events.actions';
+import { SelectAction } from '../../services/events/events.actions';
+import { getEventsState, State } from '../../app.reducers';
+import { getEntities, getEventsLoaded } from '../../services/events/events.reducer';
+import { EventsService } from '../../services/events/events.service';
 import { go } from '@ngrx/router-store';
 
 /**

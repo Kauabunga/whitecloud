@@ -9,11 +9,12 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CanActivate, ActivatedRouteSnapshot, CanDeactivate } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { State } from '../app.reducers';
-import * as createActions from '../services/create/create.actions';
+import { getCreateState, State } from '../../../app.reducers';
+import { go } from '@ngrx/router-store';
+import { getCreateEvent } from '../../../services/create/create.reducer';
 
 @Injectable()
-export class CreateGuard implements CanActivate, CanDeactivate<any> {
+export class CreateDetailsGuard implements CanActivate, CanDeactivate<any> {
 
   constructor(private store: Store<State>) {
   }
@@ -23,8 +24,18 @@ export class CreateGuard implements CanActivate, CanDeactivate<any> {
   }
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-    this.store.dispatch(new createActions.ResetAction());
 
-    return Observable.of(true);
+    return this.store.select(getCreateState)
+      .map(getCreateEvent)
+      .take(1)
+      .map((event) => {
+        if (event && event.location && event.location.coords) {
+          return true;
+        }
+        else {
+          this.store.dispatch(go(['/', 'create', 'location']));
+          return false;
+        }
+      });
   }
 }

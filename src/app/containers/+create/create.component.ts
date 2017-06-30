@@ -1,17 +1,17 @@
 import 'rxjs/add/operator/combineLatest';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { getCreateState, getMapState, State } from '../app.reducers';
+import { getCreateState, getMapState, State } from '../../app.reducers';
 import { Store } from '@ngrx/store';
-import { getCreateEvent, getSearchCoords } from '../services/create/create.reducer';
-import { Event, EventLocation } from '../services/events/events.model';
+import { getCreateEvent, getSearchCoords } from '../../services/create/create.reducer';
+import { Event, EventLocation } from '../../services/events/events.model';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Subject } from 'rxjs/Subject';
-import * as createActions from '../services/create/create.actions';
-import * as mapActions from '../services/map/map.actions';
+import * as createActions from '../../services/create/create.actions';
+import * as mapActions from '../../services/map/map.actions';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { getMapId, getPlaces, getSearches } from '../services/map/map.reducer';
-import { fadeInAnimation } from '../animations/fade-in.animation';
+import { getMapId, getPlaces, getSearches } from '../../services/map/map.reducer';
+import { fadeInAnimation } from '../../animations/fade-in.animation';
 
 /**
  * We're loading this component asynchronously
@@ -20,8 +20,8 @@ import { fadeInAnimation } from '../animations/fade-in.animation';
  */
 @Component({
   selector: 'create',
-  styleUrls: ['./create.component.css'],
-  templateUrl: './create.component.html',
+  styleUrls: ['create.component.css'],
+  templateUrl: 'create.component.html',
   animations: [fadeInAnimation],
 })
 export class CreateComponent implements OnInit, OnDestroy {

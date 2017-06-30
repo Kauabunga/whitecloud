@@ -3,20 +3,20 @@ import { Observable } from 'rxjs/Observable';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Subject } from 'rxjs/Subject';
-import { getCreateState, getMapState, State } from '../../app.reducers';
+import { getCreateState, getMapState, State } from '../../../app.reducers';
 import { Store } from '@ngrx/store';
-import * as createActions from '../../services/create/create.actions';
-import * as mapActions from '../../services/map/map.actions';
-import { EventLocation } from '../../services/events/events.model';
-import { getMapId, getPlaces, getSearches } from '../../services/map/map.reducer';
-import { getCreateEvent, getSearchCoords } from '../../services/create/create.reducer';
+import * as createActions from '../../../services/create/create.actions';
+import * as mapActions from '../../../services/map/map.actions';
+import { EventLocation } from '../../../services/events/events.model';
+import { getMapId, getPlaces, getSearches } from '../../../services/map/map.reducer';
+import { getCreateEvent, getSearchCoords } from '../../../services/create/create.reducer';
 import { go } from '@ngrx/router-store';
-import { fadeInAnimation } from '../../animations/fade-in.animation';
+import { fadeInAnimation } from '../../../animations/fade-in.animation';
 
 @Component({
   selector: 'create-location',
-  styleUrls: ['./create-location.component.css'],
-  templateUrl: './create-location.component.html',
+  styleUrls: ['create-location.component.css'],
+  templateUrl: 'create-location.component.html',
   animations: [fadeInAnimation],
 })
 export class CreateLocationComponent implements OnInit, OnDestroy {

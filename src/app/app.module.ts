@@ -12,7 +12,7 @@ import { ROUTES } from './app.routes';
 import './offline';
 import { AppComponent } from './app.component';
 import { InternalStateType } from './app.service';
-import { NoContentComponent } from './no-content';
+import { NoContentComponent } from './containers/no-content';
 import '../styles/styles.scss';
 import {
   MdButtonModule,

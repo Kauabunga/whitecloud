@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { NoContentComponent } from './no-content';
+import { NoContentComponent } from './containers/no-content';
 
 export const ROUTES: Routes = [
-  {path: '', loadChildren: './+home#HomeModule'},
-  {path: 'create', loadChildren: './+create#CreateModule'},
-  {path: 'detail', loadChildren: './+detail#DetailModule'},
+  {path: '', loadChildren: './containers/+home#HomeModule'},
+  {path: 'create', loadChildren: './containers/+create#CreateModule'},
+  {path: 'detail', loadChildren: './containers/+detail#DetailModule'},
   {path: '**', component: NoContentComponent},
 ];

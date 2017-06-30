@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import * as createActions from '../../services/create/create.actions';
-import { getCreateState, State } from '../../app.reducers';
+import * as createActions from '../../../services/create/create.actions';
+import { getCreateState, State } from '../../../app.reducers';
 import { Store } from '@ngrx/store';
-import { Event } from '../../services/events/events.model';
+import { Event } from '../../../services/events/events.model';
 import { Observable } from 'rxjs/Observable';
-import { getCreateEvent } from '../../services/create/create.reducer';
-import { fadeInAnimation } from '../../animations/fade-in.animation';
+import { getCreateEvent } from '../../../services/create/create.reducer';
+import { fadeInAnimation } from '../../../animations/fade-in.animation';
 
 @Component({
   selector: 'create-details',
-  styleUrls: ['./create-details.component.css'],
-  templateUrl: './create-details.component.html',
+  styleUrls: ['create-details.component.css'],
+  templateUrl: 'create-details.component.html',
   animations: [fadeInAnimation],
 })
 export class CreateDetailsComponent implements OnInit {

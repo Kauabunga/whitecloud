@@ -1,11 +1,11 @@
 import 'rxjs/add/operator/distinctUntilChanged';
 import { Component, OnInit } from '@angular/core';
-import { getEventsState, State } from '../app.reducers';
-import { getAll, getIds } from '../services/events/events.reducer';
-import { Event } from '../services/events/events.model';
+import { getEventsState, State } from '../../app.reducers';
+import { getAll, getIds } from '../../services/events/events.reducer';
+import { Event } from '../../services/events/events.model';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
-import { fadeInAnimation } from '../animations/fade-in.animation';
+import { fadeInAnimation } from '../../animations/fade-in.animation';
 
 @Component({
   selector: 'home',
