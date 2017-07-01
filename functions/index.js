@@ -51,6 +51,7 @@ exports.newVersion = functions.https.onRequest((req, res) => {
   return ref.child('version').set({
       timestamp: new Date().toISOString(),
       version: version,
+      createdAt: admin.database.ServerValue.TIMESTAMP,
     })
     .then(() => res.status(200).send())
     .catch((err) => res.status(500).send());

@@ -78,7 +78,7 @@ export class PlacesEffects {
   filterCoordsSearchResults(results) {
     console.log(results);
     return results
-    // ensure we only display unique lat/lng locations
+      // ensure we only display unique lat/lng locations
       .filter((v, i, a) =>
         a.indexOf(
           a.find((result) => JSON.stringify(result.geometry.location) === JSON.stringify(v.geometry.location))
@@ -108,11 +108,13 @@ export class PlacesEffects {
       .replace(/\s\d\d\d\d/, '')
       .replace(', New Zealand', '')
       .trim()
-      .replace(/,$/, '');
+      .replace(/,$/, '')
+      .trim();
 
-    // de widow
     let pos = tidyAddress.lastIndexOf(' ');
-    return tidyAddress.substring(0, pos) + '&nbsp;' + tidyAddress.substring(pos + 1);
+    return pos > 0
+      ? tidyAddress.substring(0, pos) + '&nbsp;' + tidyAddress.substring(pos + 1)
+      : tidyAddress;
   }
 
   getPlace(placeId: string) {

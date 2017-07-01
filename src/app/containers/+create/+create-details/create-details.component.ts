@@ -59,8 +59,10 @@ export class CreateDetailsComponent implements OnInit {
       this.createGroup.get('pest').valueChanges,
       this.createGroup.get('owner').valueChanges,
       this.createGroup.get('description').valueChanges,
+      this.createGroup.get('imageId').valueChanges,
       () => null
     ).takeUntil(this.onDestroy$)
+      .do(console.log.bind(console, 'CHANGE create details', this.createGroup.value))
       .subscribe(() =>
         this.store.dispatch(new createActions.UpdateAction(this.createGroup.value as Event))
       );
@@ -81,8 +83,8 @@ export class CreateDetailsComponent implements OnInit {
   }
 
   handleImageChange($event) {
-    console.log('handleImageChange', $event);
     console.log('handleImageChange', $event.srcElement.files[0]);
+
     const file: File = $event.srcElement.files[0];
     const id = uuidv1();
 
