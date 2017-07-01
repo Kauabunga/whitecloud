@@ -1,13 +1,13 @@
 import { Action } from '@ngrx/store';
 import { Coords } from '../map/map.model';
 
-export const SEARCH = '[Map] Search';
-export const SEARCH_SUCCESS = '[Map] Search Success';
-export const SEARCH_FAILURE = '[Map] Search Failure';
+export const SEARCH = '[Places] Search';
+export const SEARCH_SUCCESS = '[Places] Search Success';
+export const SEARCH_FAILURE = '[Places] Search Failure';
 
-export const LOOKUP = '[Map] Lookup place';
-export const LOOKUP_SUCCESS = '[Map] Lookup place Success';
-export const LOOKUP_FAILURE = '[Map] Lookup place Failure';
+export const LOOKUP = '[Places] Lookup place';
+export const LOOKUP_SUCCESS = '[Places] Lookup place Success';
+export const LOOKUP_FAILURE = '[Places] Lookup place Failure';
 
 export class SearchAction implements Action {
   readonly type = SEARCH;

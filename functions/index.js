@@ -38,9 +38,13 @@ const BLUR_QUALITY = 25;
 // Thumbnail prefix added to file names.
 const THUMB_PREFIX = 'thumb_';
 const BLUR_PREFIX = 'blur_';
+
 admin.initializeApp(functions.config().firebase);
 const ref = admin.database().ref();
 
+/**
+ *
+ */
 exports.newVersion = functions.https.onRequest((req, res) => {
   const version = req.query && req.query.version || null;
   console.log('newVersion', version);

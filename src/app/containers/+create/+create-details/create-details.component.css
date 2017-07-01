@@ -6,6 +6,12 @@ form {
   flex-direction: column;
 }
 
+.pest-container,
+.button-container,
+md-input-container {
+  padding: 0 16px;
+}
+
 
 .button-container {
   display: flex;
@@ -39,10 +45,16 @@ form {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 48px;
+  height: 48px;
 }
 .image-container input {
   visibility: hidden;
   position: absolute;
+}
+
+
+.image-preview {
+  width: 60%;
+  margin: 0 20%;
 }

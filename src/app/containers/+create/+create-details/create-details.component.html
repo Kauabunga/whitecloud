@@ -1,7 +1,11 @@
 <form (submit)="handleSubmit($event)"
       [formGroup]="createGroup"
       [ngClass]="{'submitted': submitted}"
-      novalidate>
+      novalidate
+      [style.outlineColor]="dragging ? 'black' : 'yellow'"
+      (dragenter)="handleDragEnter()"
+      (dragleave)="handleDragLeave()"
+      (drop)="handleDrop($event)">
 
   <h1>What did you catch?</h1>
 
@@ -45,6 +49,10 @@
     </label>
 
   </div>
+
+  <img *ngIf="imagePreview"
+       [src]="imagePreview"
+       class="image-preview"/>
 
   <md-input-container>
     <input mdInput

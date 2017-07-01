@@ -10,6 +10,7 @@ import * as fromCreate from './services/create/create.reducer';
 import * as fromAppVersion from './services/app-version/app-version.reducer';
 import * as fromGeolocation from './services/geolocation/geolocation.reducer';
 import * as fromPlaces from './services/places/places.reducer';
+import * as fromImages from './services/images/images.reducer';
 
 export interface State {
   version: fromAppVersion.State;
@@ -19,6 +20,7 @@ export interface State {
   map: fromMap.State;
   geolocation: fromGeolocation.State;
   places: fromPlaces.State;
+  images: fromImages.State;
 }
 
 const reducers = {
@@ -29,6 +31,7 @@ const reducers = {
   map: fromMap.reducer,
   geolocation: fromGeolocation.reducer,
   places: fromPlaces.reducer,
+  images: fromImages.reducer,
 };
 
 const storageKeys = [
@@ -68,3 +71,4 @@ export const getMapState = (state: State, ...args) => state.map;
 export const getRouterState = (state: State, ...args) => state.router.path;
 export const getGeolocationState = (state: State, ...args) => state.geolocation;
 export const getPlacesState = (state: State, ...args) => state.places;
+export const getImagesState = (state: State, ...args) => state.images;

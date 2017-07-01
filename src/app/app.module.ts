@@ -38,6 +38,7 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { PlacesEffects } from './services/places/places.effects';
 import { MomentPipe } from './pipes/moment/moment.pipe';
 import { PipesModule } from './pipes/pipes.module';
+import { ImagesEffects } from './services/images/images.effects';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -74,6 +75,7 @@ let IMPORTS = [
   EffectsModule.run(AppVersionEffects),
   EffectsModule.run(GeolocationEffects),
   EffectsModule.run(PlacesEffects),
+  EffectsModule.run(ImagesEffects),
 
   AgmCoreModule.forRoot({
     apiKey: 'AIzaSyB_mwjIVMU_1GjjyiI4dsRU83JvDZyqAUY',
