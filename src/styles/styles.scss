@@ -7,12 +7,29 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
 
+// Ensure the point for radios do not shrink
 .mat-radio-container {
   flex-shrink: 0;
 }
 
-
+// Let lists wrap
 .mat-list .mat-list-item .mat-line,
 .mat-nav-list .mat-list-item .mat-line {
   white-space: inherit;
 }
+
+form.ng-valid button[type='submit'] {
+  background-color: #8BC34A;
+}
+
+
+
+form.submitted {
+  .mat-button-toggle-group.ng-invalid {
+    box-shadow: 0 3px 1px -2px rgba(244,67,54,.2), 0 2px 2px 0 rgba(244,67,54,.14), 0 1px 5px 0 rgba(244,67,54,.12);
+    .mat-button-toggle {
+      color: rgba(244,67,54,.98)
+    }
+  }
+}
+

@@ -5,11 +5,10 @@ import { RouterModule } from '@angular/router';
 import { routes } from './create-details.routes';
 import { CreateDetailsComponent } from './create-details.component';
 import {
-  MdAutocompleteModule,
   MdButtonModule,
-  MdButtonToggleModule,
+  MdButtonToggleModule, MdIconModule,
   MdInputModule,
-  MdRadioModule
+  MdTooltipModule
 } from '@angular/material';
 import { CreateDetailsGuard } from './create-details.guard';
 
@@ -26,8 +25,8 @@ import { CreateDetailsGuard } from './create-details.guard';
 
     MdInputModule,
     MdButtonModule,
-    MdAutocompleteModule,
-    MdRadioModule,
+    MdIconModule,
+    MdTooltipModule,
     MdButtonToggleModule,
 
     RouterModule.forChild(routes),

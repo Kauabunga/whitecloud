@@ -26,6 +26,8 @@ export class CreateDetailsComponent implements OnInit {
 
   isDev: boolean = __DEV__;
 
+  submitted: boolean = false;
+
   constructor(public formBuilder: FormBuilder,
               public store: Store<State>) {
   }
@@ -56,10 +58,17 @@ export class CreateDetailsComponent implements OnInit {
 
   }
 
+  handleImageChange($event) {
+    console.log('handleImageChange', $event);
+  }
+
   handleSubmit($event) {
-    $event.preventDefault();
+    // $event.preventDefault();
     if (this.createGroup.valid) {
       this.store.dispatch(new createActions.SaveAction());
+    }
+    else {
+      this.submitted = true;
     }
   }
 }

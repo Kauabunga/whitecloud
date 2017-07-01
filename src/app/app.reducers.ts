@@ -31,17 +31,23 @@ const reducers = {
   places: fromPlaces.reducer,
 };
 
+const storageKeys = [
+  'events',
+  'map',
+  'version',
+  'create',
+];
 const developmentReducer: ActionReducer<State> = compose(
   storeFreeze,
   localStorageSync({
-    keys: ['events', 'map', 'version'],
+    keys: storageKeys,
     rehydrate: true
   }),
   combineReducers,
 )(reducers);
 const productionReducer: ActionReducer<State> = compose(
   localStorageSync({
-    keys: ['events', 'map', 'version'],
+    keys: storageKeys,
     rehydrate: true
   }),
   combineReducers,

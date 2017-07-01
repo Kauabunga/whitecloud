@@ -6,11 +6,43 @@ form {
   flex-direction: column;
 }
 
-form.ng-valid button[type='submit'] {
-  background-color: #8BC34A;
-}
 
 .button-container {
   display: flex;
   justify-content: space-between;
+}
+
+.optional-details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.optional-details-header button {
+  flex-grow: 0;
+}
+.optional-details-header h3 {
+  margin: 24px 0 18px;
+}
+
+/* Pest container */
+.pest-container {
+  margin-bottom: 18px;
+}
+.pest-container md-error {
+  position: absolute;
+  margin-top: 8px;
+}
+
+/* Image container */
+.image-container {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+}
+.image-container input {
+  visibility: hidden;
+  position: absolute;
 }
