@@ -44,7 +44,8 @@ export class EventsEffects {
     .ofType(eventActions.INIT)
     .map(toPayload)
     .startWith(null)
-    .first()
+    .take(1)
+    .do(console.log.bind(console, 'init events'))
     .switchMap(() => {
       const replay: ReplaySubject<Action[]> = new ReplaySubject();
       // TODO listen to child events once loaded
@@ -52,6 +53,7 @@ export class EventsEffects {
       eventsRef.on('child_removed', (snapshot) => this.handleRemove(snapshot, replay));
       return replay;
     })
+    .do(console.log.bind(console, 'LOAD Events'))
     .mergeMap((actions: Action[]) => from(actions));
 
   constructor(private actions$: Actions,
