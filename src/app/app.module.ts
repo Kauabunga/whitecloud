@@ -36,8 +36,8 @@ import { MapComponent } from './components/map/map.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { PlacesEffects } from './services/places/places.effects';
 import { ImagesEffects } from './services/images/images.effects';
+import { StatsEffects } from './services/stats/stats.effects';
 
-// Application wide providers
 const APP_PROVIDERS = [
   EventsService,
 ];
@@ -67,6 +67,7 @@ const IMPORTS = [
   EffectsModule.run(GeolocationEffects),
   EffectsModule.run(PlacesEffects),
   EffectsModule.run(ImagesEffects),
+  EffectsModule.run(StatsEffects),
 
   AgmCoreModule.forRoot({
     apiKey: 'AIzaSyB_mwjIVMU_1GjjyiI4dsRU83JvDZyqAUY',
