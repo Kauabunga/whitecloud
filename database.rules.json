@@ -37,6 +37,10 @@
       "timestamp": {
         ".validate": "newData.isString()"
       }
+    },
+    "stats": {
+      ".read": "true",
+      ".write": "auth !== null"
     }
   }
 }
