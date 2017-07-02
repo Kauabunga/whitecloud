@@ -62,7 +62,7 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
       };
 
     case places.SEARCH: {
-      let query = action.payload;
+      const query = action.payload;
       console.log('map.SEARCH', query);
       return Object.assign({}, state, {
         searchQuery: typeof query === 'string' ? action.payload : null,

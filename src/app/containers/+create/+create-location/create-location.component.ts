@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ElementRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, ElementRef, HostBinding } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -32,6 +32,8 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
   onDestroy$: Subject<null> = new ReplaySubject();
 
   auto: ElementRef;
+
+  @HostBinding('@fadeInAnimation') animation;
 
   constructor(public formBuilder: FormBuilder,
               public store: Store<State>) {
@@ -105,8 +107,8 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
   }
 
   handleNewPlace(place) {
-    let bounds = place.geometry.viewport;
-    let location = place.geometry.location;
+    const bounds = place.geometry.viewport;
+    const location = place.geometry.location;
 
     this.store.dispatch(new createActions.UpdateLocationAction({
       coords: location.toJSON(),

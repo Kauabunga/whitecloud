@@ -16,7 +16,7 @@ export function reducer(state = initialState, action: place.Actions): State {
   switch (action.type) {
 
     case place.SEARCH_SUCCESS: {
-      let {query, results} = action.payload;
+      const {query, results} = action.payload;
       return {
         search: Object.assign({}, state.search, {
           [query]: results
@@ -26,7 +26,7 @@ export function reducer(state = initialState, action: place.Actions): State {
     }
 
     case place.LOOKUP_SUCCESS: {
-      let {query, results} = action.payload;
+      const {query, results} = action.payload;
       return {
         places: Object.assign({}, state.places, {
           [query]: results

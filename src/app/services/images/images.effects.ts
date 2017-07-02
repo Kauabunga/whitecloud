@@ -5,7 +5,7 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/takeUntil';
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Effect, Actions, toPayload } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';

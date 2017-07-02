@@ -2,9 +2,14 @@ import * as image from './images.actions';
 import { Image } from './images.model';
 
 export interface State {
+  images: {
+    [id: string]: Image;
+  };
 }
 
-export const initialState: State = {};
+export const initialState: State = {
+  images: {},
+};
 
 export function reducer(state = initialState, action: image.Actions): State {
 

@@ -4,13 +4,13 @@ import * as firebase from 'firebase';
 const database = firebase.database();
 
 export function set(ref: string, obj: any): Observable<any> {
-  return Observable.from(
+  return Observable.from<any>(
     database.ref(ref).set(obj)
   );
 }
 
 export function push(ref: string, obj: any): Observable<any> {
-  return Observable.from(
+  return Observable.from<any>(
     database.ref(ref).push(Object.assign({}, obj, {
       createdAt: firebase.database.ServerValue.TIMESTAMP
     }))
@@ -18,7 +18,7 @@ export function push(ref: string, obj: any): Observable<any> {
 }
 
 export function get<T>(ref: string): Observable<T> {
-  let replay: ReplaySubject<T> = new ReplaySubject();
+  const replay: ReplaySubject<T> = new ReplaySubject();
   database.ref(ref).on('value', (snapshot) =>
     replay.next(snapshot.val())
   );

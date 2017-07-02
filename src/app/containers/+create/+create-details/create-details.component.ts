@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -35,6 +35,8 @@ export class CreateDetailsComponent implements OnInit {
   dragging: boolean = false;
 
   imagePreview;
+
+  @HostBinding('@fadeInAnimation') animation;
 
   constructor(public formBuilder: FormBuilder,
               public store: Store<State>) {
@@ -89,11 +91,11 @@ export class CreateDetailsComponent implements OnInit {
     const id = uuidv1();
 
     // Load preview image
-    let reader = new FileReader();
+    const reader = new FileReader();
     reader.onload = (readerEvent) => this.imagePreview = (readerEvent.target as any).result;
     reader.readAsDataURL(file);
 
-    let imageId = `catch_${id}_${file.name}`;
+    const imageId = `catch_${id}_${file.name}`;
     // Upload to firebase
     imagesRef.child(imageId)
       .put(file).then((snapshot) => {

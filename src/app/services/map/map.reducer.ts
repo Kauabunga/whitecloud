@@ -26,7 +26,7 @@ export function reducer(state = initialState, action: map.Actions): State {
   switch (action.type) {
 
     case map.SET_CENTER: {
-      let {coords, bounds, zoom} = action.payload;
+      const {coords, bounds, zoom} = action.payload;
       return {
         map: Object.assign({}, map, {
           lat: coords.lat || initialState.map.lat,

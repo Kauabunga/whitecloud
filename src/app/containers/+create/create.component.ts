@@ -1,5 +1,5 @@
 import 'rxjs/add/operator/combineLatest';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { getCreateState, getMapState, getPlacesState, State } from '../../app.reducers';
 import { Store } from '@ngrx/store';
 import { getCreateEvent, getSearchCoords } from '../../services/create/create.reducer';
@@ -19,7 +19,6 @@ import { getPlaces, getSearches } from '../../services/places/places.reducer';
   selector: 'create',
   styleUrls: ['create.component.css'],
   templateUrl: 'create.component.html',
-  animations: [fadeInAnimation],
 })
 export class CreateComponent implements OnInit, OnDestroy {
 
@@ -103,8 +102,8 @@ export class CreateComponent implements OnInit, OnDestroy {
   }
 
   handleNewPlace(place) {
-    let bounds = place.geometry.viewport;
-    let location = place.geometry.location;
+    const bounds = place.geometry.viewport;
+    const location = place.geometry.location;
 
     this.store.dispatch(new createActions.UpdateLocationAction({
       coords: location.toJSON(),

@@ -11,7 +11,6 @@ import { ENV_PROVIDERS } from './environment';
 import { ROUTES } from './app.routes';
 import './offline';
 import { AppComponent } from './app.component';
-import { InternalStateType } from './app.service';
 import { NoContentComponent } from './containers/no-content';
 import '../styles/styles.scss';
 import {
@@ -36,8 +35,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { MapComponent } from './components/map/map.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { PlacesEffects } from './services/places/places.effects';
-import { MomentPipe } from './pipes/moment/moment.pipe';
-import { PipesModule } from './pipes/pipes.module';
 import { ImagesEffects } from './services/images/images.effects';
 
 // Application wide providers
@@ -45,13 +42,7 @@ const APP_PROVIDERS = [
   EventsService,
 ];
 
-type StoreType = {
-  state: InternalStateType,
-  restoreInputValues: () => void,
-  disposeOldHosts: () => void
-};
-
-let IMPORTS = [
+const IMPORTS = [
 
   BrowserModule,
   BrowserAnimationsModule,

@@ -8,7 +8,6 @@ export interface State {
   selectedEventId: string | null;
   loaded: boolean;
 }
-;
 
 export const initialState: State = {
   ids: [],

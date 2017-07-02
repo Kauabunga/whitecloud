@@ -104,14 +104,14 @@ export class PlacesEffects {
   }
 
   tidyAddress(address: string) {
-    let tidyAddress = (address || '')
+    const tidyAddress = (address || '')
       .replace(/\s\d\d\d\d/, '')
       .replace(', New Zealand', '')
       .trim()
       .replace(/,$/, '')
       .trim();
 
-    let pos = tidyAddress.lastIndexOf(' ');
+    const pos = tidyAddress.lastIndexOf(' ');
     return pos > 0
       ? tidyAddress.substring(0, pos) + '&nbsp;' + tidyAddress.substring(pos + 1)
       : tidyAddress;

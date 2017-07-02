@@ -8,9 +8,6 @@ import { MdAutocompleteModule, MdButtonModule, MdInputModule, MdListModule, MdRa
 
 @NgModule({
   declarations: [
-    /**
-     * Components / Directives/ Pipes
-     */
     CreateLocationComponent,
   ],
   imports: [

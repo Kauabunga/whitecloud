@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -9,14 +8,10 @@ import { CreateGuard } from './create.guard';
 
 @NgModule({
   declarations: [
-    /**
-     * Components / Directives/ Pipes
-     */
     CreateComponent,
   ],
   providers: [CreateGuard],
   imports: [
-    CommonModule,
     ReactiveFormsModule,
 
     MdInputModule,
