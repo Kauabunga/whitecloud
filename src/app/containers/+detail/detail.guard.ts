@@ -11,27 +11,18 @@ import { CanActivate, ActivatedRouteSnapshot, CanDeactivate } from '@angular/rou
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import * as eventActions from '../../services/events/events.actions';
-import { SelectAction } from '../../services/events/events.actions';
+import * as imageActions from '../../services/images/images.actions';
 import { getEventsState, State } from '../../app.reducers';
 import { getEntities, getEventsLoaded } from '../../services/events/events.reducer';
 import { EventsService } from '../../services/events/events.service';
 import { go } from '@ngrx/router-store';
+import { Event } from '../../services/events/events.model';
 
-/**
- * Guards are hooks into the route resolution process, providing an opportunity
- * to inform the router's navigation process whether the route should continue
- * to activate this route. Guards must return an observable of true or false.
- */
 @Injectable()
 export class DetailGuard implements CanActivate, CanDeactivate<any> {
 
   constructor(private store: Store<State>,
               private eventsService: EventsService) {
-  }
-
-  canDeactivate(component: any): boolean {
-    this.store.dispatch(new SelectAction(null));
-    return true;
   }
 
   waitForCollectionToLoad(): Observable<boolean> {
@@ -41,27 +32,31 @@ export class DetailGuard implements CanActivate, CanDeactivate<any> {
       .take(1);
   }
 
-  hasEventInStore(id: string): Observable<boolean> {
-    return this.store.select(getEventsState)
-      .map(getEntities)
-      .map((entities) => !!entities[id])
-      .take(1);
-  }
-
   hasEvent(id: string): Observable<boolean> {
     return this.hasEventInStore(id)
       .switchMap((inStore) => {
         if (inStore) {
           return of(inStore);
         }
-
         return this.hasEventInApi(id);
       });
+  }
+
+  hasEventInStore(id: string): Observable<boolean> {
+    return this.store.select(getEventsState)
+      .map(getEntities)
+      .map((entities) => entities[id])
+      // Load the events image
+      .do((event) => this.store.dispatch(new imageActions.LoadAction(event && event.imageId)))
+      .map((event) => !!event)
+      .take(1);
   }
 
   hasEventInApi(id: string): Observable<boolean> {
     return this.eventsService.retrieveEvent(id)
       .take(1)
+      // Load the events image
+      .do((event) => this.store.dispatch(new imageActions.LoadAction(event && event.imageId)))
       .map((event) => new eventActions.LoadAction(event))
       .do((action: eventActions.LoadAction) => this.store.dispatch(action))
       .map((event) => !!event)
@@ -77,6 +72,12 @@ export class DetailGuard implements CanActivate, CanDeactivate<any> {
 
     return this.waitForCollectionToLoad()
       .switchMap(() => this.hasEvent(id))
-      .do(() => this.store.dispatch(new SelectAction(id)));
+      .do(() => this.store.dispatch(new eventActions.SelectAction(id)));
   }
+
+  canDeactivate(component: any): boolean {
+    this.store.dispatch(new eventActions.SelectAction(null));
+    return true;
+  }
+
 }

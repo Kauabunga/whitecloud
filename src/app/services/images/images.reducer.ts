@@ -20,3 +20,5 @@ export function reducer(state = initialState, action: image.Actions): State {
     }
   }
 }
+
+export const getImages = (state: State) => state.images;

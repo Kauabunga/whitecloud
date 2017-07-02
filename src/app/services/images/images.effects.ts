@@ -10,6 +10,8 @@ import { Effect, Actions, toPayload } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as imagesActions from './images.actions';
+import * as firebaseService from '../firebase/firebase.service';
+import { Image } from './images.model';
 
 @Injectable()
 export class ImagesEffects {
@@ -18,13 +20,19 @@ export class ImagesEffects {
   upload$: Observable<Action> = this.actions$
     .ofType(imagesActions.UPLOAD)
     .map(toPayload)
-    .mapTo(null);
+    .mapTo(null)
+    .filter((action) => !!action);
 
   @Effect()
   load$: Observable<Action> = this.actions$
     .ofType(imagesActions.LOAD)
     .map(toPayload)
-    .mapTo(null);
+    .do(console.log.bind(console, 'load image'))
+    .mergeMap((id: string) =>
+      firebaseService.get(`images/${id}`)
+        .map((image: Image) => new imagesActions.LoadSuccessAction(image))
+    )
+    .filter((action) => !!action);
 
   constructor(private actions$: Actions) {
   }

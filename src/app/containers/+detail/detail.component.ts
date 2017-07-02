@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { getEventsState, State } from '../../app.reducers';
 import { Store } from '@ngrx/store';
 import { getNextId, getPreviousId, getSelected } from '../../services/events/events.reducer';
@@ -15,7 +15,7 @@ import { fadeInAnimation } from '../../animations/fade-in.animation';
 })
 export class DetailComponent implements OnInit, OnDestroy {
 
-  event$: Observable<Event>;
+  currentEvent$: Observable<Event>;
 
   imageUrl: string;
 
@@ -26,20 +26,22 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   onDestroy$: ReplaySubject<null> = new ReplaySubject();
 
+  @HostBinding('@fadeInAnimation') animation;
+
   constructor(public store: Store<State>) {
   }
 
   public ngOnInit() {
 
-    this.event$ = this.store.select(getEventsState)
+    this.currentEvent$ = this.store.select(getEventsState)
       .map(getSelected)
       .distinctUntilChanged()
       .filter((event) => !!event);
 
-    this.event$
+    // Ensure we hide the previous image so it does not hand around
+    this.currentEvent$
       .map((event) => event.imageUrl)
       .distinctUntilChanged()
-      .do(console.log)
       .mergeMap((url) =>
         Observable.of(url).delay(50).startWith(null),
       )

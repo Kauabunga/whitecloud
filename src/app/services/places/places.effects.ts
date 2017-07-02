@@ -76,7 +76,6 @@ export class PlacesEffects {
   }
 
   filterCoordsSearchResults(results) {
-    console.log(results);
     return results
       // ensure we only display unique lat/lng locations
       .filter((v, i, a) =>

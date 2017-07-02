@@ -13,6 +13,7 @@ export interface Event {
 
   description: string | null;
   imageUrl: string | null;
+  imageId?: string;
 
 }
 

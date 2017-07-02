@@ -1,16 +1,42 @@
 {
   "rules": {
     "events": {
-      ".read": "true",
-      ".write": "true"
+      "$uid": {
+        ".read": "true",
+        ".write": "!data.exists()",
+        "imageId": {},
+        "location": {},
+        "owner": {},
+        "description": {}
+      }
     },
     "images": {
-      ".read": "true",
-      ".write": "true"
+      "$uid": {
+        ".read": "true",
+        ".write": "auth !== null",
+        "base64": {
+          ".validate": "newData.isString()"
+        },
+        "blur": {
+          ".validate": "newData.isString()"
+        },
+        "path": {
+          ".validate": "newData.isString()"
+        },
+        "thumbnail": {
+          ".validate": "newData.isString()"
+        }
+      }
     },
     "version": {
       ".read": "true",
-      ".write": "true"
+      ".write": "auth !== null",
+      "version": {
+        ".validate": "newData.isString()"
+      },
+      "timestamp": {
+        ".validate": "newData.isString()"
+      }
     }
   }
 }

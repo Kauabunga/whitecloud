@@ -37,6 +37,8 @@ export class EventsEffects {
     .filter((event) => event && !!event.location)
     .map((event) => new SetCenterAction(event.location));
 
+  // TODO add FETCH EVENT action - used by detail router
+
   @Effect()
   init$: Observable<Action> = this.actions$
     .ofType(eventActions.INIT)
@@ -50,7 +52,6 @@ export class EventsEffects {
       eventsRef.on('child_removed', (snapshot) => this.handleRemove(snapshot, replay));
       return replay;
     })
-    .do(console.log.bind(console, 'Load events'))
     .mergeMap((actions: Action[]) => from(actions));
 
   constructor(private actions$: Actions,

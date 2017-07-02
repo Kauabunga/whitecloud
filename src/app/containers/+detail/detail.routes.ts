@@ -1,5 +1,6 @@
 import { DetailComponent } from './detail.component';
 import { DetailGuard } from './detail.guard';
+import { DetailImageGuard } from './detail-image.guard';
 
 export const routes = [
   {

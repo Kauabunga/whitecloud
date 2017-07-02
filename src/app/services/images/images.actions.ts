@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { Image } from './images.model';
 
 export const UPLOAD = '[Image] Upload';
 export const UPLOAD_SUCCESS = '[Image] Upload Success';
@@ -25,28 +26,28 @@ export class UploadSuccessAction implements Action {
 export class UploadFailureAction implements Action {
   readonly type = UPLOAD_FAILURE;
 
-  constructor(public payload: any) {
+  constructor(public payload: Error) {
   }
 }
 
 export class LoadAction implements Action {
   readonly type = LOAD;
 
-  constructor(public payload: any) {
+  constructor(public payload: string) {
   }
 }
 
 export class LoadSuccessAction implements Action {
   readonly type = LOAD_SUCCESS;
 
-  constructor(public payload: any) {
+  constructor(public payload: Image) {
   }
 }
 
 export class LoadFailureAction implements Action {
   readonly type = LOAD_FAILURE;
 
-  constructor(public payload: any) {
+  constructor(public payload: Error) {
   }
 }
 
