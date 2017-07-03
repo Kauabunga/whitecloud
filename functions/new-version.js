@@ -9,9 +9,8 @@ module.exports = functions.https.onRequest((req, res) => {
   const version = req.query && req.query.version || null;
   console.log('newVersion', version);
   return ref.child('version').set({
-    timestamp: new Date().toISOString(),
+    timestamp: admin.database.ServerValue.TIMESTAMP,
     version: version,
-    createdAt: admin.database.ServerValue.TIMESTAMP,
   })
     .then(() => res.status(200).send())
     .catch((err) => res.status(500).send());

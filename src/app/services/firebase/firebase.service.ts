@@ -19,8 +19,10 @@ export function push(ref: string, obj: any): Observable<any> {
 
 export function get<T>(ref: string): Observable<T> {
   const replay: ReplaySubject<T> = new ReplaySubject();
-  database.ref(ref).on('value', (snapshot) =>
-    replay.next(snapshot.val())
+  database.ref(ref).on(
+    'value',
+    (snapshot) => replay.next(snapshot.val()),
+    (err) => replay.error(err),
   );
   // TODO unsubscribe when
   // replay.last().subscribe()

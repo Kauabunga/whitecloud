@@ -18,7 +18,6 @@ import { getEntities } from './events.reducer';
 import { SetCenterAction } from '../map/map.actions';
 
 const database = firebase.database();
-
 const eventsRef = database.ref('events');
 
 @Injectable()
@@ -49,8 +48,14 @@ export class EventsEffects {
     .switchMap(() => {
       const replay: ReplaySubject<Action[]> = new ReplaySubject();
       // TODO listen to child events once loaded
-      eventsRef.on('value', (snapshot) => this.handleValue(snapshot, replay));
-      eventsRef.on('child_removed', (snapshot) => this.handleRemove(snapshot, replay));
+      eventsRef.on(
+        'value',
+        (snapshot) => this.handleValue(snapshot, replay),
+        (err) => replay.error(err));
+      eventsRef.on(
+        'child_removed',
+        (snapshot) => this.handleRemove(snapshot, replay),
+        (err) => replay.error(err));
       return replay;
     })
     .do(console.log.bind(console, 'LOAD Events'))

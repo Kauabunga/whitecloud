@@ -1,46 +1,73 @@
 {
   "rules": {
+
     "events": {
+      ".read": "true",
+      ".write": "auth !== null",
       "$uid": {
-        ".read": "true",
-        ".write": "!data.exists()",
-        "imageId": {},
-        "location": {},
-        "owner": {},
-        "description": {}
+        ".write": "!data.exists() || auth !== null",
+        ".validate": "newData.hasChildren(['location'])",
+
+        "createdAt": { ".validate": "newData.val() <= now" },
+        "imageId": { ".validate": "newData.isString()" },
+        "pest": { ".validate": "newData.isString()" },
+        "location": {
+          "coords": {
+            "lat": { ".validate": "newData.isNumber()" },
+            "lng": { ".validate": "newData.isNumber()" },
+            "$other": { ".validate": false }
+          },
+          "bounds": {
+            "east": { ".validate": "newData.isNumber()" },
+            "north": { ".validate": "newData.isNumber()" },
+            "south": { ".validate": "newData.isNumber()" },
+            "west": { ".validate": "newData.isNumber()" },
+            "$other": { ".validate": false }
+          },
+          "description": { ".validate": true },
+          "place_id": { ".validate": true },
+          "$other": { ".validate": false }
+        },
+        "owner": { ".validate": true },
+        "description": { ".validate": true },
+        "$other": { ".validate": false }
       }
     },
+
     "images": {
+      ".read": "true",
+      ".write": "auth !== null",
       "$uid": {
         ".read": "true",
         ".write": "auth !== null",
-        "base64": {
-          ".validate": "newData.isString()"
-        },
-        "blur": {
-          ".validate": "newData.isString()"
-        },
-        "path": {
-          ".validate": "newData.isString()"
-        },
-        "thumbnail": {
-          ".validate": "newData.isString()"
-        }
+        ".validate": true,
+
+        "createdAt": { ".validate": "newData.val() <= now" },
+        "base64": { ".validate": "newData.isString()" },
+        "blur": { ".validate": "newData.isString()" },
+        "path": { ".validate": "newData.isString()" },
+        "thumbnail": { ".validate": "newData.isString()" },
+        "$other": { ".validate": false }
       }
     },
+
     "version": {
       ".read": "true",
       ".write": "auth !== null",
-      "version": {
-        ".validate": "newData.isString()"
-      },
-      "timestamp": {
-        ".validate": "newData.isString()"
-      }
+      ".validate": true,
+
+      "version": { ".validate": "newData.isString()" },
+      "timestamp": { ".validate": "newData.val() <= now" },
+      "$other": { ".validate": false }
     },
+
     "stats": {
       ".read": "true",
-      ".write": "auth !== null"
+      ".write": "auth !== null",
+      ".validate": true,
+
+      "$other": { ".validate": false }
     }
+
   }
 }
