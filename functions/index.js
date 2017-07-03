@@ -137,30 +137,15 @@ exports.generateThumbnail = functions.storage.object().onChange(event => {
           : success(data)
       )
     }).then(base64 => {
+
       // Add the URLs to the Database
       return ref.child(`images/${fileId}`)
         .set({
+          createdAt: admin.database.ServerValue.TIMESTAMP,
           path: fileUrl,
           base64: base64,
           thumbnail: thumbFileUrl,
           blur: blurFileUrl
-        })
-        .then(() => {
-
-          return ref.child('events').orderByChild('imageId')
-            .equalTo(fileId)
-            .once('value')
-            .then(dataSnapshot => {
-              const val = dataSnapshot && dataSnapshot.val() || {};
-              return Promise.all(Object.keys(val).map(key => {
-                return ref.child(`events/${key}`)
-                  .set(Object.assign(val[key], {
-                    imageUrl: fileUrl,
-                    thumbUrl: thumbFileUrl,
-                    blur: base64,
-                  }));
-              }))
-            });
         });
     });
   })
