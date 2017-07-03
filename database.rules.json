@@ -3,8 +3,9 @@
 
     "events": {
       ".read": "true",
-      ".write": "auth !== null",
+      ".write": "!data.exists() || auth !== null",
       "$uid": {
+        ".read": "true",
         ".write": "!data.exists() || auth !== null",
         ".validate": "newData.hasChildren(['createdAt', 'location', 'pest'])",
 

@@ -85,6 +85,8 @@
 
   <br>
   <br>
+  <pre *ngIf="isDev">{{createGroup.value | json}}</pre>
+  <br>
   <pre *ngIf="isDev">{{event$ | async | json}}</pre>
 
 </form>

@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostBinding, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -39,16 +39,13 @@ export class CreateDetailsComponent implements OnInit, OnDestroy {
   @HostBinding('@fadeInAnimation') animation;
 
   constructor(public formBuilder: FormBuilder,
+              public zone: NgZone,
               public store: Store<State>) {
   }
 
   public ngOnInit() {
 
     this.store.dispatch(new createActions.SelectingLocationAction(false));
-
-    this.event$ = this.store.select(getCreateState)
-      .map(getCreateEvent)
-      .distinctUntilChanged();
 
     this.createGroup = this.formBuilder.group({
       pest: [null, Validators.required],
@@ -57,16 +54,29 @@ export class CreateDetailsComponent implements OnInit, OnDestroy {
       imageId: [null],
     });
 
+    this.event$ = this.store.select(getCreateState)
+      .map(getCreateEvent)
+      .distinctUntilChanged();
+
+    this.store.select(getCreateState)
+      .map(getCreateEvent)
+      .take(1)
+      .filter((event) => !!event)
+      .subscribe((event) => this.createGroup.patchValue(event));
+
     Observable.combineLatest(
       this.createGroup.get('pest').valueChanges.startWith(null),
       this.createGroup.get('owner').valueChanges.startWith(null),
       this.createGroup.get('description').valueChanges.startWith(null),
       this.createGroup.get('imageId').valueChanges.startWith(null),
-      () => this.createGroup.value
-    ).takeUntil(this.onDestroy$)
-      .do(console.log.bind(console, 'CHANGE create details', this.createGroup.value))
-      .subscribe(() =>
-        this.store.dispatch(new createActions.UpdateAction(this.createGroup.value as Event))
+      (pest, owner, description, imageId) => ({
+        pest, owner, description, imageId
+      })
+    ).skip(1) // Skip first with all nulls
+      .takeUntil(this.onDestroy$)
+      .do(console.log.bind(console, 'CHANGE create details'))
+      .subscribe((value) =>
+        this.store.dispatch(new createActions.UpdateAction(value as Event))
       );
 
   }
@@ -93,19 +103,20 @@ export class CreateDetailsComponent implements OnInit, OnDestroy {
     console.log('handleImageChange', $event.srcElement.files[0]);
 
     const file: File = $event.srcElement.files[0];
-    const id = uuidv1();
+    const imageId = `catch_${uuidv1()}_${file.name}`;
+
+    // Path form
+    this.createGroup.get('imageId').setValue(imageId);
+    this.createGroup.get('imageId').updateValueAndValidity();
 
     // Load preview image
     const reader = new FileReader();
     reader.onload = (readerEvent) => this.imagePreview = (readerEvent.target as any).result;
     reader.readAsDataURL(file);
 
-    const imageId = `catch_${id}_${file.name}`;
     // Upload to firebase
-    imagesRef.child(imageId)
-      .put(file).then((snapshot) => {
+    imagesRef.child(imageId).put(file).then((snapshot) => {
       console.log('Uploaded a blob or file!', imageId);
-      this.createGroup.patchValue({imageId});
     });
 
   }
