@@ -16,7 +16,7 @@ export function push(ref: string, obj: any): Observable<any> {
         Object.assign({}, obj, {
           createdAt: firebase.database.ServerValue.TIMESTAMP
         })
-      ).catch(err => {
+      ).catch((err) => {
         console.error(err);
         throw err;
     })
