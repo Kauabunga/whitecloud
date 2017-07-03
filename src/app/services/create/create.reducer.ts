@@ -77,6 +77,11 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
       });
 
     case create.SAVE_SUCCESS:
+    case create.SAVE_FAILURE:
+      return Object.assign({}, state, {
+        saving: false,
+      });
+
     case create.RESET:
       return Object.assign({}, initialState, {
         selectingLocation: state.selectingLocation
@@ -93,7 +98,6 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
 
     case create.UPDATE:
       const event = action.payload;
-      console.log('create.UPDATE', event);
       return {
         selectingLocation: state.selectingLocation,
         saving: state.saving,
@@ -123,5 +127,5 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
 }
 
 export const getCreateEvent = (state: State) => state.event;
-
+export const getCreateSaving = (state: State) => state.saving;
 export const getSearchCoords = (state: State) => state.searchCoords;
