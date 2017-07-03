@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
@@ -21,7 +21,7 @@ const imagesRef = firebase.storage()
   templateUrl: 'create-details.component.html',
   animations: [fadeInAnimation],
 })
-export class CreateDetailsComponent implements OnInit {
+export class CreateDetailsComponent implements OnInit, OnDestroy {
 
   createGroup: FormGroup;
 
@@ -58,17 +58,22 @@ export class CreateDetailsComponent implements OnInit {
     });
 
     Observable.combineLatest(
-      this.createGroup.get('pest').valueChanges,
-      this.createGroup.get('owner').valueChanges,
-      this.createGroup.get('description').valueChanges,
-      this.createGroup.get('imageId').valueChanges,
-      () => null
+      this.createGroup.get('pest').valueChanges.startWith(null),
+      this.createGroup.get('owner').valueChanges.startWith(null),
+      this.createGroup.get('description').valueChanges.startWith(null),
+      this.createGroup.get('imageId').valueChanges.startWith(null),
+      () => this.createGroup.value
     ).takeUntil(this.onDestroy$)
       .do(console.log.bind(console, 'CHANGE create details', this.createGroup.value))
       .subscribe(() =>
         this.store.dispatch(new createActions.UpdateAction(this.createGroup.value as Event))
       );
 
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next(null);
+    this.onDestroy$.complete();
   }
 
   handleDragEnter() {
@@ -100,7 +105,7 @@ export class CreateDetailsComponent implements OnInit {
     imagesRef.child(imageId)
       .put(file).then((snapshot) => {
       console.log('Uploaded a blob or file!', imageId);
-      this.createGroup.patchValue({ imageId });
+      this.createGroup.patchValue({imageId});
     });
 
   }

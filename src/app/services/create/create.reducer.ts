@@ -26,8 +26,7 @@ export const initialState: State = {
 
   event: {
     id: null,
-    title: null,
-    imageUrl: null,
+    imageId: null,
     description: null,
     owner: null,
     pest: null,

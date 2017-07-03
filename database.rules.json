@@ -6,12 +6,13 @@
       ".write": "auth !== null",
       "$uid": {
         ".write": "!data.exists() || auth !== null",
-        ".validate": "newData.hasChildren(['location'])",
+        ".validate": "newData.hasChildren(['createdAt', 'location', 'pest'])",
 
         "createdAt": { ".validate": "newData.val() <= now" },
         "imageId": { ".validate": "newData.isString()" },
         "pest": { ".validate": "newData.isString()" },
         "location": {
+          ".validate": "newData.hasChildren(['coords'])",
           "coords": {
             "lat": { ".validate": "newData.isNumber()" },
             "lng": { ".validate": "newData.isNumber()" },
@@ -40,7 +41,7 @@
       "$uid": {
         ".read": "true",
         ".write": "auth !== null",
-        ".validate": true,
+        ".validate": "newData.hasChildren(['createdAt', 'base64', 'blur', 'path', 'thumbnail'])",
 
         "createdAt": { ".validate": "newData.val() <= now" },
         "base64": { ".validate": "newData.isString()" },
@@ -54,7 +55,7 @@
     "version": {
       ".read": "true",
       ".write": "auth !== null",
-      ".validate": true,
+      ".validate": "newData.hasChildren(['version', 'timestamp'])",
 
       "version": { ".validate": "newData.isString()" },
       "timestamp": { ".validate": "newData.val() <= now" },

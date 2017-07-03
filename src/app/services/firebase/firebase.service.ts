@@ -11,9 +11,15 @@ export function set(ref: string, obj: any): Observable<any> {
 
 export function push(ref: string, obj: any): Observable<any> {
   return Observable.from<any>(
-    database.ref(ref).push(Object.assign({}, obj, {
-      createdAt: firebase.database.ServerValue.TIMESTAMP
-    }))
+    database.ref(ref)
+      .push(
+        Object.assign({}, obj, {
+          createdAt: firebase.database.ServerValue.TIMESTAMP
+        })
+      ).catch(err => {
+        console.error(err);
+        throw err;
+    })
   );
 }
 

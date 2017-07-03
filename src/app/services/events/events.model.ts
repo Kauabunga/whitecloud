@@ -7,13 +7,11 @@ export interface Event {
 
   location: EventLocation;
 
-  title: string;
   pest: string;
   owner: string;
 
   description: string | null;
-  imageUrl: string | null;
-  imageId?: string;
+  imageId: string;
 
 }
 
