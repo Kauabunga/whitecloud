@@ -137,7 +137,9 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   public handleMarker(event: Event) {
-    this.store.dispatch(go(['detail', event.id]));
+    if (event.id) {
+      this.store.dispatch(go(['detail', event.id]));
+    }
   }
 
   public handleResetMap() {

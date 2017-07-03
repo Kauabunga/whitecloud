@@ -51,10 +51,10 @@ export class CreateDetailsComponent implements OnInit, OnDestroy {
       .distinctUntilChanged();
 
     this.createGroup = this.formBuilder.group({
-      pest: ['', Validators.required],
-      owner: [''],
-      description: [''],
-      imageId: [''],
+      pest: [null, Validators.required],
+      owner: [null],
+      description: [null],
+      imageId: [null],
     });
 
     Observable.combineLatest(

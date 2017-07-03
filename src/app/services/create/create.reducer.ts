@@ -41,6 +41,8 @@ export const initialState: State = {
 
 export function reducer(state = initialState, action: create.Actions | map.Actions | places.Actions): State {
 
+  console.log('create', action.type, (action as any).payload);
+
   switch (action.type) {
 
     case map.CLICK:
@@ -62,7 +64,7 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
 
     case places.SEARCH: {
       const query = action.payload;
-      console.log('map.SEARCH', query);
+      console.log('places.SEARCH', query);
       return Object.assign({}, state, {
         searchQuery: typeof query === 'string' ? action.payload : null,
         searchCoords: typeof query !== 'string' ? action.payload : null,

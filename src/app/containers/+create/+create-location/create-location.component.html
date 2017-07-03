@@ -54,4 +54,8 @@
 
   </md-list>
 
+  <br>
+  <br>
+  <pre *ngIf="isDev">{{event$ | async | json}}</pre>
+
 </form>

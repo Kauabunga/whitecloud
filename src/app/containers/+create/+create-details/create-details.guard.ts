@@ -29,6 +29,7 @@ export class CreateDetailsGuard implements CanActivate, CanDeactivate<any> {
       .map(getCreateEvent)
       .take(1)
       .map((event) => {
+        console.log('create event', event);
         if (event && event.location && event.location.coords) {
           return true;
         }

@@ -19,11 +19,13 @@ export class CreateGuard implements CanActivate, CanDeactivate<any> {
   }
 
   canDeactivate(component: any): boolean {
+    this.store.dispatch(new createActions.ResetAction());
     return true;
   }
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-    this.store.dispatch(new createActions.ResetAction());
+
+    console.log(route);
 
     return Observable.of(true);
   }

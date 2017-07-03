@@ -3,12 +3,12 @@ import { Observable } from 'rxjs/Observable';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Subject } from 'rxjs/Subject';
-import { getCreateState, getMapState, getPlacesState, State } from '../../../app.reducers';
+import { getCreateState, getPlacesState, State } from '../../../app.reducers';
 import { Store } from '@ngrx/store';
 import * as createActions from '../../../services/create/create.actions';
 import * as mapActions from '../../../services/map/map.actions';
 import * as placesActions from '../../../services/places/places.actions';
-import { EventLocation } from '../../../services/events/events.model';
+import { Event, EventLocation } from '../../../services/events/events.model';
 import { getMapId } from '../../../services/map/map.reducer';
 import { getCreateEvent, getSearchCoords } from '../../../services/create/create.reducer';
 import { go } from '@ngrx/router-store';
@@ -31,6 +31,10 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
 
   onDestroy$: Subject<null> = new ReplaySubject();
 
+  event$: Observable<Event>;
+
+  isDev: boolean = __DEV__;
+
   auto: ElementRef;
 
   @HostBinding('@fadeInAnimation') animation;
@@ -44,8 +48,12 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
     this.store.dispatch(new createActions.SelectingLocationAction(true));
 
     this.createGroup = this.formBuilder.group({
-      location: ['', Validators.required],
+      location: [null, Validators.required],
     });
+
+    this.event$ = this.store.select(getCreateState)
+      .map(getCreateEvent)
+      .distinctUntilChanged();
 
     this.getSearchCoords()
       .takeUntil(this.onDestroy$)
@@ -158,7 +166,6 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
   }
 
   handleSubmit($event) {
-    $event.preventDefault();
     if (this.createGroup.valid) {
       this.store.dispatch(go(['create', 'details']));
     }
