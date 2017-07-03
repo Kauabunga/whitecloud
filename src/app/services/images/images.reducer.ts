@@ -15,6 +15,15 @@ export function reducer(state = initialState, action: image.Actions): State {
 
   switch (action.type) {
 
+    case image.LOAD_SUCCESS: {
+      const {id, image} = action.payload;
+      return {
+        images: Object.assign({}, state.images, {
+          [id]: image
+        })
+      };
+    }
+
     default: {
       return state;
     }

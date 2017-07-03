@@ -61,6 +61,7 @@ export class DetailGuard implements CanActivate, CanDeactivate<any> {
       .do((action: eventActions.LoadAction) => this.store.dispatch(action))
       .map((event) => !!event)
       .catch(() => {
+        this.store.dispatch(new eventActions.RemoveAction(id));
         this.store.dispatch(go(['/404']));
         return of(false);
       });

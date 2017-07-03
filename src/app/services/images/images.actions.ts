@@ -40,7 +40,7 @@ export class LoadAction implements Action {
 export class LoadSuccessAction implements Action {
   readonly type = LOAD_SUCCESS;
 
-  constructor(public payload: Image) {
+  constructor(public payload: {id: string, image: Image}) {
   }
 }
 

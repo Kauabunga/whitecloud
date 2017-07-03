@@ -30,8 +30,9 @@ export class ImagesEffects {
     .do(console.log.bind(console, 'load image'))
     .mergeMap((id: string) =>
       firebaseService.get(`images/${id}`)
-        .map((image: Image) => new imagesActions.LoadSuccessAction(image))
+        .map((image: Image) => new imagesActions.LoadSuccessAction({id, image}))
     )
+    .catch((err, errStream) => Observable.of(new imagesActions.LoadFailureAction(err)))
     .filter((action) => !!action);
 
   constructor(private actions$: Actions) {

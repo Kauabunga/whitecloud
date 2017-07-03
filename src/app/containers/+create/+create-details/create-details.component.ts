@@ -101,9 +101,13 @@ export class CreateDetailsComponent implements OnInit, OnDestroy {
 
   handleImageChange($event) {
     console.log('handleImageChange', $event.srcElement.files[0]);
-
     const file: File = $event.srcElement.files[0];
-    const imageId = `catch_${uuidv1()}_${file.name}`;
+    const name = file.name
+      // Strip file type
+      .substr(0, file.name.lastIndexOf('.'))
+      // Replace illegal key characters
+      .replace(/\.|#|\$|\[|]/gi, '-');
+    const imageId = `catch_${uuidv1()}_${name}`;
 
     // Path form
     this.createGroup.get('imageId').setValue(imageId);

@@ -31,14 +31,14 @@
       </feComponentTransfer>
     </filter>
     <image filter="url(#blur)"
-           [attr.xlink:href]="(currentEvent$ | async)?.blur"
+           [attr.xlink:href]="(currentImage$ | async)?.base64"
            x="0" y="0"
            height="100%" width="100%"/>
   </svg>
 
-  <img *ngIf="imageId"
+  <img *ngIf="path"
        class="image-hd"
-       [src]="imageId"/>
+       [src]="path"/>
 </div>
 
 <article>
