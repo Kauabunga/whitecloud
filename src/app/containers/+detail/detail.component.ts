@@ -17,7 +17,7 @@ export class DetailComponent implements OnInit, OnDestroy {
 
   currentEvent$: Observable<Event>;
 
-  imageUrl: string;
+  imageId: string;
 
   nextId$: Observable<string>;
   prevId$: Observable<string>;
@@ -40,13 +40,13 @@ export class DetailComponent implements OnInit, OnDestroy {
 
     // Ensure we hide the previous image so it does not hand around
     this.currentEvent$
-      .map((event) => event.imageUrl)
+      .map((event) => event.imageId)
       .distinctUntilChanged()
       .mergeMap((url) =>
         Observable.of(url).delay(50).startWith(null),
       )
       .takeUntil(this.onDestroy$)
-      .subscribe((imageUrl) => this.imageUrl = imageUrl);
+      .subscribe((imageId) => this.imageId = imageId);
 
     this.nextId$ = this.store.select(getEventsState)
       .map(getNextId)
