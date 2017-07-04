@@ -19,6 +19,7 @@ export class StatsEffects {
   @Effect()
   load$: Observable<Action> = this.actions$
     .ofType(statsActions.LOAD)
+    .startWith(new statsActions.LoadAction())
     .map(toPayload)
     .do(console.log.bind(console, 'load stats'))
     .mergeMap((id: string) =>
