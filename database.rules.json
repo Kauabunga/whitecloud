@@ -71,8 +71,8 @@
       ".write": "auth !== null",
       ".validate": "newData.hasChildren(['updatedAt', 'total'])",
 
-      "updatedAt": "newData.isNumber()",
-      "total": "newData.isNumber()",
+      "updatedAt": { ".validate": "newData.isNumber()" },
+      "total": { ".validate": "newData.isNumber()" },
 
       "$other": { ".validate": false }
     }
