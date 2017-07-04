@@ -69,10 +69,11 @@
     "stats": {
       ".read": "true",
       ".write": "auth !== null",
-      ".validate": "newData.hasChildren(['updatedAt', 'total'])",
+      ".validate": "newData.hasChildren(['updatedAt', 'total', 'pests'])",
 
       "updatedAt": { ".validate": "newData.isNumber()" },
       "total": { ".validate": "newData.isNumber()" },
+      "pests": { ".validate": true },
 
       "$other": { ".validate": false }
     }
