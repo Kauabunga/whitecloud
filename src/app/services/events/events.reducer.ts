@@ -24,7 +24,7 @@ export function reducer(state = initialState, action: event.Actions): State {
       const events = action.payload;
       return Object.assign({}, state, {
         entities: Object.keys(events)
-          .map(key => Object.assign({}, events[key], {id: key}))
+          .map((key) => Object.assign({}, events[key], {id: key}))
           .reduce((acc, current) => Object.assign(acc, {[current.id]: current}), {}),
         ids: Object.keys(events),
         loaded: true,
