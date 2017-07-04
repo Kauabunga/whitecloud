@@ -20,7 +20,7 @@ export class DetailComponent implements OnInit, OnDestroy {
   currentEvent$: Observable<Event>;
   currentImage$: Observable<Image>;
 
-  path: string;
+  paths: string[] = [];
   base64: string;
   padding: number = 0;
   height: number = 0;
@@ -68,7 +68,7 @@ export class DetailComponent implements OnInit, OnDestroy {
       )
       .takeUntil(this.onDestroy$)
       .subscribe((image: Image) => {
-        this.path = image && image.path;
+        this.paths = [image && image.path];
       });
 
     this.nextId$ = this.store.select(getEventsState)
@@ -90,6 +90,10 @@ export class DetailComponent implements OnInit, OnDestroy {
     return this.store.select(getEventsState)
       .map(getSelected)
       .distinctUntilChanged();
+  }
+
+  trackPaths(index, item) {
+    return item;
   }
 
 }

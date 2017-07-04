@@ -37,7 +37,8 @@
            height="100%" width="100%"/>
   </svg>
 
-  <img *ngIf="path"
+
+  <img *ngFor="let path of paths; trackBy: trackPaths"
        class="image-hd"
        [src]="path"/>
 </div>
