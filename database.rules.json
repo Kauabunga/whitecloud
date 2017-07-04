@@ -62,13 +62,17 @@
 
       "version": { ".validate": "newData.isString()" },
       "timestamp": { ".validate": "newData.val() <= now" },
+
       "$other": { ".validate": false }
     },
 
     "stats": {
       ".read": "true",
       ".write": "auth !== null",
-      ".validate": true,
+      ".validate": "newData.hasChildren(['updatedAt', 'total'])",
+
+      "updatedAt": "newData.isNumber()",
+      "total": "newData.isNumber()",
 
       "$other": { ".validate": false }
     }

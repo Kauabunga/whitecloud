@@ -5,5 +5,6 @@ const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
 
-exports.newVersion = require('./new-version');
-exports.generateThumbnail = require('./generate-thumbnail');
+exports.stats = require('./function.stats');
+exports.newVersion = require('./function.new-version');
+exports.generateThumbnail = require('./function.generate-thumbnail');
