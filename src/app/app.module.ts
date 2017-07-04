@@ -21,7 +21,7 @@ import {
   MdToolbarModule,
   MdListModule,
   MdSidenavModule,
-  MdTooltipModule
+  MdTooltipModule, MdNativeDateModule
 } from '@angular/material';
 import { EventsEffects } from './services/events/events.effects';
 import { CreateEffects } from './services/create/create.effects';
@@ -56,6 +56,7 @@ const IMPORTS = [
   MdSidenavModule,
   MdSnackBarModule,
   MdTooltipModule,
+  MdNativeDateModule,
 
   StoreModule.provideStore(reducer),
   RouterStoreModule.connectRouter(),

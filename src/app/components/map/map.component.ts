@@ -117,7 +117,7 @@ export class MapComponent implements OnInit, OnDestroy {
         a.location.coords.lng === b.location.coords.lng;
     }
     catch (err) {
-      return true;
+      return false;
     }
   }
 

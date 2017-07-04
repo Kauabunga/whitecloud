@@ -30,6 +30,7 @@ export const initialState: State = {
     description: null,
     owner: null,
     pest: null,
+    date: new Date(),
     location: {
       coords: null,
       bounds: null,

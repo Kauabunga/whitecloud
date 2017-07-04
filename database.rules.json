@@ -10,6 +10,7 @@
         ".validate": "newData.hasChildren(['createdAt', 'location', 'pest'])",
 
         "createdAt": { ".validate": "newData.val() <= now" },
+        "date": { ".validate": true },
         "imageId": { ".validate": "newData.isString()" },
         "pest": { ".validate": "newData.isString()" },
         "location": {

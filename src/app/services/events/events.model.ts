@@ -7,6 +7,8 @@ export interface Event {
   location: EventLocation;
   pest: string;
 
+  date: Date;
+
   owner: string;
   description: string | null;
   imageId: string;

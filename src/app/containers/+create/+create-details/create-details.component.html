@@ -31,6 +31,17 @@
 
   <br>
 
+  <md-input-container>
+    <input mdInput
+           formControlName="date"
+           [mdDatepicker]="picker"
+           placeholder="Date caught">
+    <button mdSuffix [mdDatepickerToggle]="picker"></button>
+  </md-input-container>
+  <md-datepicker #picker></md-datepicker>
+
+  <br>
+
   <div class="optional-details-header">
     <h3>Add optional details</h3>
 

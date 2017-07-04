@@ -49,6 +49,7 @@ export class CreateDetailsComponent implements OnInit, OnDestroy {
 
     this.createGroup = this.formBuilder.group({
       pest: [null, Validators.required],
+      date: [new Date(), Validators.required],
       owner: [null],
       description: [null],
       imageId: [null],
@@ -67,10 +68,11 @@ export class CreateDetailsComponent implements OnInit, OnDestroy {
     Observable.combineLatest(
       this.createGroup.get('pest').valueChanges.startWith(null),
       this.createGroup.get('owner').valueChanges.startWith(null),
+      this.createGroup.get('date').valueChanges.startWith(null),
       this.createGroup.get('description').valueChanges.startWith(null),
       this.createGroup.get('imageId').valueChanges.startWith(null),
-      (pest, owner, description, imageId) => ({
-        pest, owner, description, imageId
+      (pest, owner, date, description, imageId) => ({
+        pest, owner, date, description, imageId
       })
     ).skip(1) // Skip first with all nulls
       .takeUntil(this.onDestroy$)
