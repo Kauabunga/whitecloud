@@ -108,7 +108,17 @@ export class MapComponent implements OnInit, OnDestroy {
           : events.filter((event) => !!event)
     )
       .debounceTime(0)
-      .distinctUntilChanged();
+      .distinctUntilChanged(this.eventsChanged.bind(this));
+  }
+
+  public eventsChanged(a: Event, b: Event) {
+    try {
+      return a.location.coords.lat === b.location.coords.lat &&
+        a.location.coords.lng === b.location.coords.lng;
+    }
+    catch (err) {
+      return true;
+    }
   }
 
   public handleMyLocation() {

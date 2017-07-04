@@ -20,7 +20,18 @@ export function reducer(state = initialState, action: event.Actions): State {
 
   switch (action.type) {
 
-    case event.LOAD:
+    case event.LOAD_ALL: {
+      const events = action.payload;
+      return Object.assign({}, state, {
+        entities: Object.keys(events)
+          .map(key => Object.assign({}, events[key], {id: key}))
+          .reduce((acc, current) => Object.assign(acc, {[current.id]: current}), {}),
+        ids: Object.keys(events),
+        loaded: true,
+      });
+    }
+
+    case event.LOAD: {
       const loadedEvent = action.payload;
 
       if (state.ids.indexOf(loadedEvent.id) > -1) {
@@ -33,6 +44,7 @@ export function reducer(state = initialState, action: event.Actions): State {
         selectedEventId: state.selectedEventId,
         loaded: true,
       };
+    }
 
     case event.SELECT:
       return {

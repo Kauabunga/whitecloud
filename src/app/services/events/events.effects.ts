@@ -46,20 +46,19 @@ export class EventsEffects {
     .take(1)
     .do(console.log.bind(console, 'init events'))
     .switchMap(() => {
-      const replay: ReplaySubject<Action[]> = new ReplaySubject();
-      // TODO listen to child events once loaded
+      const replay: ReplaySubject<Action> = new ReplaySubject();
       eventsRef.on(
         'value',
         (snapshot) => this.handleValue(snapshot, replay),
-        (err) => replay.error(err));
+        (err) => replay.error(err)
+      );
       eventsRef.on(
         'child_removed',
         (snapshot) => this.handleRemove(snapshot, replay),
-        (err) => replay.error(err));
+        (err) => replay.error(err)
+      );
       return replay;
-    })
-    .do(console.log.bind(console, 'LOAD Events'))
-    .mergeMap((actions: Action[]) => from(actions));
+    });
 
   constructor(private actions$: Actions,
               private zone: NgZone,
@@ -72,15 +71,7 @@ export class EventsEffects {
 
   public handleValue(snapshot, replay) {
     const val = snapshot.val() || {};
-
-    const events = Object.keys(val)
-      .map((key) => Object.assign(val[key], {id: key}));
-
-    const eventsActions = events.map((event) => new eventActions.LoadAction(event));
-
-    this.zone.run(() =>
-      replay.next(eventsActions as Action[])
-    );
+    this.zone.run(() => replay.next(new eventActions.LoadAllAction(val)));
   }
 
 }
