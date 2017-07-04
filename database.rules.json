@@ -1,16 +1,75 @@
 {
   "rules": {
+
     "events": {
       ".read": "true",
-      ".write": "true"
+      ".write": "!data.exists() || auth !== null",
+      "$uid": {
+        ".read": "true",
+        ".write": "!data.exists() || auth !== null",
+        ".validate": "newData.hasChildren(['createdAt', 'location', 'pest'])",
+
+        "createdAt": { ".validate": "newData.val() <= now" },
+        "imageId": { ".validate": "newData.isString()" },
+        "pest": { ".validate": "newData.isString()" },
+        "location": {
+          ".validate": "newData.hasChildren(['coords'])",
+          "coords": {
+            "lat": { ".validate": "newData.isNumber()" },
+            "lng": { ".validate": "newData.isNumber()" },
+            "$other": { ".validate": false }
+          },
+          "bounds": {
+            "east": { ".validate": "newData.isNumber()" },
+            "north": { ".validate": "newData.isNumber()" },
+            "south": { ".validate": "newData.isNumber()" },
+            "west": { ".validate": "newData.isNumber()" },
+            "$other": { ".validate": false }
+          },
+          "description": { ".validate": true },
+          "place_id": { ".validate": true },
+          "$other": { ".validate": false }
+        },
+        "owner": { ".validate": true },
+        "description": { ".validate": true },
+        "$other": { ".validate": false }
+      }
     },
+
     "images": {
       ".read": "true",
-      ".write": "true"
+      ".write": "auth !== null",
+      "$uid": {
+        ".read": "true",
+        ".write": "auth !== null",
+        ".validate": "newData.hasChildren(['createdAt', 'base64', 'blur', 'path', 'thumbnail'])",
+
+        "createdAt": { ".validate": "newData.val() <= now" },
+        "base64": { ".validate": "newData.isString()" },
+        "blur": { ".validate": "newData.isString()" },
+        "path": { ".validate": "newData.isString()" },
+        "thumbnail": { ".validate": "newData.isString()" },
+        "$other": { ".validate": false }
+      }
     },
+
     "version": {
       ".read": "true",
-      ".write": "true"
+      ".write": "auth !== null",
+      ".validate": "newData.hasChildren(['version', 'timestamp'])",
+
+      "version": { ".validate": "newData.isString()" },
+      "timestamp": { ".validate": "newData.val() <= now" },
+      "$other": { ".validate": false }
+    },
+
+    "stats": {
+      ".read": "true",
+      ".write": "auth !== null",
+      ".validate": true,
+
+      "$other": { ".validate": false }
     }
+
   }
 }

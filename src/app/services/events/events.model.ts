@@ -1,19 +1,15 @@
 import { Bounds, Coords } from '../map/map.model';
 export interface Event {
 
+  id: string;
   createdAt?: number;
 
-  id: string;
-
   location: EventLocation;
-
-  title: string;
   pest: string;
+
   owner: string;
-
   description: string | null;
-  imageUrl: string | null;
-
+  imageId: string;
 }
 
 export interface EventLocation {

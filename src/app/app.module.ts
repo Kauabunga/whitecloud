@@ -11,7 +11,6 @@ import { ENV_PROVIDERS } from './environment';
 import { ROUTES } from './app.routes';
 import './offline';
 import { AppComponent } from './app.component';
-import { InternalStateType } from './app.service';
 import { NoContentComponent } from './containers/no-content';
 import '../styles/styles.scss';
 import {
@@ -35,22 +34,19 @@ import { GeolocationEffects } from './services/geolocation/geolocation.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { MapComponent } from './components/map/map.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { PlacesEffects } from './services/places/places.effects';
+import { ImagesEffects } from './services/images/images.effects';
+import { StatsEffects } from './services/stats/stats.effects';
 
-// Application wide providers
 const APP_PROVIDERS = [
   EventsService,
 ];
 
-type StoreType = {
-  state: InternalStateType,
-  restoreInputValues: () => void,
-  disposeOldHosts: () => void
-};
+const IMPORTS = [
 
-let IMPORTS = [
   BrowserModule,
-  CommonModule,
   BrowserAnimationsModule,
+  CommonModule,
 
   MdCardModule,
   MdListModule,
@@ -69,6 +65,9 @@ let IMPORTS = [
   EffectsModule.run(MapEffects),
   EffectsModule.run(AppVersionEffects),
   EffectsModule.run(GeolocationEffects),
+  EffectsModule.run(PlacesEffects),
+  EffectsModule.run(ImagesEffects),
+  EffectsModule.run(StatsEffects),
 
   AgmCoreModule.forRoot({
     apiKey: 'AIzaSyB_mwjIVMU_1GjjyiI4dsRU83JvDZyqAUY',
@@ -78,8 +77,8 @@ let IMPORTS = [
   RouterModule.forRoot(ROUTES, {useHash: true, preloadingStrategy: PreloadAllModules}),
 ];
 
-if (ENV === 'production'){
-  IMPORTS.push(StoreDevtoolsModule.instrumentOnlyWithExtension());
+if (ENV !== 'production') {
+  IMPORTS.push(StoreDevtoolsModule.instrumentOnlyWithExtension({maxAge: 10}));
 }
 
 /**

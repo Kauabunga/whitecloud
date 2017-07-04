@@ -1,5 +1,6 @@
 import * as geolocation from './geolocation.actions';
 import { Geolocation } from './geolocation.model';
+import { createSelector } from 'reselect';
 
 export interface State {
   geolocation: Geolocation;
@@ -42,4 +43,6 @@ export function reducer(state = initialState, action: geolocation.Actions): Stat
   }
 }
 
-export const getCoords = (state: State) => state.geolocation && state.geolocation.coords;
+export const getGeolocation = (state: State) => state.geolocation;
+export const getCoords = createSelector(getGeolocation, (geolocation) => geolocation && geolocation.coords);
+export const getTimestamp = createSelector(getGeolocation, (geolocation) => geolocation && geolocation.timestamp);

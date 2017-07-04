@@ -1,46 +1,59 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { getEventsState, State } from '../../app.reducers';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
+import { getEventsState, getImagesState, State } from '../../app.reducers';
 import { Store } from '@ngrx/store';
 import { getNextId, getPreviousId, getSelected } from '../../services/events/events.reducer';
 import { Observable } from 'rxjs/Observable';
 import { Event } from '../../services/events/events.model';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { fadeInAnimation } from '../../animations/fade-in.animation';
+import { Image } from '../../services/images/images.model';
+import { getImages } from '../../services/images/images.reducer';
 
 @Component({
   selector: 'detail',
   templateUrl: 'detail.component.html',
   styleUrls: ['detail.component.css'],
+  animations: [fadeInAnimation],
 })
 export class DetailComponent implements OnInit, OnDestroy {
 
-  event$: Observable<Event>;
+  currentEvent$: Observable<Event>;
+  currentImage$: Observable<Image>;
 
-  imageUrl: string;
+  path: string;
 
   nextId$: Observable<string>;
   prevId$: Observable<string>;
 
+  isDev: boolean = __DEV__;
+
   onDestroy$: ReplaySubject<null> = new ReplaySubject();
+
+  @HostBinding('@fadeInAnimation') animation;
 
   constructor(public store: Store<State>) {
   }
 
   public ngOnInit() {
 
-    this.event$ = this.store.select(getEventsState)
-      .map(getSelected)
-      .distinctUntilChanged()
+    this.currentEvent$ = this.getCurrentEvent()
       .filter((event) => !!event);
 
-    this.event$
-      .map((event) => event.imageUrl)
-      .distinctUntilChanged()
-      .do(console.log)
-      .mergeMap((url) =>
-        Observable.of(url).delay(50).startWith(null),
+    this.currentImage$ = this.currentEvent$
+      .map((event) => event.imageId)
+      .mergeMap((imageId: string) =>
+        this.store.select(getImagesState)
+          .map(getImages)
+          .map((images) => images[imageId])
+      ).do(console.log.bind(console, 'q23rqr32414123'));
+
+    this.currentImage$
+      .mergeMap((image: Image) =>
+        Observable.of(image).delay(50).startWith(null),
       )
       .takeUntil(this.onDestroy$)
-      .subscribe((imageUrl) => this.imageUrl = imageUrl);
+      .do(console.log.bind(console, 'asdfkljaskldjhf'))
+      .subscribe((image: Image) => this.path = image && image.path);
 
     this.nextId$ = this.store.select(getEventsState)
       .map(getNextId)
@@ -55,6 +68,12 @@ export class DetailComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.onDestroy$.next(null);
     this.onDestroy$.complete();
+  }
+
+  getCurrentEvent() {
+    return this.store.select(getEventsState)
+      .map(getSelected)
+      .distinctUntilChanged();
   }
 
 }

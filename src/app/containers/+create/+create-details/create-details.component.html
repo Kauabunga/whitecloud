@@ -1,27 +1,58 @@
 <form (submit)="handleSubmit($event)"
       [formGroup]="createGroup"
-      novalidate>
+      [ngClass]="{'submitted': submitted}"
+      novalidate
+      [style.outlineColor]="dragging ? 'black' : 'yellow'"
+      (dragenter)="handleDragEnter()"
+      (dragleave)="handleDragLeave()"
+      (drop)="handleDrop($event)">
 
   <h1>What did you catch?</h1>
 
-  <md-button-toggle-group #group="mdButtonToggleGroup"
-                          formControlName="pest">
-    <md-button-toggle value="rat">
-      Rat
-    </md-button-toggle>
-    <md-button-toggle value="mouse">
-      Mouse
-    </md-button-toggle>
-    <md-button-toggle value="possum">
-      Possum
-    </md-button-toggle>
-    <md-button-toggle value="stoat">
-      Stoat
-    </md-button-toggle>
-  </md-button-toggle-group>
+  <div class="pest-container">
+    <md-button-toggle-group formControlName="pest">
+      <md-button-toggle value="rat">
+        Rat
+      </md-button-toggle>
+      <md-button-toggle value="mouse">
+        Mouse
+      </md-button-toggle>
+      <md-button-toggle value="possum">
+        Possum
+      </md-button-toggle>
+      <md-button-toggle value="stoat">
+        Stoat
+      </md-button-toggle>
+    </md-button-toggle-group>
+    <md-error *ngIf="submitted && createGroup.get('pest').invalid">
+      Pest is <strong>required</strong>
+    </md-error>
+  </div>
 
   <br>
-  <h2>Add optional details</h2>
+
+  <div class="optional-details-header">
+    <h3>Add optional details</h3>
+
+    <label class="image-container"
+           for="file-input"
+           md-tooltip="Add a photo"
+           ondragover="return false;">
+
+      <input type="file"
+             id="file-input"
+             name="file"
+             accept="image/*"
+             (change)="handleImageChange($event)">
+      <md-icon>add_a_photo</md-icon>
+
+    </label>
+
+  </div>
+
+  <img *ngIf="imagePreview"
+       [src]="imagePreview"
+       class="image-preview"/>
 
   <md-input-container>
     <input mdInput
@@ -34,9 +65,8 @@
   <md-input-container>
     <textarea mdInput
               formControlName="description"
-              placeholder="Additional notes"></textarea>
+              placeholder="Notes"></textarea>
   </md-input-container>
-
 
   <div class="button-container">
     <a [routerLink]="['create', 'location']">
@@ -53,7 +83,10 @@
     </button>
   </div>
 
-
-  <pre>{{event$ | async | json}}</pre>
+  <br>
+  <br>
+  <pre *ngIf="isDev">{{createGroup.value | json}}</pre>
+  <br>
+  <pre *ngIf="isDev">{{event$ | async | json}}</pre>
 
 </form>

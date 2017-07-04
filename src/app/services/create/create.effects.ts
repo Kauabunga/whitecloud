@@ -13,29 +13,13 @@ import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as createActions from './create.actions';
 import { getCreateState, State } from '../../app.reducers';
-import { getCreateEvent } from './create.reducer';
+import { getCreateEvent, getCreateSaving } from './create.reducer';
 import { go } from '@ngrx/router-store';
 import { MdSnackBar } from '@angular/material';
 import * as firebaseService from '../firebase/firebase.service';
 
 const eventsRef = 'events';
 
-/**
- * Effects offer a way to isolate and easily test side-effects within your
- * application.
- * The `toPayload` helper function returns just
- * the payload of the currently dispatched action, useful in
- * instances where the current state is not necessary.
- *
- * Documentation on `toPayload` can be found here:
- * https://github.com/ngrx/effects/blob/master/docs/api.md#topayload
- *
- * If you are unfamiliar with the operators being used in these examples, please
- * check out the sources below:
- *
- * Official Docs: http://reactivex.io/rxjs/manual/overview.html#categories-of-operators
- * RxJS 5 Operators By Example: https://gist.github.com/btroncone/d6cf141d6f2c00dc6b35
- */
 @Injectable()
 export class CreateEffects {
 
@@ -44,10 +28,14 @@ export class CreateEffects {
     .ofType(createActions.SAVE)
     .map(toPayload)
     .switchMap(this.getCreateEvent.bind(this))
+    .combineLatest(this.getCreateSaving(), (createEvent, saving) => ({createEvent, saving}))
+    .filter(({saving}) => !saving)
     .do(console.log.bind(console, 'createEvent'))
-    .switchMap((createEvent) =>
+    .switchMap(({createEvent}) =>
       firebaseService.push(eventsRef, createEvent)
-    ).mapTo(new createActions.SaveSuccessAction());
+        .mapTo(new createActions.SaveSuccessAction())
+        .catch((err, errStream) => Observable.of(new createActions.SaveFailureAction(err)))
+    );
 
   @Effect()
   saveSuccess$: Observable<Action> = this.actions$
@@ -64,6 +52,12 @@ export class CreateEffects {
   public getCreateEvent() {
     return this.store.select(getCreateState)
       .map(getCreateEvent)
+      .first();
+  }
+
+  public getCreateSaving() {
+    return this.store.select(getCreateState)
+      .map(getCreateSaving)
       .first();
   }
 

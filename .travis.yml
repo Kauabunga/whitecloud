@@ -4,8 +4,8 @@ language: node_js
 
 cache:
   directories:
-    - node_modules
-    - functions/node_modules
+#    - node_modules
+#    - functions/node_modules
 
 #addons:
 #  apt:
@@ -28,25 +28,41 @@ env:
   - secure: QTcJtgjp12oPdxbY/jFrOvyMsIsRQZtRs5wio68f2M3LTy1pQmHXdN1+xWTqyvVPsUXOZAEkbuypGbii8xhIAGmjQVkYfFltm++FHDD4RmDLgG04EJgp/a2CbHvZm8n4y5U9pI9vkctDDpdd3mugXCgdlxYcVCB7Vp6BF7ageyABm0quvltqC+dK4GnoK61wyHa2qzWtQiqyE5zfi1pd0CD4gVpgz+eAivkH4yFb68pvTEQI0aM7Yh7K/Vie96W/J3BGCkfd3BisIC4O8sWcWVP+6KlG1dY8vN4wGsQtxyhK89OIQDC7i0qHull7wD3Cfd9WoeKIwEFLiE2QI+pWfJDpf6iW/AdW4wsLNEu67/DINqPY9x73f/6Yob+/RbGwqoeDy67GY9mqiuyp4IENYjrLED+BMQiToNyuKc6gnLXG39Bqv7LlpPT7OuoL7V8UZr5J5rqA2pF0IyS7BKjlPnvexjjqvefY8AAhtRq0n5M1vE7yWu8wOniKJLsZ/DgpdvGzGdX4KWWWxfF7VQNoXUf/ws0BgioUXIyObB3rRNLkBhB0li36bXwRNODLtcc7hDBnNoMTWyScbL3HWOQK4NCtYTIOf4o+aP3pvdVo9w6lIkLiineRV0icyYSgUKRKpIcoano5LkXVEvRo22WCvo99lyHYqWtJw1lKlvUQZCY=
 
 before_install:
+  ####################################
   # decrypt firebase dev admin key
+  ####################################
   - openssl aes-256-cbc -k "$encrypted_firebase_key" -in ./functions/whitecloud-dev-firebase-adminsdk-bhag6-f3a977c8bc.json.enc -out ./functions/whitecloud-dev-firebase-adminsdk-bhag6-f3a977c8bc.json -d
+
+  ####################################
   # Install global node_modules
+  ####################################
   - npm install npm@5 -g
   - npm install firebase-tools -g
   - npm install concurrently -g
+  # - rm -rf ./node_modules
+
+  ####################################
   # Install node_modules
+  ####################################
   - npm cache verify
-  - npm prune
+  # - npm prune
   # - npm update
+
+  ####################################
   # Install functions node_modules
+  ####################################
   - cd ./functions
+  # - rm -rf ./node_modules
   - npm cache verify
-  - npm prune
+  # - npm prune
   # - npm update
   - cd ..
 
 install:
   - npm install
+  - cd ./functions
+  - npm install
+  - cd ..
 
 after_install:
   - npm rebuild node-sass

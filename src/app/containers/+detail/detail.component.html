@@ -8,7 +8,7 @@
   </a>
 
   <span class="fill"></span>
-  <h1>{{(event$ | async)?.title}}</h1>
+  <h1>{{(currentEvent$ | async)?.title}}</h1>
   <span class="fill"></span>
 
   <a [routerLink]="['../', (nextId$ | async)]">
@@ -31,23 +31,23 @@
       </feComponentTransfer>
     </filter>
     <image filter="url(#blur)"
-           [attr.xlink:href]="(event$ | async)?.blur"
+           [attr.xlink:href]="(currentImage$ | async)?.base64"
            x="0" y="0"
            height="100%" width="100%"/>
   </svg>
 
-  <img *ngIf="imageUrl"
+  <img *ngIf="path"
        class="image-hd"
-       [src]="imageUrl"/>
+       [src]="path"/>
 </div>
 
 <article>
-  <p>{{(event$ | async)?.description}}</p>
-  <p>{{(event$ | async)?.createdAt}}</p>
-  <p>{{(event$ | async)?.location?.description}}</p>
+  <p>{{(currentEvent$ | async)?.description}}</p>
+  <p>{{(currentEvent$ | async)?.createdAt | moment}}</p>
+  <p>{{(currentEvent$ | async)?.location?.description}}</p>
   <br>
   <br>
-  <pre>{{(event$ | async | json)}}</pre>
+  <pre *ngIf="isDev">{{(currentEvent$ | async | json)}}</pre>
 </article>
 
 <router-outlet></router-outlet>

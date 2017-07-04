@@ -209,6 +209,7 @@ module.exports = function (options) {
           'NODE_ENV': JSON.stringify(ENV),
           'HMR': false,
         },
+        '__DEV__': false,
       }),
 
       /**

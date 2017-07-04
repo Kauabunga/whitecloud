@@ -1,17 +1,19 @@
-import { Component, OnDestroy, OnInit, ElementRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, ElementRef, HostBinding } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { Subject } from 'rxjs/Subject';
-import { getCreateState, getMapState, State } from '../../../app.reducers';
+import { getCreateState, getPlacesState, State } from '../../../app.reducers';
 import { Store } from '@ngrx/store';
 import * as createActions from '../../../services/create/create.actions';
 import * as mapActions from '../../../services/map/map.actions';
-import { EventLocation } from '../../../services/events/events.model';
-import { getMapId, getPlaces, getSearches } from '../../../services/map/map.reducer';
+import * as placesActions from '../../../services/places/places.actions';
+import { Event, EventLocation } from '../../../services/events/events.model';
+import { getMapId } from '../../../services/map/map.reducer';
 import { getCreateEvent, getSearchCoords } from '../../../services/create/create.reducer';
 import { go } from '@ngrx/router-store';
 import { fadeInAnimation } from '../../../animations/fade-in.animation';
+import { getPlaces, getSearches } from '../../../services/places/places.reducer';
 
 @Component({
   selector: 'create-location',
@@ -29,7 +31,13 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
 
   onDestroy$: Subject<null> = new ReplaySubject();
 
+  event$: Observable<Event>;
+
+  isDev: boolean = __DEV__;
+
   auto: ElementRef;
+
+  @HostBinding('@fadeInAnimation') animation;
 
   constructor(public formBuilder: FormBuilder,
               public store: Store<State>) {
@@ -40,14 +48,18 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
     this.store.dispatch(new createActions.SelectingLocationAction(true));
 
     this.createGroup = this.formBuilder.group({
-      location: ['', Validators.required],
+      location: [null, Validators.required],
     });
+
+    this.event$ = this.store.select(getCreateState)
+      .map(getCreateEvent)
+      .distinctUntilChanged();
 
     this.getSearchCoords()
       .takeUntil(this.onDestroy$)
       .filter((coords) => coords && coords.lat && !!coords.lng)
       .subscribe((coords) => {
-        this.store.dispatch(new mapActions.SearchAction({
+        this.store.dispatch(new placesActions.SearchAction({
           lat: coords.lat,
           lng: coords.lng
         }));
@@ -55,7 +67,7 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
 
     this.placeSuggestions$ = this.getEventCoords()
       .combineLatest(
-        this.store.select(getMapState).map(getSearches),
+        this.store.select(getPlacesState).map(getSearches),
         (coords, searches) => searches[getMapId(coords)]
       )
       .filter((places) => !!places)
@@ -70,8 +82,8 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
       .takeUntil(this.onDestroy$)
       .subscribe((location) =>
         location.place_id
-          ? this.store.dispatch(new mapActions.LookupAction(location.place_id))
-          : this.store.dispatch(new mapActions.SearchAction(location))
+          ? this.store.dispatch(new placesActions.LookupAction(location.place_id))
+          : this.store.dispatch(new placesActions.SearchAction(location))
       );
 
     this.getPlace()
@@ -103,8 +115,8 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
   }
 
   handleNewPlace(place) {
-    let bounds = place.geometry.viewport;
-    let location = place.geometry.location;
+    const bounds = place.geometry.viewport;
+    const location = place.geometry.location;
 
     this.store.dispatch(new createActions.UpdateLocationAction({
       coords: location.toJSON(),
@@ -125,8 +137,7 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
       .takeUntil(this.onDestroy$)
       .distinctUntilChanged()
       .combineLatest(
-        this.store.select(getMapState)
-          .map(getPlaces),
+        this.store.select(getPlacesState).map(getPlaces),
         (location, places) => places[location.place_id]
       )
       .filter((location) => !!location)
@@ -136,8 +147,7 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
   getResults() {
     return this.getLocationValue()
       .combineLatest(
-        this.store.select(getMapState)
-          .map(getSearches),
+        this.store.select(getPlacesState).map(getSearches),
         (location, searches) => searches[this.displayLocation(location).trim()]
       )
       .filter((results) => !!results);
@@ -156,7 +166,6 @@ export class CreateLocationComponent implements OnInit, OnDestroy {
   }
 
   handleSubmit($event) {
-    $event.preventDefault();
     if (this.createGroup.valid) {
       this.store.dispatch(go(['create', 'details']));
     }

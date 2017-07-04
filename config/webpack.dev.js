@@ -29,14 +29,13 @@ const METADATA = webpackMerge(COMMON_METADATA, commonConfig({env: ENV}).metadata
   ENV: ENV,
   HMR: HMR,
   // Added
+  __DEV__: true,
   buildDate: new Date().toISOString(),
   buildVersion: require('../package.json').version,
   travisBuildNumber: process.env.TRAVIS_BUILD_NUMBER,
   travisCommit: process.env.TRAVIS_COMMIT,
   travisCommitRange: process.env.TRAVIS_COMMIT_RANGE,
 });
-
-console.log(METADATA);
 
 // const DllBundlesPlugin = require('webpack-dll-bundles-plugin').DllBundlesPlugin;
 
@@ -148,7 +147,8 @@ module.exports = function (options) {
           'NODE_ENV': JSON.stringify(METADATA.ENV),
           'HMR': METADATA.HMR,
         },
-        'METADATA': JSON.stringify(METADATA)
+        'METADATA': JSON.stringify(METADATA),
+        '__DEV__': METADATA.__DEV__,
       }),
 
       // new DllBundlesPlugin({

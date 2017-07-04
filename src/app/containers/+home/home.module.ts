@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { routes } from './home.routes';
 import { MdButtonModule, MdIconModule, MdToolbarModule, MdListModule } from '@angular/material';
 import { HomeComponent } from './home.component';
+import { PipesModule } from '../../pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +13,8 @@ import { HomeComponent } from './home.component';
   providers: [],
   imports: [
     CommonModule,
-    FormsModule,
+
+    PipesModule,
 
     MdButtonModule,
     MdToolbarModule,

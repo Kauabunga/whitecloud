@@ -1,18 +1,3 @@
-/**
- * Copyright 2016 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for t`he specific language governing permissions and
- * limitations under the License.
- */
 'use strict';
 
 const path = require('path');
@@ -38,19 +23,11 @@ const BLUR_QUALITY = 25;
 // Thumbnail prefix added to file names.
 const THUMB_PREFIX = 'thumb_';
 const BLUR_PREFIX = 'blur_';
+
 admin.initializeApp(functions.config().firebase);
 const ref = admin.database().ref();
 
-exports.newVersion = functions.https.onRequest((req, res) => {
-  const version = req.query && req.query.version || null;
-  console.log('newVersion', version);
-  return ref.child('version').set({
-      timestamp: new Date().toISOString(),
-      version: version,
-    })
-    .then(() => res.status(200).send())
-    .catch((err) => res.status(500).send());
-  });
+exports.newVersion = require('./new-version');
 
 
 /**
@@ -160,30 +137,15 @@ exports.generateThumbnail = functions.storage.object().onChange(event => {
           : success(data)
       )
     }).then(base64 => {
+
       // Add the URLs to the Database
       return ref.child(`images/${fileId}`)
         .set({
+          createdAt: admin.database.ServerValue.TIMESTAMP,
           path: fileUrl,
           base64: base64,
           thumbnail: thumbFileUrl,
           blur: blurFileUrl
-        })
-        .then(() => {
-
-          return ref.child('events').orderByChild('imageId')
-            .equalTo(fileId)
-            .once('value')
-            .then(dataSnapshot => {
-              const val = dataSnapshot && dataSnapshot.val() || {};
-              return Promise.all(Object.keys(val).map(key => {
-                return ref.child(`events/${key}`)
-                  .set(Object.assign(val[key], {
-                    imageUrl: fileUrl,
-                    thumbUrl: thumbFileUrl,
-                    blur: base64,
-                  }));
-              }))
-            });
         });
     });
   })

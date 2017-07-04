@@ -16,8 +16,6 @@ let PROVIDERS: any[] = [
 /**
  * Add env info
  */
-declare var METADATA;
-
 (window as any).METADATA = getMetadata();
 
 export function getMetadata(): { buildVersion: string } {
@@ -59,10 +57,10 @@ if ('production' === ENV) {
     const appRef = modRef.injector.get(ApplicationRef);
     const cmpRef = appRef.components[0];
 
-    let _ng = (<any> window).ng;
+    const _ng = (window as any).ng;
     enableDebugTools(cmpRef);
-    (<any> window).ng.probe = _ng.probe;
-    (<any> window).ng.coreTokens = _ng.coreTokens;
+    (window as any).ng.probe = _ng.probe;
+    (window as any).ng.coreTokens = _ng.coreTokens;
     return modRef;
   };
 

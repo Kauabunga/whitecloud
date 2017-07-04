@@ -60,6 +60,8 @@ declare module '*';
 declare var ENV: string;
 declare var HMR: boolean;
 declare var System: SystemJS;
+declare var __DEV__: boolean;
+declare var METADATA: any;
 
 interface SystemJS {
   import: (path?: string) => Promise<any>;
@@ -72,22 +74,20 @@ interface GlobalEnvironment {
   System: SystemJS;
 }
 
-interface Es6PromiseLoader {
-  (id: string): (exportName?: string) => Promise<any>;
-}
+type Es6PromiseLoader = (id: string) => (exportName?: string) => Promise<any>;
 
 type FactoryEs6PromiseLoader = () => Es6PromiseLoader;
 type FactoryPromise = () => Promise<any>;
 
-type AsyncRoutes = {
+interface AsyncRoutes {
   [component: string]: Es6PromiseLoader |
-    Function |
+    // Function |
     FactoryEs6PromiseLoader |
     FactoryPromise ;
-};
+}
 
 type IdleCallbacks = Es6PromiseLoader |
-  Function |
+  // Function |
   FactoryEs6PromiseLoader |
   FactoryPromise ;
 
@@ -118,18 +118,18 @@ interface WebpackContext extends WebpackRequire {
   keys(): string[];
 }
 
-interface ErrorStackTraceLimit {
-  stackTraceLimit: number;
-}
-
-// Extend typings
-interface NodeRequire extends WebpackRequire {
-}
-interface ErrorConstructor extends ErrorStackTraceLimit {
-}
-interface NodeRequireFunction extends Es6PromiseLoader {
-}
-interface NodeModule extends WebpackModule {
-}
-interface Global extends GlobalEnvironment {
-}
+// interface ErrorStackTraceLimit {
+//   stackTraceLimit: number;
+// }
+//
+// // Extend typings
+// interface NodeRequire extends WebpackRequire {
+// }
+// interface ErrorConstructor extends ErrorStackTraceLimit {
+// }
+// interface NodeRequireFunction extends Es6PromiseLoader {
+// }
+// interface NodeModule extends WebpackModule {
+// }
+// interface Global extends GlobalEnvironment {
+// }

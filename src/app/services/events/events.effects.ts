@@ -18,25 +18,8 @@ import { getEntities } from './events.reducer';
 import { SetCenterAction } from '../map/map.actions';
 
 const database = firebase.database();
-
 const eventsRef = database.ref('events');
 
-/**
- * Effects offer a way to isolate and easily test side-effects within your
- * application.
- * The `toPayload` helper function returns just
- * the payload of the currently dispatched action, useful in
- * instances where the current state is not necessary.
- *
- * Documentation on `toPayload` can be found here:
- * https://github.com/ngrx/effects/blob/master/docs/api.md#topayload
- *
- * If you are unfamiliar with the operators being used in these examples, please
- * check out the sources below:
- *
- * Official Docs: http://reactivex.io/rxjs/manual/overview.html#categories-of-operators
- * RxJS 5 Operators By Example: https://gist.github.com/btroncone/d6cf141d6f2c00dc6b35
- */
 @Injectable()
 export class EventsEffects {
 
@@ -53,21 +36,29 @@ export class EventsEffects {
     .filter((event) => event && !!event.location)
     .map((event) => new SetCenterAction(event.location));
 
+  // TODO add FETCH EVENT action - used by detail router
+
   @Effect()
   init$: Observable<Action> = this.actions$
     .ofType(eventActions.INIT)
     .map(toPayload)
     .startWith(null)
-    .first()
+    .take(1)
+    .do(console.log.bind(console, 'init events'))
     .switchMap(() => {
-      let replay: ReplaySubject<Action[]> = new ReplaySubject();
-
+      const replay: ReplaySubject<Action[]> = new ReplaySubject();
       // TODO listen to child events once loaded
-      eventsRef.on('value', (snapshot) => this.handleValue(snapshot, replay));
-      eventsRef.on('child_removed', (snapshot) => this.handleRemove(snapshot, replay));
-
+      eventsRef.on(
+        'value',
+        (snapshot) => this.handleValue(snapshot, replay),
+        (err) => replay.error(err));
+      eventsRef.on(
+        'child_removed',
+        (snapshot) => this.handleRemove(snapshot, replay),
+        (err) => replay.error(err));
       return replay;
     })
+    .do(console.log.bind(console, 'LOAD Events'))
     .mergeMap((actions: Action[]) => from(actions));
 
   constructor(private actions$: Actions,

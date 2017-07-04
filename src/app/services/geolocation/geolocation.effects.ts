@@ -10,7 +10,9 @@ import { Effect, Actions } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as geolocationActions from './geolocation.actions';
-import { State } from '../../app.reducers';
+import { getGeolocationState, State } from '../../app.reducers';
+import { getGeolocation } from './geolocation.reducer';
+import { Geolocation } from './geolocation.model';
 
 @Injectable()
 export class GeolocationEffects {
@@ -19,28 +21,39 @@ export class GeolocationEffects {
   getUserGeolocation$: Observable<Action> = this.actions$
     .ofType(geolocationActions.GET_GEOLOCATION)
     .mergeMap(() =>
-      Observable.from(
-        new Promise((success, failure) =>
-          navigator.geolocation.getCurrentPosition(success, failure)
-        )
-      )
+      this.store.select(getGeolocationState)
+        .map(getGeolocation)
+        .take(1)
     )
-    .map((position: Position) =>
-      new geolocationActions.GetGeolocationSuccessAction({
-        coords: {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        },
-        timestamp: position.timestamp,
-      })
+    .do(console.warn)
+    .mergeMap((geolocation: Geolocation) =>
+      ((geolocation && geolocation.timestamp || Infinity) - (60 * 1000 * 60)) > Date.now()
+        ? this.getGeolocation()
+        : Observable.of(Object.assign({}, geolocation, {timestamp: Date.now()}))
+    )
+    .map((geolocation: Geolocation) =>
+      new geolocationActions.GetGeolocationSuccessAction(geolocation)
     )
     .catch((err: PositionError, errStream) =>
       Observable.of(new geolocationActions.GetGeolocationFailureAction(err))
-    )
-    .do(console.warn.bind(console, 'getUserGeolocation$ action'));
+    );
 
   constructor(private actions$: Actions,
               private store: Store<State>) {
+  }
+
+  public getGeolocation(): Observable<Geolocation> {
+    return Observable.from(
+      new Promise((success, failure) =>
+        navigator.geolocation.getCurrentPosition(success, failure)
+      )
+    ).map((position: Position) => ({
+      coords: {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      },
+      timestamp: position.timestamp,
+    }));
   }
 
 }

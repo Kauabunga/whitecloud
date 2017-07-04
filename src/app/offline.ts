@@ -12,6 +12,8 @@ OfflinePluginRuntime.install({
   onUpdated: () => {
     console.log('SW Event:', 'onUpdated');
     // Reload the webpage to load into the new version
+
+    // TODO warn with other app-version effects update
     window.location.reload();
   },
   onUpdateFailed: () => {

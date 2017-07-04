@@ -1,5 +1,6 @@
 import * as create from './create.actions';
 import * as map from '../map/map.actions';
+import * as places from '../places/places.actions';
 import { Event } from '../events/events.model';
 import { Coords } from '../map/map.model';
 
@@ -25,8 +26,7 @@ export const initialState: State = {
 
   event: {
     id: null,
-    title: null,
-    imageUrl: null,
+    imageId: null,
     description: null,
     owner: null,
     pest: null,
@@ -39,7 +39,9 @@ export const initialState: State = {
   }
 };
 
-export function reducer(state = initialState, action: create.Actions | map.Actions): State {
+export function reducer(state = initialState, action: create.Actions | map.Actions | places.Actions): State {
+
+  console.log('create', action.type, (action as any).payload);
 
   switch (action.type) {
 
@@ -60,9 +62,9 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
         })
       };
 
-    case map.SEARCH: {
-      let query = action.payload;
-      console.log('map.SEARCH', query);
+    case places.SEARCH: {
+      const query = action.payload;
+      console.log('places.SEARCH', query);
       return Object.assign({}, state, {
         searchQuery: typeof query === 'string' ? action.payload : null,
         searchCoords: typeof query !== 'string' ? action.payload : null,
@@ -75,6 +77,11 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
       });
 
     case create.SAVE_SUCCESS:
+    case create.SAVE_FAILURE:
+      return Object.assign({}, state, {
+        saving: false,
+      });
+
     case create.RESET:
       return Object.assign({}, initialState, {
         selectingLocation: state.selectingLocation
@@ -91,7 +98,6 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
 
     case create.UPDATE:
       const event = action.payload;
-      console.log('create.UPDATE', event);
       return {
         selectingLocation: state.selectingLocation,
         saving: state.saving,
@@ -121,5 +127,5 @@ export function reducer(state = initialState, action: create.Actions | map.Actio
 }
 
 export const getCreateEvent = (state: State) => state.event;
-
+export const getCreateSaving = (state: State) => state.saving;
 export const getSearchCoords = (state: State) => state.searchCoords;

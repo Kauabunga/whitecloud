@@ -9,6 +9,9 @@ import * as fromMap from './services/map/map.reducer';
 import * as fromCreate from './services/create/create.reducer';
 import * as fromAppVersion from './services/app-version/app-version.reducer';
 import * as fromGeolocation from './services/geolocation/geolocation.reducer';
+import * as fromPlaces from './services/places/places.reducer';
+import * as fromImages from './services/images/images.reducer';
+import * as fromStats from './services/stats/stats.reducer';
 
 export interface State {
   version: fromAppVersion.State;
@@ -17,6 +20,9 @@ export interface State {
   create: fromCreate.State;
   map: fromMap.State;
   geolocation: fromGeolocation.State;
+  places: fromPlaces.State;
+  images: fromImages.State;
+  stats: fromStats.State;
 }
 
 const reducers = {
@@ -26,19 +32,28 @@ const reducers = {
   create: fromCreate.reducer,
   map: fromMap.reducer,
   geolocation: fromGeolocation.reducer,
+  places: fromPlaces.reducer,
+  images: fromImages.reducer,
+  stats: fromStats.reducer,
 };
 
+const storageKeys = [
+  'events',
+  'map',
+  'version',
+  'create',
+];
 const developmentReducer: ActionReducer<State> = compose(
   storeFreeze,
   localStorageSync({
-    keys: ['events', 'map', 'version'],
+    keys: storageKeys,
     rehydrate: true
   }),
   combineReducers,
 )(reducers);
 const productionReducer: ActionReducer<State> = compose(
   localStorageSync({
-    keys: ['events', 'map', 'version'],
+    keys: storageKeys,
     rehydrate: true
   }),
   combineReducers,
@@ -58,3 +73,6 @@ export const getCreateState = (state: State, ...args) => state.create;
 export const getMapState = (state: State, ...args) => state.map;
 export const getRouterState = (state: State, ...args) => state.router.path;
 export const getGeolocationState = (state: State, ...args) => state.geolocation;
+export const getPlacesState = (state: State, ...args) => state.places;
+export const getImagesState = (state: State, ...args) => state.images;
+export const getStatsState = (state: State, ...args) => state.stats;

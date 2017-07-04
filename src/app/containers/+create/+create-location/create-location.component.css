@@ -3,10 +3,6 @@ form {
   padding: 20px;
 }
 
-form.ng-valid button[type='submit'] {
-  background-color: #8BC34A;
-}
-
 md-list {
   display: flex;
   flex-direction: column;

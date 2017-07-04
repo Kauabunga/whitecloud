@@ -3,16 +3,16 @@ import 'tslib';
 
 describe('App', () => {
 
-  beforeEach(async() => {
+  beforeEach(async () => {
     /**
      * Change hash depending on router LocationStrategy.
      */
     await browser.get('/#/');
   });
 
-  it('should have a title', async() => {
-    let subject = await browser.getTitle();
-    let result = 'Angular2 Webpack Starter by @gdi2290 from @AngularClass';
+  it('should have a title', async () => {
+    const subject = await browser.getTitle();
+    const result = 'Angular2 Webpack Starter by @gdi2290 from @AngularClass';
     expect(subject).toEqual(result);
   });
 

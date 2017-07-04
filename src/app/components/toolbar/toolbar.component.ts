@@ -1,5 +1,5 @@
 import 'rxjs/add/operator/distinctUntilChanged';
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { State } from '../../app.reducers';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -12,7 +12,10 @@ import { Router, NavigationEnd, ActivatedRouteSnapshot } from '@angular/router';
 })
 export class ToolbarComponent implements OnInit {
 
+  @Output()
   menu: EventEmitter<null> = new EventEmitter();
+
+  @Output()
   home: EventEmitter<null> = new EventEmitter();
 
   title$: Observable<string>;

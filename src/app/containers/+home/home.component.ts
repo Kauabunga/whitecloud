@@ -1,5 +1,5 @@
 import 'rxjs/add/operator/distinctUntilChanged';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, HostListener, OnInit } from '@angular/core';
 import { getEventsState, State } from '../../app.reducers';
 import { getAll, getIds } from '../../services/events/events.reducer';
 import { Event } from '../../services/events/events.model';
@@ -17,6 +17,8 @@ export class HomeComponent implements OnInit {
 
   events$: Observable<Event[]>;
   total$: Observable<number>;
+
+  @HostBinding('@fadeInAnimation') animation;
 
   constructor(public store: Store<State>) {
   }

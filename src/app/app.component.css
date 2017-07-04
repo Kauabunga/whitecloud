@@ -3,6 +3,14 @@ main {
   min-width: 360px;
 }
 
+toolbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  display: inline-block;
+  z-index: 100;
+}
+
 md-sidenav-container {
   background: rgb(229, 227, 223) !important;
 }
