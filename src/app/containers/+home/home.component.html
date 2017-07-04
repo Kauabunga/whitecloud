@@ -2,6 +2,15 @@
 
 <br>
 
+<p>
+  Select a catch below or
+  <a [routerLink]="['create']">
+    <button md-button >Add a new catch</button>
+  </a>
+</p>
+
+<br>
+
 <md-nav-list>
   <h3 md-subheader>Latest catches</h3>
   <a [routerLink]="['/detail', event.id]"
