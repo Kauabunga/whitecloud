@@ -21,6 +21,10 @@ export class DetailComponent implements OnInit, OnDestroy {
   currentImage$: Observable<Image>;
 
   path: string;
+  base64: string;
+  padding: number = 0;
+  height: number = 0;
+  width: number = 0;
 
   nextId$: Observable<string>;
   prevId$: Observable<string>;
@@ -45,15 +49,27 @@ export class DetailComponent implements OnInit, OnDestroy {
         this.store.select(getImagesState)
           .map(getImages)
           .map((images) => images[imageId])
-      ).do(console.log.bind(console, 'q23rqr32414123'));
+      );
+
+    this.currentImage$
+      .takeUntil(this.onDestroy$)
+      .subscribe((image: Image) => {
+        this.base64 = image && image.base64;
+        this.height = image && image.height;
+        this.width = image && image.width;
+        this.padding = this.width > 0
+        ? this.height / this.width * 360
+          : 0;
+      });
 
     this.currentImage$
       .mergeMap((image: Image) =>
         Observable.of(image).delay(50).startWith(null),
       )
       .takeUntil(this.onDestroy$)
-      .do(console.log.bind(console, 'asdfkljaskldjhf'))
-      .subscribe((image: Image) => this.path = image && image.path);
+      .subscribe((image: Image) => {
+        this.path = image && image.path;
+      });
 
     this.nextId$ = this.store.select(getEventsState)
       .map(getNextId)
