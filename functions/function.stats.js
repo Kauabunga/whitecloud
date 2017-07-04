@@ -28,4 +28,5 @@ module.exports = functions.database.ref('/events/{eventId}')
 function count(pest, val) {
   return Object.keys(val)
     .filter(key => val[key].pest === pest)
+    .length;
 }
