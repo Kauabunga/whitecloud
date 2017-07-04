@@ -42,9 +42,11 @@
       "$uid": {
         ".read": "true",
         ".write": "auth !== null",
-        ".validate": "newData.hasChildren(['createdAt', 'base64', 'blur', 'path', 'thumbnail'])",
+        ".validate": "newData.hasChildren(['createdAt', 'height', 'width', 'base64', 'blur', 'path', 'thumbnail'])",
 
         "createdAt": { ".validate": "newData.val() <= now" },
+        "height": { ".validate": "newData.isNumber()" },
+        "width": { ".validate": "newData.isNumber()" },
         "base64": { ".validate": "newData.isString()" },
         "blur": { ".validate": "newData.isString()" },
         "path": { ".validate": "newData.isString()" },
