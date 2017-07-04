@@ -1,6 +1,8 @@
 import { Action } from '@ngrx/store';
 import { Image } from './images.model';
 
+export const INIT = '[Image] Init';
+
 export const UPLOAD = '[Image] Upload';
 export const UPLOAD_SUCCESS = '[Image] Upload Success';
 export const UPLOAD_FAILURE = '[Image] Upload Failure';

@@ -81,7 +81,6 @@ export class EventsEffects {
     this.zone.run(() =>
       replay.next(eventsActions as Action[])
     );
-
   }
 
 }
