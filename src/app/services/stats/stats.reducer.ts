@@ -6,12 +6,22 @@ export interface State {
 }
 
 export const initialState: State = {
-  stats: null
+  stats: {
+    updatedAt: null,
+    total: 0,
+    pests: null,
+  },
 };
 
 export function reducer(state = initialState, action: stats.Actions): State {
 
   switch (action.type) {
+
+    case stats.LOAD_SUCCESS: {
+      return {
+        stats: action.payload
+      };
+    }
 
     default: {
       return state;

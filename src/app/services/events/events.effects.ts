@@ -47,7 +47,7 @@ export class EventsEffects {
     .do(console.log.bind(console, 'init events'))
     .switchMap(() => {
       const replay: ReplaySubject<Action> = new ReplaySubject();
-      eventsRef.on(
+      eventsRef.orderByChild('createdAt').limitToLast(200).on(
         'value',
         (snapshot) => this.handleValue(snapshot, replay),
         (err) => replay.error(err)

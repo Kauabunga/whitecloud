@@ -42,6 +42,8 @@ const storageKeys = [
   'map',
   'version',
   'create',
+  'images',
+  'stats',
 ];
 const developmentReducer: ActionReducer<State> = compose(
   storeFreeze,
