@@ -64,7 +64,7 @@ export class DetailComponent implements OnInit, OnDestroy {
 
     this.currentImage$
       .mergeMap((image: Image) =>
-        Observable.of(image).delay(50).startWith(null),
+        Observable.of(image).delay(0).startWith(null),
       )
       .takeUntil(this.onDestroy$)
       .subscribe((image: Image) => {
