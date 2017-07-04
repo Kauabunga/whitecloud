@@ -58,7 +58,7 @@ export function reducer(state = initialState, action: map.Actions): State {
           lat: coords.lat || initialState.map.lat,
           lng: coords.lng || initialState.map.lng,
           bounds,
-          zoom: zoom || initialState.map.zoom,
+          zoom: zoom || 10,
         }),
         search: state.search,
         places: state.places,
