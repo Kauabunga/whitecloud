@@ -68,7 +68,7 @@ export class DetailComponent implements OnInit, OnDestroy {
       )
       .takeUntil(this.onDestroy$)
       .subscribe((image: Image) => {
-        this.paths = [image && image.path];
+        this.paths = image && [image.thumbnail] || [];
       });
 
     this.nextId$ = this.store.select(getEventsState)

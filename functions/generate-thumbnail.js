@@ -17,8 +17,8 @@ const LOCAL_TMP_FOLDER = '/tmp/';
 const base64Img = require('base64-img');
 
 // Max height and width of the thumbnail in pixels.
-const THUMB_MAX_HEIGHT = 200;
-const THUMB_MAX_WIDTH = 200;
+const THUMB_MAX_HEIGHT = 400;
+const THUMB_MAX_WIDTH = 400;
 const THUMB_QUALITY = 50;
 const BLUR_MAX_HEIGHT = 40;
 const BLUR_MAX_WIDTH = 40;
